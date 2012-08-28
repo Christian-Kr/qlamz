@@ -7,6 +7,7 @@ set(SOURCES
     src/qlamz.cpp
     src/Settings.cpp
     src/About.cpp
+    src/Error.cpp
     src/TrackModel.cpp
     src/Track.cpp
     src/CheckboxDelegate.cpp
@@ -19,6 +20,7 @@ set(MOC_HEADERS
     src/qlamz.h
     src/Settings.h
     src/About.h
+    src/Error.h
     src/TrackModel.h
     src/Track.h
     src/CheckboxDelegate.h
@@ -31,6 +33,7 @@ set(UIS
     ui/qlamz.ui
     ui/Settings.ui
     ui/About.ui
+    ui/Error.ui
 )
 
 # ressource files

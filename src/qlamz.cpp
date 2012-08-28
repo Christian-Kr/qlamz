@@ -18,6 +18,7 @@
 
 #include "Settings.h"
 #include "About.h"
+#include "Error.h"
 #include "Track.h"
 #include "TrackModel.h"
 #include "TrackDownloader.h"
@@ -52,9 +53,11 @@ qlamz::qlamz(QWidget *pParent)
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings("Christian Krippendorf", "qlamz")),
     m_pAbout(new About(this)),
+    m_pError(new Error(this)),
     m_pProcess(new QProcess(this)),
     m_pNetworkAccessManager(new QNetworkAccessManager(this)),
-    m_pNetworkReply(NULL)
+    m_pNetworkReply(NULL),
+    m_pErrors(new QStringList())
 {
     m_pUi->setupUi(this);
 
@@ -112,6 +115,12 @@ void qlamz::downloadFinished(Track *pTrack)
     } else {
         m_state = qlamz::Default;
         updateUiState();
+
+        // Display the error dialog, if any errors occured.
+        if (m_pErrors->size() > 0) {
+            m_pError->exec(*m_pErrors);
+            m_pErrors->clear();
+        }
     }
 }
 
@@ -122,8 +131,7 @@ void qlamz::downloadUpdated(Track *pTrack)
 
 void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
 {
-    // Handle error.
-    qDebug() << "Error";
+    m_pErrors->append("Error downloading pTrack: " + pTrack->title() + "\n" + strMessage + "\n");
 }
 
 void qlamz::about()

@@ -24,8 +24,10 @@ namespace Ui {
     class MainWindow;
 }
 
+class QStringList;
 class Settings;
 class About;
+class Error;
 class Track;
 class TrackModel;
 class TrackDownloader;
@@ -142,6 +144,10 @@ private:
      * @return A string with the xml data. */
     QString getXmlFromFile(const QString &strAmazonFile);
 
+    /**
+     * Show the error log dialog. */
+    void showErrorLog();
+
     enum State {Default, Download};
 
     qlamz::State m_state;
@@ -159,12 +165,15 @@ private:
 
     About *m_pAbout;
 
+    Error *m_pError;
+
     QProcess *m_pProcess;
 
     QNetworkAccessManager *m_pNetworkAccessManager;
     QNetworkReply *m_pNetworkReply;
 
     QList<Track *> m_trackList;
+    QStringList *m_pErrors;
 };
 
 
