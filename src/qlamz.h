@@ -145,6 +145,12 @@ private:
     QString getXmlFromFile(const QString &strAmazonFile);
 
     /**
+     * Get the destination path for the given track.
+     *
+     * @return The destination path as a string. */
+    QString destinationPath(const Track * const pTrack) const;
+
+    /**
      * Show the error log dialog. */
     void showErrorLog();
 
@@ -174,6 +180,8 @@ private:
 
     QList<Track *> m_trackList;
     QStringList *m_pErrors;
+
+    QString *m_pstrDestination;
 };
 
 

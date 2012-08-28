@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkCookieJar>
+#include <QDir>
 #include <QDebug>
 
 
@@ -98,7 +99,11 @@ void TrackDownloader::finish()
         connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)), this,
             SLOT(update(qint64, qint64)));
     } else {
-        QFile file(*m_strPath);
+        // Create the path if it does not exist.
+        QDir dir;
+        dir.mkpath(*m_strPath);
+
+        QFile file(*m_strPath + "/" + m_pTrack->title() + ".mp3");
         file.open(QIODevice::WriteOnly);
         file.write(m_pNetworkReply->readAll());
         file.close();

@@ -57,7 +57,8 @@ qlamz::qlamz(QWidget *pParent)
     m_pProcess(new QProcess(this)),
     m_pNetworkAccessManager(new QNetworkAccessManager(this)),
     m_pNetworkReply(NULL),
-    m_pErrors(new QStringList())
+    m_pErrors(new QStringList()),
+    m_pstrDestination(new QString())
 {
     m_pUi->setupUi(this);
 
@@ -100,16 +101,16 @@ qlamz::~qlamz()
     delete m_pSettingsData;
     delete m_pNetworkAccessManager;
     delete m_pNetworkReply;
+    delete m_pstrDestination;
+    delete m_pError;
+    delete m_pAbout;
 }
 
 void qlamz::downloadFinished(Track *pTrack)
 {
-    qDebug() << "Tracks left: " << m_trackList.size();
-
     if (m_trackList.size() > 0) {
         Track *pNextTrack = m_trackList.takeFirst();
-        m_pTrackDownloader->startDownload(pNextTrack, QDir::homePath() + "/" + pNextTrack->title()
-            + ".mp3");
+        m_pTrackDownloader->startDownload(pNextTrack, destinationPath(pTrack));
 
         m_pUi->tableViewTracks->update();
     } else {
@@ -263,9 +264,6 @@ void qlamz::updateClamzStatus()
         strStatusText = tr("Not Found!");
         strColor = "red";
     }
-
-//     m_pUi->labelClamzStatus->setText(strStatusText + " Version " + clamzVersion());
-//     m_pUi->labelClamzStatus->setStyleSheet("color: " + strColor);
 }
 
 void qlamz::updateUiState()
@@ -294,6 +292,25 @@ void qlamz::updateUiState()
     }
 }
 
+QString qlamz::destinationPath(const Track * const pTrack) const
+{
+    // Load the information about the destination and build the destination path.
+    QString strDestination = m_pSettingsData->value("destination.dir", QDir::homePath()).toString();
+    QString strFormat;
+
+    switch (m_pSettingsData->value("destination.format", 0).toInt()) {
+    case 0:
+        break;
+    case 1:
+        strFormat = pTrack->creator() + "/" + pTrack->album();
+        break;
+    default:
+        break;
+    }
+
+    return strDestination + "/" + strFormat;
+}
+
 void qlamz::startDownload()
 {
     // Set the actual state.
@@ -312,8 +329,7 @@ void qlamz::startDownload()
 
     if (m_trackList.size() > 0) {
         Track *pTrack = m_trackList.takeFirst();
-        m_pTrackDownloader->startDownload(pTrack, QDir::homePath() + "/" + pTrack->title()
-            + ".mp3");
+        m_pTrackDownloader->startDownload(pTrack, destinationPath(pTrack));
     }
 }
 
