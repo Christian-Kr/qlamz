@@ -119,6 +119,10 @@ public slots:
      * Deselect all items. */
     void deselectAll();
 
+    /**
+     * Open the Amazon.de url for setting a cookie, that AmazonDownloader is already installed. */
+    void cookieAmazonDe();
+
 private:
     /**
      * Update the status text of the clamzStatus label. */

@@ -38,6 +38,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QDesktopServices>
 
 #include <QDebug>
 
@@ -138,6 +139,12 @@ void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
 void qlamz::about()
 {
     m_pAbout->exec();
+}
+
+void qlamz::cookieAmazonDe()
+{
+    // Load the cookie link from the settings.
+    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de", QString()).toString());
 }
 
 QString qlamz::clamzVersion()

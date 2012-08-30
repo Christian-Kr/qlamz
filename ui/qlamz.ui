@@ -212,8 +212,21 @@
     </property>
     <addaction name="actionOpen"/>
    </widget>
+   <widget class="QMenu" name="menu_Extras">
+    <property name="title">
+     <string>&amp;Extras</string>
+    </property>
+    <widget class="QMenu" name="menuSet_Amazon_Cookie">
+     <property name="title">
+      <string>Amazon Cookie</string>
+     </property>
+     <addaction name="actionCookieAmazonDe"/>
+    </widget>
+    <addaction name="menuSet_Amazon_Cookie"/>
+   </widget>
    <addaction name="menu_Application"/>
    <addaction name="menu_File"/>
+   <addaction name="menu_Extras"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -300,6 +313,11 @@
    </property>
    <property name="text">
     <string>Deselect All</string>
+   </property>
+  </action>
+  <action name="actionCookieAmazonDe">
+   <property name="text">
+    <string>Amazon.de</string>
    </property>
   </action>
  </widget>
@@ -451,6 +469,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionCookieAmazonDe</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cookieAmazonDe()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openAmazonFile()</slot>
@@ -462,5 +496,6 @@
   <slot>selectAll()</slot>
   <slot>deselectAll()</slot>
   <slot>about()</slot>
+  <slot>cookieAmazonDe()</slot>
  </slots>
 </ui>
