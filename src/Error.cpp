@@ -16,6 +16,11 @@
 #include "Error.h"
 #include "ui_Error.h"
 
+#include <QDir>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+
 
 Error::Error(QWidget *pParent)
     : QDialog(pParent),
@@ -42,4 +47,22 @@ void Error::exec(const QStringList &errors)
     m_pUi->textEditErrorLog->setTextCursor(textCursor);
 
     QDialog::exec();
+}
+
+void Error::save()
+{
+    QString path = QFileDialog::getSaveFileName(this, tr("Save"), QDir::homePath());
+
+    if (path.size() < 1) {
+        return;
+    }
+
+    QFile file(path);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+    QTextStream stream(&file);
+    stream << m_pUi->textEditErrorLog->toPlainText();
+    stream.flush();
+
+    file.close();
 }

@@ -42,6 +42,11 @@ public:
      * @param strErrors The list of errors. */
     void exec(const QStringList &errors);
 
+public slots:
+    /**
+     * Save error log to file. */
+    void save();
+
 private:
     Ui::ErrorDialog *m_pUi;
 };
