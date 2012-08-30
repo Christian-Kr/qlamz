@@ -230,6 +230,9 @@ void qlamz::openAmazonFile()
 
 void qlamz::selectAll()
 {
+    // Close any opened editor.
+    m_pUi->tableViewTracks->closePersistentEditor(m_pUi->tableViewTracks->currentIndex());
+
     QList<Track *> tracks = m_pTrackModel->tracks();
 
     for (int i = 0; i < tracks.size(); i++) {
@@ -241,6 +244,9 @@ void qlamz::selectAll()
 
 void qlamz::deselectAll()
 {
+    // Close any opened editor.
+    m_pUi->tableViewTracks->closePersistentEditor(m_pUi->tableViewTracks->currentIndex());
+
     QList<Track *> tracks = m_pTrackModel->tracks();
 
     for (int i = 0; i < tracks.size(); i++) {
@@ -285,6 +291,9 @@ void qlamz::updateUiState()
 
         m_pUi->tableViewTracks->setEnabled(true);
 
+        m_pUi->actionDeselectAll->setEnabled(true);
+        m_pUi->actionSelectAll->setEnabled(true);
+
         break;
     case qlamz::Download:
         m_pUi->buttonQuit->setEnabled(false);
@@ -292,6 +301,9 @@ void qlamz::updateUiState()
         m_pUi->buttonDownload->setEnabled(false);
 
         m_pUi->tableViewTracks->setEnabled(false);
+
+        m_pUi->actionDeselectAll->setEnabled(false);
+        m_pUi->actionSelectAll->setEnabled(false);
 
         break;
     default:
