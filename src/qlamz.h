@@ -68,6 +68,10 @@ public slots:
     void loadSettings();
 
     /**
+     * Save settings. */
+    void saveSettings();
+
+    /**
      * Called when the download finished.
      *
      * @param pTrack The track which was downloaded. */
@@ -123,6 +127,11 @@ public slots:
      * Open the Amazon.de url for setting a cookie, that AmazonDownloader is already installed. */
     void cookieAmazonDe();
 
+protected:
+    /**
+     * Overwriting from QMainWindow. */
+    virtual void closeEvent(QCloseEvent *pEvent);
+
 private:
     /**
      * Update the status text of the clamzStatus label. */
@@ -131,6 +140,10 @@ private:
     /**
      * Updates the ui state */
     void updateUiState();
+
+    /**
+     * Update the recent files menu. */
+    void updateRecentFiles();
 
     /**
      * Read all Track objects from the xml document.
@@ -184,6 +197,7 @@ private:
 
     QList<Track *> m_trackList;
     QStringList *m_pErrors;
+    QStringList *m_pRecentFiles;
 
     QString *m_pstrDestination;
 };

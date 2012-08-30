@@ -59,6 +59,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pNetworkAccessManager(new QNetworkAccessManager(this)),
     m_pNetworkReply(NULL),
     m_pErrors(new QStringList()),
+    m_pRecentFiles(new QStringList()),
     m_pstrDestination(new QString())
 {
     m_pUi->setupUi(this);
@@ -104,6 +105,7 @@ qlamz::~qlamz()
     delete m_pNetworkReply;
     delete m_pstrDestination;
     delete m_pError;
+    delete m_pRecentFiles;
     delete m_pAbout;
 }
 
@@ -145,6 +147,13 @@ void qlamz::cookieAmazonDe()
 {
     // Load the cookie link from the settings.
     QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de", QString()).toString());
+}
+
+void qlamz::closeEvent(QCloseEvent *pEvent)
+{
+    saveSettings();
+
+    QMainWindow::closeEvent(pEvent);
 }
 
 QString qlamz::clamzVersion()
@@ -191,6 +200,27 @@ void qlamz::loadSettings()
     }
 
     updateClamzStatus();
+
+    // Read in recent files.
+    *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
+
+    updateRecentFiles();
+}
+
+void qlamz::saveSettings()
+{
+    m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
+}
+
+void qlamz::updateRecentFiles()
+{
+    // Delete all old actions.
+    m_pUi->menuRecentFiles->clear();
+
+    for (int i = 0; i < m_pRecentFiles->size(); i++) {
+        QAction action(m_pRecentFiles->at(i), m_pUi->menuRecentFiles);
+        m_pUi->menuRecentFiles->addAction(QString::number(i + 1) + ": " + m_pRecentFiles->at(i));
+    }
 }
 
 void qlamz::settings()
@@ -226,6 +256,16 @@ void qlamz::openAmazonFile()
     m_pUi->tableViewTracks->hideColumn(1);
     m_pUi->actionDeselectAll->setEnabled(true);
     m_pUi->actionSelectAll->setEnabled(true);
+
+    // Add the opened file to the recent files menu.
+    m_pRecentFiles->insert(0, strAmazonFile);
+
+    // Remove the last entry, when tere are more than 10.
+    if (m_pRecentFiles->size() > 10) {
+        m_pRecentFiles->takeLast();
+    }
+
+    updateRecentFiles();
 }
 
 void qlamz::selectAll()

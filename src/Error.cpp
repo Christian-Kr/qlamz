@@ -51,13 +51,13 @@ void Error::exec(const QStringList &errors)
 
 void Error::save()
 {
-    QString path = QFileDialog::getSaveFileName(this, tr("Save"), QDir::homePath());
+    QString strPath = QFileDialog::getSaveFileName(this, tr("Save"), QDir::homePath());
 
-    if (path.size() < 1) {
+    if (strPath.size() < 1) {
         return;
     }
 
-    QFile file(path);
+    QFile file(strPath);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
     QTextStream stream(&file);

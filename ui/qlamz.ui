@@ -210,19 +210,25 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <widget class="QMenu" name="menuRecentFiles">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+    </widget>
     <addaction name="actionOpen"/>
+    <addaction name="menuRecentFiles"/>
    </widget>
    <widget class="QMenu" name="menu_Extras">
     <property name="title">
      <string>&amp;Extras</string>
     </property>
-    <widget class="QMenu" name="menuSet_Amazon_Cookie">
+    <widget class="QMenu" name="menuAmazonCookie">
      <property name="title">
       <string>Amazon Cookie</string>
      </property>
      <addaction name="actionCookieAmazonDe"/>
     </widget>
-    <addaction name="menuSet_Amazon_Cookie"/>
+    <addaction name="menuAmazonCookie"/>
    </widget>
    <addaction name="menu_Application"/>
    <addaction name="menu_File"/>
@@ -318,6 +324,11 @@
   <action name="actionCookieAmazonDe">
    <property name="text">
     <string>Amazon.de</string>
+   </property>
+  </action>
+  <action name="actionEmpty">
+   <property name="text">
+    <string>Empty</string>
    </property>
   </action>
  </widget>
