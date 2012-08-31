@@ -212,6 +212,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionAboutQt"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menu_File">
@@ -291,7 +292,7 @@
      <normaloff>:/icons/icons/actions/help-about.png</normaloff>:/icons/icons/actions/help-about.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;About</string>
+    <string>&amp;About qlamz</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+?</string>
@@ -341,6 +342,11 @@
   <action name="actionEmpty">
    <property name="text">
     <string>Empty</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>
@@ -508,6 +514,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAboutQt</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>aboutQt()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openAmazonFile()</slot>
@@ -520,5 +542,6 @@
   <slot>deselectAll()</slot>
   <slot>about()</slot>
   <slot>cookieAmazonDe()</slot>
+  <slot>aboutQt()</slot>
  </slots>
 </ui>

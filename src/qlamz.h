@@ -64,6 +64,10 @@ public:
 
 public slots:
     /**
+     * Show the about qt dialog. */
+    void aboutQt();
+
+    /**
      * Someone tries to load a recent file from the menu. */
     void recentFileTriggered();
 

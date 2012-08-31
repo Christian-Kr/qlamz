@@ -237,6 +237,11 @@ void qlamz::settings()
     m_pSettings->exec();
 }
 
+void qlamz::aboutQt()
+{
+    QApplication::aboutQt();
+}
+
 void qlamz::openAmazonFile(const QString &strAmazonFileArg)
 {
     QString strAmazonFile;
