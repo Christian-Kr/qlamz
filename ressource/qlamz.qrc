@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>../icons/actions/download.png</file>
+    <file>../icons/actions/application-exit.png</file>
     <file>../icons/actions/help-about.png</file>
     <file>../icons/actions/document-open.png</file>
     <file>../icons/actions/dialog-ok-apply.png</file>

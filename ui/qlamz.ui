@@ -160,6 +160,10 @@
             <property name="text">
              <string>&amp;Download</string>
             </property>
+            <property name="icon">
+             <iconset resource="../ressource/qlamz.qrc">
+              <normaloff>:/icons/icons/actions/download.png</normaloff>:/icons/icons/actions/download.png</iconset>
+            </property>
            </widget>
           </item>
           <item>
@@ -172,6 +176,10 @@
             </property>
             <property name="text">
              <string>&amp;Quit</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../ressource/qlamz.qrc">
+              <normaloff>:/icons/icons/actions/application-exit.png</normaloff>:/icons/icons/actions/application-exit.png</iconset>
             </property>
            </widget>
           </item>
@@ -266,6 +274,10 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="../ressource/qlamz.qrc">
+     <normaloff>:/icons/icons/actions/application-exit.png</normaloff>:/icons/icons/actions/application-exit.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Quit</string>
    </property>

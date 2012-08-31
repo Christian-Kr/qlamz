@@ -218,9 +218,18 @@ void qlamz::updateRecentFiles()
     m_pUi->menuRecentFiles->clear();
 
     for (int i = 0; i < m_pRecentFiles->size(); i++) {
-        QAction action(m_pRecentFiles->at(i), m_pUi->menuRecentFiles);
-        m_pUi->menuRecentFiles->addAction(QString::number(i + 1) + ": " + m_pRecentFiles->at(i));
+        QAction *action = new QAction(m_pRecentFiles->at(i), m_pUi->menuRecentFiles);
+        m_pUi->menuRecentFiles->addAction(action);
+
+        connect(action, SIGNAL(triggered()), this, SLOT(recentFileTriggered()));
     }
+}
+
+void qlamz::recentFileTriggered()
+{
+    QAction *action = (QAction *) sender();
+    qDebug() << action->text();
+    openAmazonFile(action->text());
 }
 
 void qlamz::settings()
@@ -228,16 +237,22 @@ void qlamz::settings()
     m_pSettings->exec();
 }
 
-void qlamz::openAmazonFile()
+void qlamz::openAmazonFile(const QString &strAmazonFileArg)
 {
-    QString strAmazonFile = QFileDialog::getOpenFileName(this, tr("Open Amazon File"),
-        QDir::homePath(), tr("Amazon (*.amz)"));
+    QString strAmazonFile;
+
+    if (strAmazonFileArg.size() > 0) {
+        strAmazonFile = strAmazonFileArg;
+    } else {
+        strAmazonFile = QFileDialog::getOpenFileName(this, tr("Open Amazon File"), QDir::homePath(),
+            tr("Amazon (*.amz)"));
+    }
 
     if (strAmazonFile.size() > 0) {
-        *m_pstrAmazonFilePath = strAmazonFile;
-        setWindowTitle("qlamz - " + strAmazonFile);
-    } else {
-        return;
+            *m_pstrAmazonFilePath = strAmazonFile;
+            setWindowTitle("qlamz - " + strAmazonFile);
+        } else {
+            return;
     }
 
     // Create a temporary file from the xml output of the amazon file.
@@ -258,6 +273,10 @@ void qlamz::openAmazonFile()
     m_pUi->actionSelectAll->setEnabled(true);
 
     // Add the opened file to the recent files menu.
+    while (m_pRecentFiles->indexOf(strAmazonFile) > -1) {
+        m_pRecentFiles->takeAt(m_pRecentFiles->indexOf(strAmazonFile));
+    }
+
     m_pRecentFiles->insert(0, strAmazonFile);
 
     // Remove the last entry, when tere are more than 10.

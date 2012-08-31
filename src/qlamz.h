@@ -64,6 +64,10 @@ public:
 
 public slots:
     /**
+     * Someone tries to load a recent file from the menu. */
+    void recentFileTriggered();
+
+    /**
      * Load settings. */
     void loadSettings();
 
@@ -92,8 +96,10 @@ public slots:
     void downloadError(int iCode, const QString &strMessage, Track *pTrack);
 
     /**
-     * Open the amazon file. */
-    void openAmazonFile();
+     * Open the amazon file.
+     *
+     * @param strAmazonFileArg A amazon file path if u want to open a specific one. */
+    void openAmazonFile(const QString &strAmazonFileArg = QString());
 
     /**
      * Updates the download button if it could be enabled or not. */
