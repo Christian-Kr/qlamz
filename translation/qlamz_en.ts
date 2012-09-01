@@ -330,5 +330,15 @@
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="472"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="472"/>
+        <source>Cannot find a url matching the tld. Sorry!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

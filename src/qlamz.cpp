@@ -465,8 +465,17 @@ void qlamz::openAmazonStore()
 {
     QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
         QString()).toString();
-    QDesktopServices::openUrl(m_pSettingsData->value("amazon.store.url." + strAmazonTld,
-        QString()).toString());
+    QString strUrl = m_pSettingsData->value("amazon.store.url." + strAmazonTld,
+        QString()).toString();
+
+    if (strUrl.size() < 1) {
+        QMessageBox::warning(this, tr("Warning"), tr("Cannot find a url matching the tld. Sorry!"),
+            QMessageBox::Ok);
+
+        return;
+    }
+
+    QDesktopServices::openUrl(strUrl);
 }
 
 void qlamz::cancelDownload()
