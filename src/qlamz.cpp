@@ -42,6 +42,8 @@
 
 #include <QDebug>
 
+#include <gcrypt.h>
+
 
 qlamz::qlamz(QWidget *pParent)
     : QMainWindow(pParent),
@@ -49,13 +51,11 @@ qlamz::qlamz(QWidget *pParent)
     m_pTrackModel(new TrackModel()),
     m_pTrackDownloader(new TrackDownloader(this)),
     m_pUi(new Ui::MainWindow()),
-    m_pstrClamzPath(new QString()),
     m_pstrAmazonFilePath(new QString()),
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings("Christian Krippendorf", "qlamz")),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
-    m_pProcess(new QProcess(this)),
     m_pNetworkAccessManager(new QNetworkAccessManager(this)),
     m_pNetworkReply(NULL),
     m_pErrors(new QStringList()),
@@ -80,9 +80,6 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
-    // Set configs for processes.
-    m_pProcess->setProcessChannelMode(QProcess::MergedChannels);
-
     // Build some connections.
     connect(m_pTrackDownloader, SIGNAL(finished(Track *)), this, SLOT(downloadFinished(Track *)));
     connect(m_pTrackDownloader, SIGNAL(updated(Track *)), this, SLOT(downloadUpdated(Track *)));
@@ -98,7 +95,6 @@ qlamz::~qlamz()
     delete m_pTrackModel;
     delete m_pTrackDownloader;
     delete m_pUi;
-    delete m_pstrClamzPath;
     delete m_pSettings;
     delete m_pSettingsData;
     delete m_pNetworkAccessManager;
@@ -156,51 +152,8 @@ void qlamz::closeEvent(QCloseEvent *pEvent)
     QMainWindow::closeEvent(pEvent);
 }
 
-QString qlamz::clamzVersion()
-{
-    m_pProcess->start(*m_pstrClamzPath, QStringList() << "--version");
-
-    if (!m_pProcess->waitForFinished()) {
-        return QString();
-    }
-
-    QString strOutput = m_pProcess->readLine();
-
-    // Get the version number from the output.
-    QStringList outputList = strOutput.split(' ');
-
-    if (outputList.size() < 2) {
-        return QString();
-    }
-
-    QString strVersion = outputList[1].split('\n')[0];
-
-    qDebug() << __func__ << ": Found Version: " << strVersion;
-
-    return strVersion;
-}
-
 void qlamz::loadSettings()
 {
-    // If this function gets called, we have to read in the custom paths cause maybe they changed.
-    QStringList customPaths = m_pSettingsData->value("clamz.customPaths", QStringList())
-        .toStringList();
-    QString strClamzPath = clamzAvailable(customPaths);
-
-    // Test if we found clamz.
-    delete m_pstrClamzPath;
-
-    if (strClamzPath.size() > 0) {
-        m_pstrClamzPath = new QString(strClamzPath);
-    } else {
-        m_pstrClamzPath = new QString();
-        QMessageBox::information(this, tr("Information"), tr("We cannot find clamz. If u have "
-            "clamz already installed, please set a custom search path in settings."),
-            QMessageBox::Ok);
-    }
-
-    updateClamzStatus();
-
     // Read in recent files.
     *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
 
@@ -240,6 +193,58 @@ void qlamz::settings()
 void qlamz::aboutQt()
 {
     QApplication::aboutQt();
+}
+
+QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
+{
+    const unsigned char ucKey[8] = {0x29, 0xAB, 0x9D, 0x18, 0xB2, 0x44, 0x9E, 0x31};
+    const unsigned char ucInitV[8] = {0x5E, 0x72, 0xD7, 0x9A, 0x11, 0xB3, 0x4F, 0xEE};
+
+    gcry_cipher_hd_t hd;
+    gcry_error_t err;
+
+    char *decrypted;
+
+    // Test if the content is already decrypted.
+    if (amazonEncryptedContent.size() > 0 && amazonEncryptedContent.at(0) == '<') {
+        return amazonEncryptedContent;
+    }
+
+    QByteArray tmpData = QByteArray::fromBase64(amazonEncryptedContent);
+    decrypted = new char[tmpData.size()];
+
+    if ((err = gcry_cipher_open(&hd, GCRY_CIPHER_DES, GCRY_CIPHER_MODE_CBC, 0))) {
+        qDebug() << QString("Failed to initialize gcrypt (%1)").arg(gcry_strerror(err));
+
+        return QString();
+    }
+
+    if ((err = gcry_cipher_setkey(hd, ucKey, 8))) {
+        qDebug() << QString("Failed to set key (%1)").arg(gcry_strerror(err));
+        gcry_cipher_close(hd);
+
+        return QString();
+    }
+
+    if ((err = gcry_cipher_setiv(hd, ucInitV, 8))) {
+        qDebug() << QString("Failed to set IV (%1)").arg(gcry_strerror(err));
+        gcry_cipher_close(hd);
+
+        return QString();
+    }
+
+    QByteArray endData;
+
+    if ((err = gcry_cipher_decrypt(hd, decrypted, tmpData.size(), tmpData, tmpData.size()))) {
+        qDebug() << QString("Unable to decrypt AMZ file (%2)").arg(gcry_strerror(err));
+        gcry_cipher_close(hd);
+
+        return QString();
+    }
+
+    gcry_cipher_close(hd);
+
+    return QString(decrypted);
 }
 
 void qlamz::openAmazonFile(const QString &strAmazonFileArg)
@@ -326,20 +331,6 @@ void qlamz::updateDownloadButton()
         m_pUi->buttonDownload->setEnabled(true);
     } else {
         m_pUi->buttonDownload->setEnabled(false);
-    }
-}
-
-void qlamz::updateClamzStatus()
-{
-    QString strStatusText;
-    QString strColor;
-
-    if (QFile::exists(*m_pstrClamzPath)) {
-        strStatusText = tr("Found!");
-        strColor = "green";
-    } else {
-        strStatusText = tr("Not Found!");
-        strColor = "red";
     }
 }
 
@@ -470,41 +461,14 @@ void qlamz::cancelDownload()
     updateUiState();
 }
 
-QString qlamz::clamzAvailable(const QStringList &customPaths) const
-{
-    // Search for clamz in a linux system.
-    QStringList searchPaths;
-
-    // Add custom paths.
-    searchPaths.append(customPaths);
-
-    // Add static paths.
-    searchPaths.append("/usr/bin");
-    searchPaths.append("/usr/local/bin");
-
-    for (int i = 0; i < searchPaths.size(); ++i) {
-        QString strPath = QString("%1/clamz").arg(searchPaths.at(i));
-
-        if (QFile::exists(strPath)) {
-            qDebug() << __func__ << ": Found path: " << strPath;
-
-            return strPath;
-        }
-    }
-
-    return QString();
-}
-
 QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
 {
-    m_pProcess->start(*m_pstrClamzPath + " -x " + strAmazonFilePath);
+    QFile file(strAmazonFilePath);
+    file.open(QIODevice::ReadOnly);
 
-    if (!m_pProcess->waitForFinished()) {
-        qDebug() << __func__ << ": m_pProcess->waitForFinished() failed! ";
+    QByteArray tmpData = file.readAll();
+    file.close();
 
-        return QString();
-    }
-
-    return m_pProcess->readAll();
+    return decryptAmazonFile(tmpData);
 }
 

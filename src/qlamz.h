@@ -52,15 +52,10 @@ public:
     ~qlamz();
 
     /**
-     * Search for clamz on linux.
+     * Decrypt the given amazon file bytes.
      *
-     * @param customPaths If setting here some paths, this function will also search in this paths.
-     * @return Empty string if nothing found, else the path of clamz. */
-    QString clamzAvailable(const QStringList &customPaths = QStringList()) const;
-
-    /**
-     * Get the clamz version. */
-    QString clamzVersion();
+     * @param amazonEncryptedContent The content as a byte array. */
+    QString decryptAmazonFile(const QByteArray &amazonEncryptedContent);
 
 public slots:
     /**
@@ -144,10 +139,6 @@ protected:
 
 private:
     /**
-     * Update the status text of the clamzStatus label. */
-    void updateClamzStatus();
-
-    /**
      * Updates the ui state */
     void updateUiState();
 
@@ -190,17 +181,13 @@ private:
 
     Ui::MainWindow *m_pUi;
 
-    QString *m_pstrClamzPath;
     QString *m_pstrAmazonFilePath;
 
     Settings *m_pSettings;
     QSettings *m_pSettingsData;
 
     About *m_pAbout;
-
     Error *m_pError;
-
-    QProcess *m_pProcess;
 
     QNetworkAccessManager *m_pNetworkAccessManager;
     QNetworkReply *m_pNetworkReply;

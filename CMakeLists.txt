@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 project(qlamz)
 
 # all sources
@@ -41,6 +44,11 @@ set(RESSOURCES
     ressource/qlamz.qrc
 )
 
+#translation files
+set(TRANSLATIONS
+    translation/qlamz_de.ts
+)
+
 # custom definitions for gcc
 add_definitions(-Wall)
 
@@ -50,12 +58,17 @@ set(QT_USE_QTNETWORK TRUE)
 
 # find the qt package
 find_package(Qt4 REQUIRED)
+find_package(LibGcrypt REQUIRED)
 
 # include all qt header files
 include(${QT_USE_FILE})
 
 # run some qt wrapping code
 qt4_add_resources(RESSOURCE_SOURCES ${RESSOURCES})
+
+qt4_create_translation(TRANSLATION ${SOURCES} ${MOC_HEADERS} ${TRANSLATIONS})
+qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
+
 qt4_wrap_ui(UI_HEADERS ${UIS})
 qt4_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
 
@@ -63,7 +76,8 @@ qt4_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
 include_directories(${CMAKE_BINARY_DIR})
 
 # create the executables
-add_executable(qlamz ${SOURCES} ${MOC_SOURCES} ${RESSOURCE_SOURCES} ${UI_HEADERS})
+add_executable(qlamz ${SOURCES} ${MOC_SOURCES} ${RESSOURCE_SOURCES} ${UI_HEADERS}
+    ${TRANSLATION_SOURCES})
 
 # link them to one file
-target_link_libraries(qlamz ${QT_LIBRARIES})
+target_link_libraries(qlamz ${QT_LIBRARIES} ${LIBGCRYPT_LIBRARIES})
