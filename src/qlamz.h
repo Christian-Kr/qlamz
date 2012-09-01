@@ -59,6 +59,14 @@ public:
 
 public slots:
     /**
+     * Show the error log window. */
+    void showErrorLog();
+
+    /**
+     * Show the amazon store in a web browser. */
+    void openAmazonStore();
+
+    /**
      * Show the about qt dialog. */
     void aboutQt();
 
@@ -167,10 +175,6 @@ private:
      *
      * @return The destination path as a string. */
     QString destinationPath(const Track * const pTrack) const;
-
-    /**
-     * Show the error log dialog. */
-    void showErrorLog();
 
     enum State {Default, Download};
 

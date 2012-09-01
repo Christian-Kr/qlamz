@@ -238,6 +238,8 @@
      <addaction name="actionCookieAmazonDe"/>
     </widget>
     <addaction name="menuAmazonCookie"/>
+    <addaction name="actionAmazonStore"/>
+    <addaction name="actionErrorLog"/>
    </widget>
    <addaction name="menu_Application"/>
    <addaction name="menu_File"/>
@@ -261,6 +263,8 @@
    <addaction name="separator"/>
    <addaction name="actionSelectAll"/>
    <addaction name="actionDeselectAll"/>
+   <addaction name="separator"/>
+   <addaction name="actionAmazonStore"/>
   </widget>
   <action name="actionSettings">
    <property name="icon">
@@ -339,14 +343,35 @@
     <string>Amazon.de</string>
    </property>
   </action>
-  <action name="actionEmpty">
-   <property name="text">
-    <string>Empty</string>
-   </property>
-  </action>
   <action name="actionAboutQt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionAmazonStore">
+   <property name="icon">
+    <iconset resource="../ressource/qlamz.qrc">
+     <normaloff>:/icons/icons/29119-amazon.png</normaloff>:/icons/icons/29119-amazon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Amazon Store</string>
+   </property>
+   <property name="toolTip">
+    <string>Open the amazon store webpage in your default Browser.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionErrorLog">
+   <property name="text">
+    <string>Error Log</string>
+   </property>
+   <property name="toolTip">
+    <string>Show the last error log</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
  </widget>
@@ -530,6 +555,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionErrorLog</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showErrorLog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAmazonStore</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openAmazonStore()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openAmazonFile()</slot>
@@ -543,5 +600,7 @@
   <slot>about()</slot>
   <slot>cookieAmazonDe()</slot>
   <slot>aboutQt()</slot>
+  <slot>showErrorLog()</slot>
+  <slot>openAmazonStore()</slot>
  </slots>
 </ui>

@@ -119,7 +119,6 @@ void qlamz::downloadFinished(Track *pTrack)
         // Display the error dialog, if any errors occured.
         if (m_pErrors->size() > 0) {
             m_pError->exec(*m_pErrors);
-            m_pErrors->clear();
         }
     }
 }
@@ -405,6 +404,8 @@ void qlamz::startDownload()
         Track *pTrack = m_trackList.takeFirst();
         m_pTrackDownloader->startDownload(pTrack, destinationPath(pTrack));
     }
+
+    m_pErrors->clear();
 }
 
 QList<Track *> qlamz::readTracksFromXml(const QString &strData)
@@ -453,6 +454,18 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
     }
 
     return tracks;
+}
+
+void qlamz::showErrorLog()
+{
+    m_pError->exec(*m_pErrors);
+}
+
+void qlamz::openAmazonStore()
+{
+    QString strAmazonStoreSet = m_pSettingsData->value(QString("amazonstore.url.set"),
+        QString()).toString();
+    QDesktopServices::openUrl(m_pSettingsData->value(strAmazonStoreSet, QString()).toString());
 }
 
 void qlamz::cancelDownload()
