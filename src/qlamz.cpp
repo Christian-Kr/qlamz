@@ -463,9 +463,10 @@ void qlamz::showErrorLog()
 
 void qlamz::openAmazonStore()
 {
-    QString strAmazonStoreSet = m_pSettingsData->value(QString("amazonstore.url.set"),
+    QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
         QString()).toString();
-    QDesktopServices::openUrl(m_pSettingsData->value(strAmazonStoreSet, QString()).toString());
+    QDesktopServices::openUrl(m_pSettingsData->value("amazon.store.url." + strAmazonTld,
+        QString()).toString());
 }
 
 void qlamz::cancelDownload()
