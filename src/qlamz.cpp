@@ -53,7 +53,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi(new Ui::MainWindow()),
     m_pstrAmazonFilePath(new QString()),
     m_pSettings(new Settings(this)),
-    m_pSettingsData(new QSettings("Christian Krippendorf", "qlamz")),
+    m_pSettingsData(new QSettings()),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
     m_pNetworkAccessManager(new QNetworkAccessManager(this)),

@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
         " - A frontend for downloading with amz files in C++/Qt4." <<  std::endl;
 
     // Create the application object.
+    QApplication::setOrganizationName("qlamz");
+    QApplication::setApplicationName("qlamz");
     QApplication application(argc, argv);
 
     // Internationalization.

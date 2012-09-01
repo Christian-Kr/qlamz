@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+set(CONFIG_FILE_PATH "$ENV{HOME}/.config/qlamz/")
 
 project(qlamz)
 
@@ -82,3 +83,9 @@ add_executable(qlamz ${SOURCES} ${MOC_SOURCES} ${RESSOURCE_SOURCES} ${UI_HEADERS
 
 # link them to one file
 target_link_libraries(qlamz ${QT_LIBRARIES} ${LIBGCRYPT_LIBRARIES})
+
+# install the program
+install(TARGETS qlamz RUNTIME DESTINATION bin)
+
+# install the default config file
+install(FILES config/qlamz.conf DESTINATION ${CONFIG_FILE_PATH})
