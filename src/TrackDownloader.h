@@ -46,6 +46,10 @@ public:
      * @param pTrack The track to download. */
     void startDownload(Track *pTrack, const QString &strPath);
 
+    /**
+     * Abort running download. */
+    void abort();
+
 signals:
     /**
      * Emited when the whole downloading process is finish. */

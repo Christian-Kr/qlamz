@@ -180,6 +180,8 @@ private:
 
     qlamz::State m_state;
 
+    bool m_bCancel;
+
     TrackModel *m_pTrackModel;
     TrackDownloader *m_pTrackDownloader;
 
@@ -192,9 +194,6 @@ private:
 
     About *m_pAbout;
     Error *m_pError;
-
-    QNetworkAccessManager *m_pNetworkAccessManager;
-    QNetworkReply *m_pNetworkReply;
 
     QList<Track *> m_trackList;
     QStringList *m_pErrors;

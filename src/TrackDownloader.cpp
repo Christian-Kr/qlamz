@@ -121,3 +121,10 @@ void TrackDownloader::update(qint64 iRecieved, qint64 iTotal)
     m_pTrack->setDownloadPercentage((short) ((double) iRecieved / (double) iTotal * 100));
     emit updated(m_pTrack);
 }
+
+void TrackDownloader::abort()
+{
+    m_pNetworkReply->abort();
+    m_pNetworkReply->deleteLater();
+    m_pNetworkReply = NULL;
+}

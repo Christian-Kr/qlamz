@@ -48,6 +48,7 @@
 qlamz::qlamz(QWidget *pParent)
     : QMainWindow(pParent),
     m_state(qlamz::Default),
+    m_bCancel(false),
     m_pTrackModel(new TrackModel()),
     m_pTrackDownloader(new TrackDownloader(this)),
     m_pUi(new Ui::MainWindow()),
@@ -56,8 +57,6 @@ qlamz::qlamz(QWidget *pParent)
     m_pSettingsData(new QSettings()),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
-    m_pNetworkAccessManager(new QNetworkAccessManager(this)),
-    m_pNetworkReply(NULL),
     m_pErrors(new QStringList()),
     m_pRecentFiles(new QStringList()),
     m_pstrDestination(new QString())
@@ -97,8 +96,6 @@ qlamz::~qlamz()
     delete m_pUi;
     delete m_pSettings;
     delete m_pSettingsData;
-    delete m_pNetworkAccessManager;
-    delete m_pNetworkReply;
     delete m_pstrDestination;
     delete m_pError;
     delete m_pRecentFiles;
@@ -107,6 +104,11 @@ qlamz::~qlamz()
 
 void qlamz::downloadFinished(Track *pTrack)
 {
+    if (m_bCancel) {
+        m_trackList.clear();
+        m_bCancel = false;
+    }
+
     if (m_trackList.size() > 0) {
         Track *pNextTrack = m_trackList.takeFirst();
         m_pTrackDownloader->startDownload(pNextTrack, destinationPath(pTrack));
@@ -480,6 +482,16 @@ void qlamz::openAmazonStore()
 
 void qlamz::cancelDownload()
 {
+    int iReturn = QMessageBox::question(this, tr("Cancel download"), tr("Are you sure canceling the"
+        " download progress?"), QMessageBox::Yes | QMessageBox::No);
+
+    if (iReturn != QMessageBox::Yes) {
+        return;
+    }
+
+    m_bCancel = true;
+    m_pTrackDownloader->abort();
+
     m_state = qlamz::Default;
     updateUiState();
 }
