@@ -31,6 +31,10 @@ Settings::Settings(QWidget *pParent)
     // Initial the combo box.
     m_pUi->comboBoxFormat->addItem("No");
     m_pUi->comboBoxFormat->addItem("interpret/album");
+
+    // Initial amazon ending combo box.
+    m_pUi->comboBoxAmazonUrl->addItem("de");
+    m_pUi->comboBoxAmazonUrl->addItem("com");
 }
 
 Settings::~Settings()
@@ -79,6 +83,10 @@ void Settings::loadSettings()
         QDir::homePath()).toString());
     m_pUi->comboBoxFormat->setCurrentIndex(m_pSettingsData->value("destination.format", 0).toInt());
 
+    int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
+        QString()).toString());
+    m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
+
     m_pUi->buttonApply->setEnabled(false);
 }
 
@@ -92,4 +100,5 @@ void Settings::saveSettings()
 {
     m_pSettingsData->setValue("destination.dir", m_pUi->lineEditDestination->text());
     m_pSettingsData->setValue("destination.format", m_pUi->comboBoxFormat->currentIndex());
+    m_pSettingsData->setValue("amazon.tld", m_pUi->comboBoxAmazonUrl->currentText());
 }

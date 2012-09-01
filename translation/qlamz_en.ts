@@ -222,7 +222,7 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/Settings.cpp" line="43"/>
+        <location filename="../src/Settings.cpp" line="47"/>
         <source>Open Destination</source>
         <translation type="unfinished"></translation>
     </message>
@@ -230,42 +230,57 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../build/ui_Settings.h" line="214"/>
+        <location filename="../build/ui_Settings.h" line="265"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="215"/>
+        <location filename="../build/ui_Settings.h" line="266"/>
         <source>Destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="216"/>
+        <location filename="../build/ui_Settings.h" line="267"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="217"/>
+        <location filename="../build/ui_Settings.h" line="268"/>
         <source>Ending Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="218"/>
+        <location filename="../build/ui_Settings.h" line="269"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="219"/>
+        <location filename="../build/ui_Settings.h" line="270"/>
+        <source>The amazon web page the actions should relate to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../build/ui_Settings.h" line="271"/>
+        <source>http://www.Amazon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../build/ui_Settings.h" line="272"/>
+        <source>Amazon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../build/ui_Settings.h" line="273"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="220"/>
+        <location filename="../build/ui_Settings.h" line="274"/>
         <source>&amp;Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="221"/>
+        <location filename="../build/ui_Settings.h" line="275"/>
         <source>C&amp;ancel</source>
         <translation type="unfinished"></translation>
     </message>
