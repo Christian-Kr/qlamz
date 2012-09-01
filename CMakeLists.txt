@@ -47,6 +47,7 @@ set(RESSOURCES
 #translation files
 set(TRANSLATIONS
     translation/qlamz_de.ts
+    translation/qlamz_en.ts
 )
 
 # custom definitions for gcc
@@ -66,11 +67,11 @@ include(${QT_USE_FILE})
 # run some qt wrapping code
 qt4_add_resources(RESSOURCE_SOURCES ${RESSOURCES})
 
-qt4_create_translation(TRANSLATION ${SOURCES} ${MOC_HEADERS} ${TRANSLATIONS})
-qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
-
 qt4_wrap_ui(UI_HEADERS ${UIS})
 qt4_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
+
+qt4_create_translation(TRANSLATION ${SOURCES} ${MOC_HEADERS} ${UI_HEADERS} ${TRANSLATIONS})
+qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
 
 # some other includes
 include_directories(${CMAKE_BINARY_DIR})

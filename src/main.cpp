@@ -14,6 +14,8 @@
  * <http://www.gnu.org/licenses/>. */
 
 #include <QApplication>
+#include <QTranslator>
+#include <QLocale>
 
 #include <iostream>
 
@@ -29,6 +31,13 @@ int main(int argc, char *argv[])
 
     // Create the application object.
     QApplication application(argc, argv);
+
+    // Internationalization.
+    QString locale = QLocale::system().name();
+
+    QTranslator translator;
+    translator.load(QString("qlamz_") + locale);
+    application.installTranslator(&translator);
 
     qlamz * pqlamz = new qlamz();
     pqlamz->setVisible(true);
