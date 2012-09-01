@@ -24,8 +24,8 @@
 
 int main(int argc, char *argv[])
 {
-    std::cout << "qlamz Version: " << VERSION << " - A frontend to clamz written in C++/Qt4." <<
-        std::endl;
+    std::cout << "qlamz Version: " << VERSION <<
+        " - A frontend for downloading with amz files in C++/Qt4." <<  std::endl;
 
     // Create the application object.
     QApplication application(argc, argv);
