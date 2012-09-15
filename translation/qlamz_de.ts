@@ -343,22 +343,22 @@
         <translation type="unfinished">Amazon (*.amz)</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="474"/>
+        <location filename="../src/qlamz.cpp" line="485"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="474"/>
+        <location filename="../src/qlamz.cpp" line="485"/>
         <source>Cannot find a url matching the tld. Sorry!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="485"/>
+        <location filename="../src/qlamz.cpp" line="496"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="485"/>
+        <location filename="../src/qlamz.cpp" line="496"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>

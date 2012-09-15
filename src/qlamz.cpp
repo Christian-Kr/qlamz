@@ -373,11 +373,22 @@ QString qlamz::destinationPath(const Track * const pTrack) const
     QString strDestination = m_pSettingsData->value("destination.dir", QDir::homePath()).toString();
     QString strFormat;
 
+    QString strCreator = pTrack->creator();
+    QString strAlbum = pTrack->album();
+
+    if (strCreator.startsWith('.')) {
+        strCreator.insert(0, ' ');
+    }
+
+    if (strAlbum.startsWith('.')) {
+        strAlbum.insert(0, ' ');
+    }
+
     switch (m_pSettingsData->value("destination.format", 0).toInt()) {
     case 0:
         break;
     case 1:
-        strFormat = pTrack->creator() + "/" + pTrack->album();
+        strFormat = strCreator + "/" + strAlbum;
         break;
     default:
         break;
