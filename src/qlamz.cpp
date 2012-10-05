@@ -245,7 +245,7 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 
     gcry_cipher_close(hd);
 
-    return QString(decrypted);
+    return QString::fromUtf8(decrypted);
 }
 
 void qlamz::openAmazonFile(const QString &strAmazonFileArg)
