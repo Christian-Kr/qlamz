@@ -111,7 +111,26 @@ void qlamz::downloadFinished(Track *pTrack)
 
     if (m_trackList.size() > 0) {
         Track *pNextTrack = m_trackList.takeFirst();
-        m_pTrackDownloader->startDownload(pNextTrack, destinationPath(pTrack));
+
+        QString strDestinationPath = destinationPath(pNextTrack);
+
+        // Create the path if it does not exist.
+        QDir dir;
+        dir.mkpath(strDestinationPath);
+
+        if (m_pSettingsData->value("destination.numberPrefix", true).toBool()) {
+            int iNumber = pNextTrack->number();
+            QString strNumber;
+            if (iNumber < 10) {
+                strNumber = "0";
+            }
+
+            strNumber = strNumber + QString::number(iNumber);
+
+            strDestinationPath = destinationPath(pNextTrack) + strNumber + " - ";
+        }
+
+        m_pTrackDownloader->startDownload(pNextTrack, strDestinationPath);
 
         m_pUi->tableViewTracks->update();
     } else {
@@ -388,7 +407,7 @@ QString qlamz::destinationPath(const Track * const pTrack) const
     case 0:
         break;
     case 1:
-        strFormat = strCreator + "/" + strAlbum;
+        strFormat = strCreator + "/" + strAlbum + "/";
         break;
     default:
         break;
@@ -412,11 +431,7 @@ void qlamz::startDownload()
 
     // Go throught all file objects.
     m_trackList = m_pTrackModel->tracks();
-
-    if (m_trackList.size() > 0) {
-        Track *pTrack = m_trackList.takeFirst();
-        m_pTrackDownloader->startDownload(pTrack, destinationPath(pTrack));
-    }
+    downloadFinished(NULL);
 
     m_pErrors->clear();
 }

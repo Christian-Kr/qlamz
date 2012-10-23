@@ -82,10 +82,12 @@ void Settings::loadSettings()
     m_pUi->lineEditDestination->setText(m_pSettingsData->value("destination.dir",
         QDir::homePath()).toString());
     m_pUi->comboBoxFormat->setCurrentIndex(m_pSettingsData->value("destination.format", 0).toInt());
-
     int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
         QString()).toString());
     m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
+
+    m_pUi->checkBoxNumberPrefix->setChecked(m_pSettingsData->value("destination.numberPrefix", true)
+        .toBool());
 
     m_pUi->buttonApply->setEnabled(false);
 }
@@ -101,4 +103,5 @@ void Settings::saveSettings()
     m_pSettingsData->setValue("destination.dir", m_pUi->lineEditDestination->text());
     m_pSettingsData->setValue("destination.format", m_pUi->comboBoxFormat->currentIndex());
     m_pSettingsData->setValue("amazon.tld", m_pUi->comboBoxAmazonUrl->currentText());
+    m_pSettingsData->setValue("destination.numberPrefix", m_pUi->checkBoxNumberPrefix->isChecked());
 }

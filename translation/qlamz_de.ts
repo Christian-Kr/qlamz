@@ -234,57 +234,62 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../build/ui_Settings.h" line="265"/>
+        <location filename="../build/ui_Settings.h" line="266"/>
         <source>Settings</source>
         <translation type="unfinished">Einstellungen</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="266"/>
+        <location filename="../build/ui_Settings.h" line="267"/>
         <source>Destination</source>
         <translation type="unfinished">Ziel</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="267"/>
+        <location filename="../build/ui_Settings.h" line="268"/>
         <source>Open</source>
         <translation type="unfinished">Öffnen</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="268"/>
+        <location filename="../build/ui_Settings.h" line="269"/>
         <source>Ending Format:</source>
         <translation type="unfinished">Nachgestelltes Format:</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="269"/>
-        <source>General</source>
-        <translation type="unfinished">Allgemein</translation>
-    </message>
-    <message>
         <location filename="../build/ui_Settings.h" line="270"/>
-        <source>The amazon web page the actions should relate to:</source>
+        <source>Add number at the beginning of a file name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../build/ui_Settings.h" line="271"/>
-        <source>http://www.Amazon.</source>
-        <translation type="unfinished"></translation>
+        <source>General</source>
+        <translation type="unfinished">Allgemein</translation>
     </message>
     <message>
         <location filename="../build/ui_Settings.h" line="272"/>
-        <source>Amazon</source>
+        <source>The amazon web page the actions should relate to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../build/ui_Settings.h" line="273"/>
+        <source>http://www.Amazon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../build/ui_Settings.h" line="274"/>
+        <source>Amazon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../build/ui_Settings.h" line="275"/>
         <source>&amp;Ok</source>
         <translation type="unfinished">&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="274"/>
+        <location filename="../build/ui_Settings.h" line="276"/>
         <source>&amp;Apply</source>
         <translation type="unfinished">Ü&amp;bernehmen</translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="275"/>
+        <location filename="../build/ui_Settings.h" line="277"/>
         <source>C&amp;ancel</source>
         <translation type="unfinished">&amp;Abbrechen</translation>
     </message>
@@ -333,32 +338,32 @@
         <translation type="obsolete">Wir können clamz nicht finden. Wenn du clamz bereits installiert hast, versuche einen eignen Pfad in den EInstellungen zu setzen.</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="258"/>
+        <location filename="../src/qlamz.cpp" line="277"/>
         <source>Open Amazon File</source>
         <translation type="unfinished">Öffne Amazon Datei</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="259"/>
+        <location filename="../src/qlamz.cpp" line="278"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished">Amazon (*.amz)</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="485"/>
+        <location filename="../src/qlamz.cpp" line="500"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="485"/>
+        <location filename="../src/qlamz.cpp" line="500"/>
         <source>Cannot find a url matching the tld. Sorry!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="496"/>
+        <location filename="../src/qlamz.cpp" line="511"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="496"/>
+        <location filename="../src/qlamz.cpp" line="511"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>
