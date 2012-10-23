@@ -42,6 +42,12 @@ public:
      * @param strErrors The list of errors. */
     void exec(const QStringList &errors);
 
+    /**
+     * Exec the dialog with the string message.
+     *
+     * @param strError The error message. */
+    void exec(const QString &errors);
+
 public slots:
     /**
      * Save error log to file. */

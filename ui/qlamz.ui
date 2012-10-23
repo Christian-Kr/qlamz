@@ -240,6 +240,7 @@
     <addaction name="menuAmazonCookie"/>
     <addaction name="actionAmazonStore"/>
     <addaction name="actionErrorLog"/>
+    <addaction name="actionShowXMLContent"/>
    </widget>
    <addaction name="menu_Application"/>
    <addaction name="menu_File"/>
@@ -374,6 +375,11 @@
     <string>Ctrl+E</string>
    </property>
   </action>
+  <action name="actionShowXMLContent">
+   <property name="text">
+    <string>Show XML Content</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../ressource/qlamz.qrc"/>
@@ -386,8 +392,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>433</x>
-     <y>636</y>
+     <x>592</x>
+     <y>592</y>
     </hint>
     <hint type="destinationlabel">
      <x>234</x>
@@ -418,8 +424,8 @@
    <slot>startDownload()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>628</y>
+     <x>509</x>
+     <y>592</y>
     </hint>
     <hint type="destinationlabel">
      <x>224</x>
@@ -434,8 +440,8 @@
    <slot>cancelDownload()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>254</x>
-     <y>628</y>
+     <x>390</x>
+     <y>591</y>
     </hint>
     <hint type="destinationlabel">
      <x>224</x>
@@ -587,6 +593,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionShowXMLContent</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showXMLContent()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openAmazonFile()</slot>
@@ -602,5 +624,6 @@
   <slot>aboutQt()</slot>
   <slot>showErrorLog()</slot>
   <slot>openAmazonStore()</slot>
+  <slot>showXMLContent()</slot>
  </slots>
 </ui>

@@ -59,7 +59,8 @@ qlamz::qlamz(QWidget *pParent)
     m_pError(new Error(this)),
     m_pErrors(new QStringList()),
     m_pRecentFiles(new QStringList()),
-    m_pstrDestination(new QString())
+    m_pstrDestination(new QString()),
+    m_pstrXmlData(new QString())
 {
     m_pUi->setupUi(this);
 
@@ -91,6 +92,7 @@ qlamz::qlamz(QWidget *pParent)
 
 qlamz::~qlamz()
 {
+    delete m_pstrXmlData;
     delete m_pTrackModel;
     delete m_pTrackDownloader;
     delete m_pUi;
@@ -287,6 +289,8 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
 
     // Create a temporary file from the xml output of the amazon file.
     QString strXmlData = getXmlFromFile(*m_pstrAmazonFilePath);
+
+    *m_pstrXmlData = strXmlData;
 
     QList<Track *> tracks = readTracksFromXml(strXmlData);
 
@@ -487,6 +491,11 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
 void qlamz::showErrorLog()
 {
     m_pError->exec(*m_pErrors);
+}
+
+void qlamz::showXMLContent()
+{
+    m_pError->exec(*m_pstrXmlData);
 }
 
 void qlamz::openAmazonStore()

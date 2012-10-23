@@ -63,6 +63,10 @@ public slots:
     void showErrorLog();
 
     /**
+     * Show the xml content of the actual loaded amz file. */
+    void showXMLContent();
+
+    /**
      * Show the amazon store in a web browser. */
     void openAmazonStore();
 
@@ -200,6 +204,7 @@ private:
     QStringList *m_pRecentFiles;
 
     QString *m_pstrDestination;
+    QString *m_pstrXmlData;
 };
 
 

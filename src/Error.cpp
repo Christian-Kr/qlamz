@@ -49,6 +49,18 @@ void Error::exec(const QStringList &errors)
     QDialog::exec();
 }
 
+void Error::exec(const QString &error)
+{
+    m_pUi->textEditErrorLog->clear();
+    m_pUi->textEditErrorLog->append(error);
+
+    QTextCursor textCursor = m_pUi->textEditErrorLog->textCursor();
+    textCursor.movePosition(QTextCursor::Start);
+    m_pUi->textEditErrorLog->setTextCursor(textCursor);
+
+    QDialog::exec();
+}
+
 void Error::save()
 {
     QString strPath = QFileDialog::getSaveFileName(this, tr("Save"), QDir::homePath());
