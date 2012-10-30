@@ -60,7 +60,7 @@ set(QT_USE_QTNETWORK TRUE)
 
 # find the qt package
 find_package(Qt4 REQUIRED)
-find_package(LibGcrypt REQUIRED)
+find_package(LibAmz REQUIRED)
 
 # include all qt header files
 include(${QT_USE_FILE})
@@ -75,14 +75,14 @@ qt4_create_translation(TRANSLATION ${SOURCES} ${MOC_HEADERS} ${UI_HEADERS} ${TRA
 qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
 
 # some other includes
-include_directories(${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_BINARY_DIR} ${LIBAMZ_INCLUDE_DIR})
 
 # create the executables
 add_executable(qlamz ${SOURCES} ${MOC_SOURCES} ${RESSOURCE_SOURCES} ${UI_HEADERS}
     ${TRANSLATION_SOURCES})
 
 # link them to one file
-target_link_libraries(qlamz ${QT_LIBRARIES} ${LIBGCRYPT_LIBRARIES})
+target_link_libraries(qlamz ${QT_LIBRARIES} ${LIBAMZ_LIBRARIES})
 
 # install the program
 install(TARGETS qlamz RUNTIME DESTINATION bin)

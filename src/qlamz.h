@@ -24,6 +24,10 @@ namespace Ui {
     class MainWindow;
 }
 
+namespace amz {
+    class amz;
+}
+
 class QStringList;
 class Settings;
 class About;
@@ -205,6 +209,8 @@ private:
 
     QString *m_pstrDestination;
     QString *m_pstrXmlData;
+
+    amz::amz *m_pAmz;
 };
 
 

@@ -43,6 +43,7 @@
 #include <QDebug>
 
 #include <gcrypt.h>
+#include <amz.h>
 
 
 qlamz::qlamz(QWidget *pParent)
@@ -60,7 +61,8 @@ qlamz::qlamz(QWidget *pParent)
     m_pErrors(new QStringList()),
     m_pRecentFiles(new QStringList()),
     m_pstrDestination(new QString()),
-    m_pstrXmlData(new QString())
+    m_pstrXmlData(new QString()),
+    m_pAmz(new amz::amz())
 {
     m_pUi->setupUi(this);
 
@@ -102,6 +104,7 @@ qlamz::~qlamz()
     delete m_pError;
     delete m_pRecentFiles;
     delete m_pAbout;
+    delete m_pAmz;
 }
 
 void qlamz::downloadFinished(Track *pTrack)
@@ -219,54 +222,8 @@ void qlamz::aboutQt()
 
 QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 {
-    const unsigned char ucKey[8] = {0x29, 0xAB, 0x9D, 0x18, 0xB2, 0x44, 0x9E, 0x31};
-    const unsigned char ucInitV[8] = {0x5E, 0x72, 0xD7, 0x9A, 0x11, 0xB3, 0x4F, 0xEE};
-
-    gcry_cipher_hd_t hd;
-    gcry_error_t err;
-
-    char *decrypted;
-
-    // Test if the content is already decrypted.
-    if (amazonEncryptedContent.size() > 0 && amazonEncryptedContent.at(0) == '<') {
-        return amazonEncryptedContent;
-    }
-
-    QByteArray tmpData = QByteArray::fromBase64(amazonEncryptedContent);
-    decrypted = new char[tmpData.size()];
-
-    if ((err = gcry_cipher_open(&hd, GCRY_CIPHER_DES, GCRY_CIPHER_MODE_CBC, 0))) {
-        qDebug() << QString("Failed to initialize gcrypt (%1)").arg(gcry_strerror(err));
-
-        return QString();
-    }
-
-    if ((err = gcry_cipher_setkey(hd, ucKey, 8))) {
-        qDebug() << QString("Failed to set key (%1)").arg(gcry_strerror(err));
-        gcry_cipher_close(hd);
-
-        return QString();
-    }
-
-    if ((err = gcry_cipher_setiv(hd, ucInitV, 8))) {
-        qDebug() << QString("Failed to set IV (%1)").arg(gcry_strerror(err));
-        gcry_cipher_close(hd);
-
-        return QString();
-    }
-
-    QByteArray endData;
-
-    if ((err = gcry_cipher_decrypt(hd, decrypted, tmpData.size(), tmpData, tmpData.size()))) {
-        qDebug() << QString("Unable to decrypt AMZ file (%2)").arg(gcry_strerror(err));
-        gcry_cipher_close(hd);
-
-        return QString();
-    }
-
-    gcry_cipher_close(hd);
-
-    return QString::fromUtf8(decrypted);
+    return QString::fromUtf8(reinterpret_cast<const char *>(m_pAmz->decryptAmzData(
+        const_cast<char *>(amazonEncryptedContent.data()), amazonEncryptedContent.size())));
 }
 
 void qlamz::openAmazonFile(const QString &strAmazonFileArg)
@@ -536,7 +493,7 @@ QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
     QFile file(strAmazonFilePath);
     file.open(QIODevice::ReadOnly);
 
-    QByteArray tmpData = file.readAll();
+    QByteArray tmpData = file.readAll().replace('\n', "");
     file.close();
 
     return decryptAmazonFile(tmpData);
