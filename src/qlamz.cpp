@@ -42,7 +42,6 @@
 
 #include <QDebug>
 
-#include <gcrypt.h>
 #include <amz.h>
 
 
