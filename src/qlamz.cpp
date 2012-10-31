@@ -49,6 +49,8 @@ qlamz::qlamz(QWidget *pParent)
     : QMainWindow(pParent),
     m_state(qlamz::Default),
     m_bCancel(false),
+    m_iMaxDownloads(0),
+    m_iLeftDownloads(0),
     m_pTrackModel(new TrackModel()),
     m_pTrackDownloader(new TrackDownloader(this)),
     m_pUi(new Ui::MainWindow()),
@@ -180,6 +182,7 @@ void qlamz::loadSettings()
 {
     // Read in recent files.
     *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
+    m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
 
     updateRecentFiles();
 }
@@ -187,6 +190,7 @@ void qlamz::loadSettings()
 void qlamz::saveSettings()
 {
     m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
+    m_pSettingsData->setValue("maxDownloads", m_iMaxDownloads);
 }
 
 void qlamz::updateRecentFiles()

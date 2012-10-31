@@ -189,6 +189,8 @@ private:
     qlamz::State m_state;
 
     bool m_bCancel;
+    int m_iMaxDownloads;
+    int m_iLeftDownloads;
 
     TrackModel *m_pTrackModel;
     TrackDownloader *m_pTrackDownloader;

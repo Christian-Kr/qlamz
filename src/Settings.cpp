@@ -85,6 +85,7 @@ void Settings::loadSettings()
     int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
         QString()).toString());
     m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
+    m_pUi->spinBoxMaxDownloads->setValue(m_pSettingsData->value("maxDownloads", 1).toInt());
 
     m_pUi->checkBoxNumberPrefix->setChecked(m_pSettingsData->value("destination.numberPrefix", true)
         .toBool());
@@ -104,4 +105,5 @@ void Settings::saveSettings()
     m_pSettingsData->setValue("destination.format", m_pUi->comboBoxFormat->currentIndex());
     m_pSettingsData->setValue("amazon.tld", m_pUi->comboBoxAmazonUrl->currentText());
     m_pSettingsData->setValue("destination.numberPrefix", m_pUi->checkBoxNumberPrefix->isChecked());
+    m_pSettingsData->setValue("maxDownloads", m_pUi->spinBoxMaxDownloads->value());
 }
