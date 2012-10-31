@@ -21,26 +21,23 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QNetworkCookieJar>
 #include <QDir>
 #include <QDebug>
 
 
-TrackDownloader::TrackDownloader(QObject *pParent)
+TrackDownloader::TrackDownloader(QNetworkAccessManager *pNetAccessManager, QObject *pParent)
     : QObject(pParent),
     m_pTrack(NULL),
     m_strPath(new QString()),
-    m_pNetAccessManager(new QNetworkAccessManager(this)),
-    m_pNetworkReply(NULL)
+    m_pNetworkReply(NULL),
+    m_pNetAccessManager(pNetAccessManager)
 {
-    m_pNetAccessManager->setCookieJar(new QNetworkCookieJar(m_pNetAccessManager));
 }
 
 TrackDownloader::~TrackDownloader()
 {
     delete m_pTrack;
     delete m_strPath;
-    delete m_pNetAccessManager;
     delete m_pNetworkReply;
 }
 

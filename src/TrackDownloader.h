@@ -32,7 +32,7 @@ class TrackDownloader : public QObject
 public:
     /**
      * Constructor */
-    TrackDownloader(QObject *pParent = 0);
+    TrackDownloader(QNetworkAccessManager *pNetAccessManager, QObject *pParent = 0);
 
     /**
      * Destructor */
@@ -93,8 +93,8 @@ private:
 
     QString *m_strPath;
 
-    QNetworkAccessManager *m_pNetAccessManager;
     QNetworkReply *m_pNetworkReply;
+    QNetworkAccessManager *m_pNetAccessManager;
 };
 
 

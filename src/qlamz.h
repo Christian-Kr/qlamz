@@ -193,7 +193,6 @@ private:
     int m_iLeftDownloads;
 
     TrackModel *m_pTrackModel;
-    TrackDownloader *m_pTrackDownloader;
 
     Ui::MainWindow *m_pUi;
 
@@ -213,6 +212,9 @@ private:
     QString *m_pstrXmlData;
 
     amz::amz *m_pAmz;
+
+    QNetworkAccessManager *m_pNetAccessManager;
+    TrackDownloader *m_pTrackDownloader;
 };
 
 

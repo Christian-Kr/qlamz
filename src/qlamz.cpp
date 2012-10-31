@@ -38,6 +38,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QNetworkCookieJar>
 #include <QDesktopServices>
 
 #include <QDebug>
@@ -52,7 +53,6 @@ qlamz::qlamz(QWidget *pParent)
     m_iMaxDownloads(0),
     m_iLeftDownloads(0),
     m_pTrackModel(new TrackModel()),
-    m_pTrackDownloader(new TrackDownloader(this)),
     m_pUi(new Ui::MainWindow()),
     m_pstrAmazonFilePath(new QString()),
     m_pSettings(new Settings(this)),
@@ -63,9 +63,14 @@ qlamz::qlamz(QWidget *pParent)
     m_pRecentFiles(new QStringList()),
     m_pstrDestination(new QString()),
     m_pstrXmlData(new QString()),
-    m_pAmz(new amz::amz())
+    m_pAmz(new amz::amz()),
+    m_pNetAccessManager(new QNetworkAccessManager(this)),
+    m_pTrackDownloader(new TrackDownloader(m_pNetAccessManager, this))
 {
     m_pUi->setupUi(this);
+
+    // Init network access manager
+    m_pNetAccessManager->setCookieJar(new QNetworkCookieJar(m_pNetAccessManager));
 
     // Set some window configs.
     setWindowTitle(tr("qlamz"));
@@ -106,6 +111,7 @@ qlamz::~qlamz()
     delete m_pRecentFiles;
     delete m_pAbout;
     delete m_pAmz;
+    delete m_pNetAccessManager;
 }
 
 void qlamz::downloadFinished(Track *pTrack)
