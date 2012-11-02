@@ -235,67 +235,67 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../build/ui_Settings.h" line="292"/>
+        <location filename="../build/ui_Settings.h" line="293"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="293"/>
+        <location filename="../build/ui_Settings.h" line="294"/>
         <source>Destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="294"/>
+        <location filename="../build/ui_Settings.h" line="295"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="295"/>
+        <location filename="../build/ui_Settings.h" line="296"/>
         <source>Ending Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="296"/>
+        <location filename="../build/ui_Settings.h" line="297"/>
         <source>Add number at the beginning of a file name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="297"/>
+        <location filename="../build/ui_Settings.h" line="298"/>
         <source>Number of simultaneous downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="298"/>
+        <location filename="../build/ui_Settings.h" line="299"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="299"/>
+        <location filename="../build/ui_Settings.h" line="300"/>
         <source>The amazon web page the actions should relate to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="300"/>
+        <location filename="../build/ui_Settings.h" line="301"/>
         <source>http://www.Amazon.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="301"/>
+        <location filename="../build/ui_Settings.h" line="302"/>
         <source>Amazon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="302"/>
+        <location filename="../build/ui_Settings.h" line="303"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="303"/>
+        <location filename="../build/ui_Settings.h" line="304"/>
         <source>&amp;Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="304"/>
+        <location filename="../build/ui_Settings.h" line="305"/>
         <source>C&amp;ancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -336,32 +336,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="245"/>
+        <location filename="../src/qlamz.cpp" line="274"/>
         <source>Open Amazon File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="246"/>
+        <location filename="../src/qlamz.cpp" line="275"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="475"/>
+        <location filename="../src/qlamz.cpp" line="515"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="475"/>
+        <location filename="../src/qlamz.cpp" line="515"/>
         <source>Cannot find a url matching the tld. Sorry!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="486"/>
+        <location filename="../src/qlamz.cpp" line="526"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="486"/>
+        <location filename="../src/qlamz.cpp" line="526"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>

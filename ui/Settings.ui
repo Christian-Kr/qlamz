@@ -475,6 +475,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>spinBoxMaxDownloads</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>updateButtons()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>38</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>224</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openDestination()</slot>

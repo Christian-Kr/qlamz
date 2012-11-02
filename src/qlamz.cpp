@@ -88,11 +88,6 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
-    // Build some connections.
-    connect(m_pTrackDownloader, SIGNAL(finished(Track *)), this, SLOT(downloadFinished(Track *)));
-    connect(m_pTrackDownloader, SIGNAL(updated(Track *)), this, SLOT(downloadUpdated(Track *)));
-    connect(m_pTrackDownloader, SIGNAL(error(int, const QString &, Track *)), this,
-        SLOT(downloadError(int, const QString &, Track *)));
     connect(m_pSettings, SIGNAL(settingsSaved()), this, SLOT(loadSettings()));
 
     loadSettings();
@@ -114,36 +109,37 @@ qlamz::~qlamz()
     delete m_pNetAccessManager;
 }
 
-void qlamz::downloadFinished(Track *pTrack)
+void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
+    TrackDownloader *pTrackDownloader)
 {
-    if (m_bCancel) {
-        m_trackList.clear();
-        m_bCancel = false;
-    }
+    // Create the path if it does not exist.
+    QString strDestinationPath = destinationPath(pTrack);
+    QDir dir;
 
-    if (m_trackList.size() > 0) {
-        Track *pNextTrack = m_trackList.takeFirst();
+    dir.mkpath(strDestinationPath);
 
-        QString strDestinationPath = destinationPath(pNextTrack);
-
-        // Create the path if it does not exist.
-        QDir dir;
-        dir.mkpath(strDestinationPath);
-
-        if (m_pSettingsData->value("destination.numberPrefix", true).toBool()) {
-            int iNumber = pNextTrack->number();
-            QString strNumber;
-            if (iNumber < 10) {
-                strNumber = "0";
-            }
-
-            strNumber = strNumber + QString::number(iNumber);
-
-            strDestinationPath = destinationPath(pNextTrack) + strNumber + " - ";
+    if (m_pSettingsData->value("destination.numberPrefix", true).toBool()) {
+        int iNumber = pTrack->number();
+        QString strNumber;
+        if (iNumber < 10) {
+            strNumber = "0";
         }
 
-        m_pTrackDownloader->startDownload(pNextTrack, strDestinationPath);
+        strNumber = strNumber + QString::number(iNumber);
 
+        strDestinationPath = strDestinationPath + strNumber + " - ";
+    }
+
+    // Create the file and write all data.
+    QFile file(strDestinationPath + pTrack->title() + ".mp3");
+    file.open(QIODevice::WriteOnly);
+    file.write(pNetworkReply->readAll());
+    file.close();
+
+    // If there are files waiting for download, do so.
+    if (m_trackList.size() > 0) {
+        Track *pNextTrack = m_trackList.takeFirst();
+        pTrackDownloader->startDownload(pNextTrack);
         m_pUi->tableViewTracks->update();
     } else {
         m_state = qlamz::Default;
@@ -156,14 +152,17 @@ void qlamz::downloadFinished(Track *pTrack)
     }
 }
 
-void qlamz::downloadUpdated(Track *pTrack)
+void qlamz::downloadUpdate(Track *pTrack, qint64 iRecieved, qint64 iTotal,
+    QNetworkReply *pNetworkReply)
 {
+    pTrack->setDownloadPercentage((short) ((double) iRecieved / (double) iTotal * 100));
     m_pUi->tableViewTracks->reset();
 }
 
 void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
 {
     m_pErrors->append("Error downloading pTrack: " + pTrack->title() + "\n" + strMessage + "\n");
+    qDebug() << "Error downloading pTrack: " + pTrack->title() + "\n" + strMessage + "\n";
 }
 
 void qlamz::about()
@@ -188,7 +187,37 @@ void qlamz::loadSettings()
 {
     // Read in recent files.
     *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
+
     m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
+
+    // Init the TrackDownloader list.
+    int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
+
+    if (iMaxDownloadDiff != 0) {
+        if (iMaxDownloadDiff > 0) {
+            // Create new TrackDownlader object, until we got the maximum number.
+            while (iMaxDownloadDiff-- > 0) {
+                TrackDownloader *pTrackDownloader = new TrackDownloader(m_pNetAccessManager, this);
+                m_trackDownloaderList.append(pTrackDownloader);
+
+                qDebug() << "Create TrackDownloader";
+
+                // Build some connections.
+                connect(pTrackDownloader,
+                    SIGNAL(finish(Track *, QNetworkReply *, TrackDownloader *)), this,
+                    SLOT(downloadFinish(Track *, QNetworkReply *, TrackDownloader *)));
+                connect(pTrackDownloader, SIGNAL(update(Track *, qint64, qint64, QNetworkReply *)), this,
+                    SLOT(downloadUpdate(Track *, qint64, qint64, QNetworkReply *)));
+                connect(pTrackDownloader, SIGNAL(error(int, const QString &, Track *)), this,
+                    SLOT(downloadError(int, const QString &, Track *)));
+            }
+        } else {
+            // Delete TrackDownloader objects, until we got the maximum number.
+            while (m_trackDownloaderList.size() > m_iMaxDownloads) {
+                delete m_trackDownloaderList.takeFirst();
+            }
+        }
+    }
 
     updateRecentFiles();
 }
@@ -401,7 +430,18 @@ void qlamz::startDownload()
 
     // Go throught all file objects.
     m_trackList = m_pTrackModel->tracks();
-    downloadFinished(NULL);
+
+    // Start all TrackDownloader with downloading a file.
+    for (int i = 0; i < m_trackDownloaderList.size(); i++) {
+        if (m_trackList.size() <= 0) {
+            break;
+        }
+
+        qDebug() << "Start new beginning download.";
+
+        Track *pTrack = m_trackList.takeFirst();
+        m_trackDownloaderList.at(i)->startDownload(pTrack);
+    }
 
     m_pErrors->clear();
 }

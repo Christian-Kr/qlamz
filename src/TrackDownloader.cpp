@@ -28,7 +28,6 @@
 TrackDownloader::TrackDownloader(QNetworkAccessManager *pNetAccessManager, QObject *pParent)
     : QObject(pParent),
     m_pTrack(NULL),
-    m_strPath(new QString()),
     m_pNetworkReply(NULL),
     m_pNetAccessManager(pNetAccessManager)
 {
@@ -36,24 +35,25 @@ TrackDownloader::TrackDownloader(QNetworkAccessManager *pNetAccessManager, QObje
 
 TrackDownloader::~TrackDownloader()
 {
-    delete m_pTrack;
-    delete m_strPath;
-    delete m_pNetworkReply;
 }
 
-void TrackDownloader::startDownload(Track *pTrack, const QString &strPath)
+void TrackDownloader::startDownload(Track *pTrack)
 {
     m_pTrack = pTrack;
-    *m_strPath = strPath;
+
+    if (m_pNetworkReply != NULL) {
+        m_pNetworkReply->close();
+        m_pNetworkReply->deleteLater();
+    }
 
     m_pNetworkReply = createNetworkReply(m_pTrack->location());
 
     // Build some connections.
     connect(m_pNetworkReply, SIGNAL(error(QNetworkReply::NetworkError)), this,
         SLOT(networkReplyError(QNetworkReply::NetworkError)));
-    connect(m_pNetworkReply, SIGNAL(finished()), this, SLOT(finish()));
+    connect(m_pNetworkReply, SIGNAL(finished()), this, SLOT(networkReplyFinish()));
     connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)), this,
-        SLOT(update(qint64, qint64)));
+        SLOT(networkReplyUpdate(qint64, qint64)));
 }
 
 QNetworkReply * TrackDownloader::createNetworkReply(const QString &strUrl)
@@ -72,47 +72,32 @@ QNetworkReply * TrackDownloader::createNetworkReply(const QString &strUrl)
 void TrackDownloader::networkReplyError(QNetworkReply::NetworkError code)
 {
     m_pTrack->setDownloadPercentage(100);
-
     emit error(code, m_pNetworkReply->errorString(), m_pTrack);
 }
 
-void TrackDownloader::finish()
+void TrackDownloader::networkReplyFinish()
 {
-    qDebug() << "Finish";
-
     if (m_pNetworkReply->rawHeader("Location").size() > 0) {
-        qDebug() << m_pNetworkReply->rawHeader("Location");
-
         QByteArray byLocation = m_pNetworkReply->rawHeader("Location");
-
-        m_pNetworkReply->deleteLater();
-
-        m_pNetworkReply = createNetworkReply(byLocation);
-
-            // Build some connections.
-        connect(m_pNetworkReply, SIGNAL(error(QNetworkReply::NetworkError)), this,
-            SLOT(networkReplyError(QNetworkReply::NetworkError)));
-        connect(m_pNetworkReply, SIGNAL(finished()), this, SLOT(finish()));
-        connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)), this,
-            SLOT(update(qint64, qint64)));
-    } else {
-        QFile file(*m_strPath + m_pTrack->title() + ".mp3");
-        file.open(QIODevice::WriteOnly);
-        file.write(m_pNetworkReply->readAll());
-        file.close();
 
         m_pNetworkReply->close();
         m_pNetworkReply->deleteLater();
-        m_pNetworkReply = NULL;
+        m_pNetworkReply = createNetworkReply(byLocation);
 
-        emit finished(m_pTrack);
+        // Build some connections.
+        connect(m_pNetworkReply, SIGNAL(error(QNetworkReply::NetworkError)), this,
+            SLOT(networkReplyError(QNetworkReply::NetworkError)));
+        connect(m_pNetworkReply, SIGNAL(finished()), this, SLOT(networkReplyFinish()));
+        connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)), this,
+            SLOT(networkReplyUpdate(qint64, qint64)));
+    } else {
+        emit finish(m_pTrack, m_pNetworkReply, this);
     }
 }
 
-void TrackDownloader::update(qint64 iRecieved, qint64 iTotal)
+void TrackDownloader::networkReplyUpdate(qint64 iRecieved, qint64 iTotal)
 {
-    m_pTrack->setDownloadPercentage((short) ((double) iRecieved / (double) iTotal * 100));
-    emit updated(m_pTrack);
+    emit update(m_pTrack, iRecieved, iTotal, m_pNetworkReply);
 }
 
 void TrackDownloader::abort()

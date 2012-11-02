@@ -42,9 +42,8 @@ public:
      * Download the given track. Please do not delete the given object until the finish signal
      * emited.
      *
-     * @param strPath The path of the file downloaded to.
      * @param pTrack The track to download. */
-    void startDownload(Track *pTrack, const QString &strPath);
+    void startDownload(Track *pTrack);
 
     /**
      * Abort running download. */
@@ -53,11 +52,11 @@ public:
 signals:
     /**
      * Emited when the whole downloading process is finish. */
-    void finished(Track *pTrack);
+    void finish(Track *pTrack, QNetworkReply *pNetworkReply, TrackDownloader *pTrackDownloader);
 
     /**
      * Emited when the track number of the download progress updated. */
-    void updated(Track *pTrack);
+    void update(Track *pTrack, qint64 iRecieved, qint64 iTotal, QNetworkReply *pNetworkReply);
 
     /**
      * Emited when an error occured. */
@@ -66,7 +65,7 @@ signals:
 private slots:
     /**
      * Finish the download progress. */
-    void finish();
+    void networkReplyFinish();
 
     /**
      * Error occured.
@@ -79,7 +78,7 @@ private slots:
      *
      * @param iRecieved The actual number of recieved bytes.
      * @param iTotal The total number of reieving bytes. */
-    void update(qint64 iRecieved, qint64 iTotal);
+    void networkReplyUpdate(qint64 iRecieved, qint64 iTotal);
 
 private:
     /**
@@ -90,8 +89,6 @@ private:
     QNetworkReply * createNetworkReply(const QString &strUrl);
 
     Track *m_pTrack;
-
-    QString *m_strPath;
 
     QNetworkReply *m_pNetworkReply;
     QNetworkAccessManager *m_pNetAccessManager;

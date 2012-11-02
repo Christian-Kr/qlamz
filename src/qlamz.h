@@ -94,13 +94,14 @@ public slots:
      * Called when the download finished.
      *
      * @param pTrack The track which was downloaded. */
-    void downloadFinished(Track *pTrack);
+    void downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
+        TrackDownloader *pTrackDownloader);
 
     /**
      * Called when the bytes of the download updated.
      *
      * @param pTrack The track which is in download. */
-    void downloadUpdated(Track *pTrack);
+    void downloadUpdate(Track *pTrack, qint64 iRecieved, qint64 iTotal, QNetworkReply *pNetworkReply);
 
     /**
      * Error while downloading.
@@ -205,6 +206,8 @@ private:
     Error *m_pError;
 
     QList<Track *> m_trackList;
+    QList<TrackDownloader *> m_trackDownloaderList;
+
     QStringList *m_pErrors;
     QStringList *m_pRecentFiles;
 
