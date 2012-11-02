@@ -367,6 +367,7 @@ void qlamz::updateUiState()
 
         m_pUi->actionDeselectAll->setEnabled(true);
         m_pUi->actionSelectAll->setEnabled(true);
+        m_pUi->actionSettings->setEnabled(true);
 
         break;
     case qlamz::Download:
@@ -378,6 +379,7 @@ void qlamz::updateUiState()
 
         m_pUi->actionDeselectAll->setEnabled(false);
         m_pUi->actionSelectAll->setEnabled(false);
+        m_pUi->actionSettings->setEnabled(false);
 
         break;
     default:
