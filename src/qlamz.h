@@ -216,6 +216,7 @@ private:
 
     QString *m_pstrDestination;
     QString *m_pstrXmlData;
+    QString *m_pstrOpenPath;
 
     amz::amz *m_pAmz;
 

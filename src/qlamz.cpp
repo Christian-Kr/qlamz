@@ -65,6 +65,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pRecentFiles(new QStringList()),
     m_pstrDestination(new QString()),
     m_pstrXmlData(new QString()),
+    m_pstrOpenPath(new QString()),
     m_pAmz(new amz::amz()),
     m_pNetAccessManager(new QNetworkAccessManager(this))
 {
@@ -96,6 +97,7 @@ qlamz::qlamz(QWidget *pParent)
 
 qlamz::~qlamz()
 {
+    delete m_pstrOpenPath;
     delete m_pstrXmlData;
     delete m_pTrackModel;
     delete m_pUi;
@@ -208,12 +210,10 @@ void qlamz::closeEvent(QCloseEvent *pEvent)
 
 void qlamz::loadSettings()
 {
-    // Read in recent files.
     *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
-
     m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
-
     resize(m_pSettingsData->value("windowSize", QSize(400, 500)).toSize());
+    *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath()).toString();
 
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
@@ -252,6 +252,7 @@ void qlamz::saveSettings()
     m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
     m_pSettingsData->setValue("maxDownloads", m_iMaxDownloads);
     m_pSettingsData->setValue("windowSize", size());
+    m_pSettingsData->setValue("openPath", *m_pstrOpenPath);
 }
 
 void qlamz::updateRecentFiles()
@@ -297,15 +298,17 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
     if (strAmazonFileArg.size() > 0) {
         strAmazonFile = strAmazonFileArg;
     } else {
-        strAmazonFile = QFileDialog::getOpenFileName(this, tr("Open Amazon File"), QDir::homePath(),
+        strAmazonFile = QFileDialog::getOpenFileName(this, tr("Open Amazon File"), *m_pstrOpenPath,
             tr("Amazon (*.amz)"));
     }
 
     if (strAmazonFile.size() > 0) {
-            *m_pstrAmazonFilePath = strAmazonFile;
-            setWindowTitle("qlamz - " + strAmazonFile);
-        } else {
-            return;
+        QFileInfo pathInfo(strAmazonFile);
+        *m_pstrOpenPath = pathInfo.path();
+        *m_pstrAmazonFilePath = strAmazonFile;
+        setWindowTitle("qlamz - " + strAmazonFile);
+    } else {
+        return;
     }
 
     // Create a temporary file from the xml output of the amazon file.
