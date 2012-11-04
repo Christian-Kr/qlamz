@@ -331,37 +331,42 @@
 <context>
     <name>qlamz</name>
     <message>
-        <location filename="../src/qlamz.cpp" line="75"/>
+        <location filename="../src/qlamz.cpp" line="77"/>
         <source>qlamz</source>
         <translation type="unfinished">qlamz</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="291"/>
+        <location filename="../src/qlamz.cpp" line="182"/>
+        <source>qlamz - Total: %1%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="300"/>
         <source>Open Amazon File</source>
         <translation type="unfinished">Öffne Amazon Datei</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="292"/>
+        <location filename="../src/qlamz.cpp" line="301"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished">Amazon (*.amz)</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="535"/>
+        <location filename="../src/qlamz.cpp" line="547"/>
         <source>Warning</source>
         <translation type="unfinished">Warnung</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="535"/>
+        <location filename="../src/qlamz.cpp" line="547"/>
         <source>Cannot find a url matching the tld. Sorry!</source>
         <translation type="unfinished">Leider konnte keine url mit der tld gefunden werden!</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="546"/>
+        <location filename="../src/qlamz.cpp" line="558"/>
         <source>Cancel download</source>
         <translation type="unfinished">Download abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="546"/>
+        <location filename="../src/qlamz.cpp" line="558"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished">Bist du sicher, dass du den Vorgang abbrechen möchtest?</translation>
     </message>

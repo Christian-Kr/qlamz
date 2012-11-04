@@ -193,6 +193,9 @@ private:
     int m_iMaxDownloads;
     int m_iLeftDownloads;
 
+    int m_iActualDownloadCount;
+    int m_iTotalDownloadCount;
+
     TrackModel *m_pTrackModel;
 
     Ui::MainWindow *m_pUi;

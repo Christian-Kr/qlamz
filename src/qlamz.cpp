@@ -52,6 +52,8 @@ qlamz::qlamz(QWidget *pParent)
     m_bCancel(false),
     m_iMaxDownloads(0),
     m_iLeftDownloads(0),
+    m_iActualDownloadCount(0),
+    m_iTotalDownloadCount(0),
     m_pTrackModel(new TrackModel()),
     m_pUi(new Ui::MainWindow()),
     m_pstrAmazonFilePath(new QString()),
@@ -134,13 +136,15 @@ void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
     file.write(pNetworkReply->readAll());
     file.close();
 
+    // Increment the actual download progress.
+    m_iActualDownloadCount++;
+
     // If there are files waiting for download, do so.
     if (m_trackList.size() > 0) {
         Track *pNextTrack = m_trackList.takeFirst();
         pTrackDownloader->startDownload(pNextTrack);
         m_pUi->tableViewTracks->update();
     } else {
-
         // Test if all downloader are not running.
         bool bDownloaderRunning = false;
         for (int i = 0; i < m_trackDownloaderList.size(); i++) {
@@ -171,6 +175,11 @@ void qlamz::downloadUpdate(Track *pTrack, qint64 iRecieved, qint64 iTotal,
 {
     pTrack->setDownloadPercentage((short) ((double) iRecieved / (double) iTotal * 100));
     m_pUi->tableViewTracks->reset();
+
+    short sTotalPercentage = (short) ((double) m_iActualDownloadCount /
+        (double) m_iTotalDownloadCount * 100);
+
+    setWindowTitle(tr("qlamz - Total: %1%").arg(sTotalPercentage));
 }
 
 void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
@@ -452,6 +461,9 @@ void qlamz::startDownload()
             m_trackList.append(trackList.at(i));
         }
     }
+
+    m_iActualDownloadCount = 0;
+    m_iTotalDownloadCount = m_trackList.size();
 
     // Start all TrackDownloader with downloading a file.
     for (int i = 0; i < m_trackDownloaderList.size(); i++) {
