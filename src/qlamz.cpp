@@ -437,23 +437,24 @@ void qlamz::startDownload()
     m_state = qlamz::Download;
     updateUiState();
 
-    // Set the actual state.
-    m_state = qlamz::Download;
-    updateUiState();
-
     // Display the download progress column.
     m_pUi->tableViewTracks->showColumn(1);
 
-    // Go throught all file objects.
-    m_trackList = m_pTrackModel->tracks();
+    // Add all tracks that are checked to the m_trackList.
+    QList<Track *> trackList = m_pTrackModel->tracks();
+    m_trackList.clear();
+
+    for (int i = 0; i < trackList.size(); i++) {
+        if (trackList.at(i)->download()) {
+            m_trackList.append(trackList.at(i));
+        }
+    }
 
     // Start all TrackDownloader with downloading a file.
     for (int i = 0; i < m_trackDownloaderList.size(); i++) {
         if (m_trackList.size() <= 0) {
             break;
         }
-
-        qDebug() << "Start new beginning download.";
 
         Track *pTrack = m_trackList.takeFirst();
         m_trackDownloaderList.at(i)->startDownload(pTrack);
