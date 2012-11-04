@@ -217,7 +217,6 @@ private:
     amz::amz *m_pAmz;
 
     QNetworkAccessManager *m_pNetAccessManager;
-    TrackDownloader *m_pTrackDownloader;
 };
 
 

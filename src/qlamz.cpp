@@ -64,8 +64,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pstrDestination(new QString()),
     m_pstrXmlData(new QString()),
     m_pAmz(new amz::amz()),
-    m_pNetAccessManager(new QNetworkAccessManager(this)),
-    m_pTrackDownloader(new TrackDownloader(m_pNetAccessManager, this))
+    m_pNetAccessManager(new QNetworkAccessManager(this))
 {
     m_pUi->setupUi(this);
 
@@ -97,7 +96,6 @@ qlamz::~qlamz()
 {
     delete m_pstrXmlData;
     delete m_pTrackModel;
-    delete m_pTrackDownloader;
     delete m_pUi;
     delete m_pSettings;
     delete m_pSettingsData;
@@ -533,7 +531,7 @@ void qlamz::cancelDownload()
     }
 
     m_bCancel = true;
-    m_pTrackDownloader->abort();
+//     m_pTrackDownloader->abort();
 
     m_state = qlamz::Default;
     updateUiState();

@@ -331,17 +331,17 @@
 <context>
     <name>qlamz</name>
     <message>
-        <location filename="../src/qlamz.cpp" line="76"/>
+        <location filename="../src/qlamz.cpp" line="75"/>
         <source>qlamz</source>
         <translation type="unfinished">qlamz</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="274"/>
+        <location filename="../src/qlamz.cpp" line="272"/>
         <source>Open Amazon File</source>
         <translation type="unfinished">Öffne Amazon Datei</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="275"/>
+        <location filename="../src/qlamz.cpp" line="273"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished">Amazon (*.amz)</translation>
     </message>
