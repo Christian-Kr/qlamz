@@ -531,7 +531,10 @@ void qlamz::cancelDownload()
     }
 
     m_bCancel = true;
-//     m_pTrackDownloader->abort();
+
+    for (int i = 0; i < m_trackDownloaderList.size(); i++) {
+        m_trackDownloaderList.at(i)->abort();
+    }
 
     m_state = qlamz::Default;
     updateUiState();
