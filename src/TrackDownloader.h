@@ -49,6 +49,12 @@ public:
      * Abort running download. */
     void abort();
 
+    /**
+     * Test if the actual downloader is running.
+     *
+     * @return True if the downloader is running, else false. */
+    bool isRunning();
+
 signals:
     /**
      * Emited when the whole downloading process is finish. */

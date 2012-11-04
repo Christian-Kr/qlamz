@@ -37,6 +37,15 @@ TrackDownloader::~TrackDownloader()
 {
 }
 
+bool TrackDownloader::isRunning()
+{
+    if (m_pNetworkReply == NULL) {
+        return false;
+    }
+
+    return m_pNetworkReply->isRunning();
+}
+
 void TrackDownloader::startDownload(Track *pTrack)
 {
     m_pTrack = pTrack;

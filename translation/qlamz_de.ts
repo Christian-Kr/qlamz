@@ -336,32 +336,32 @@
         <translation type="unfinished">qlamz</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="272"/>
+        <location filename="../src/qlamz.cpp" line="288"/>
         <source>Open Amazon File</source>
         <translation type="unfinished">Öffne Amazon Datei</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="273"/>
+        <location filename="../src/qlamz.cpp" line="289"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished">Amazon (*.amz)</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="515"/>
+        <location filename="../src/qlamz.cpp" line="531"/>
         <source>Warning</source>
         <translation type="unfinished">Warnung</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="515"/>
+        <location filename="../src/qlamz.cpp" line="531"/>
         <source>Cannot find a url matching the tld. Sorry!</source>
         <translation type="unfinished">Leider konnte keine url mit der tld gefunden werden!</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="526"/>
+        <location filename="../src/qlamz.cpp" line="542"/>
         <source>Cancel download</source>
         <translation type="unfinished">Download abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="526"/>
+        <location filename="../src/qlamz.cpp" line="542"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished">Bist du sicher, dass du den Vorgang abbrechen möchtest?</translation>
     </message>

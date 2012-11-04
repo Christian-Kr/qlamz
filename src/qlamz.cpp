@@ -140,8 +140,24 @@ void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
         pTrackDownloader->startDownload(pNextTrack);
         m_pUi->tableViewTracks->update();
     } else {
-        m_state = qlamz::Default;
-        updateUiState();
+
+        // Test if all downloader are not running.
+        bool bDownloaderRunning = false;
+        for (int i = 0; i < m_trackDownloaderList.size(); i++) {
+            TrackDownloader *pTrackDownloaderTmp = m_trackDownloaderList.at(i);
+
+            if (pTrackDownloader != pTrackDownloaderTmp &&
+                pTrackDownloaderTmp->isRunning()) {
+                bDownloaderRunning = true;
+                break;
+            }
+        }
+
+        // If no other downloader is running... reset the ui.
+        if (!bDownloaderRunning) {
+            m_state = qlamz::Default;
+            updateUiState();
+        }
 
         // Display the error dialog, if any errors occured.
         if (m_pErrors->size() > 0) {
