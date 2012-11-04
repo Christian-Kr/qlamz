@@ -204,6 +204,8 @@ void qlamz::loadSettings()
 
     m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
 
+    resize(m_pSettingsData->value("windowSize", QSize(400, 500)).toSize());
+
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
 
@@ -240,6 +242,7 @@ void qlamz::saveSettings()
 {
     m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
     m_pSettingsData->setValue("maxDownloads", m_iMaxDownloads);
+    m_pSettingsData->setValue("windowSize", size());
 }
 
 void qlamz::updateRecentFiles()
