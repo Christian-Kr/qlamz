@@ -34,7 +34,8 @@ TrackModel::~TrackModel()
 
 void TrackModel::appendTracks(const QList<Track *> &tracks)
 {
-    beginInsertRows(QModelIndex(), m_pTracks->size() - 1, m_pTracks->size() + tracks.size() - 2);
+    int iBegin = (m_pTracks->size() < 1) ? 0 : m_pTracks->size() - 1;
+    beginInsertRows(QModelIndex(), iBegin, iBegin + tracks.size() - 1);
 
     m_pTracks->append(tracks);
 
