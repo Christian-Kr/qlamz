@@ -512,7 +512,6 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                     } else if (xmlReader.name() == "trackNum") {
                         pTrack->setNumber(xmlReader.readElementText().toInt());
                     } else if (xmlReader.name() == "meta") {
-
                         // Read in all meta infos identified by the rel var.
                         QXmlStreamAttributes attributes = xmlReader.attributes();
                         if (attributes.hasAttribute("rel")) {
@@ -521,9 +520,10 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                             // Interpret rel
                             if (rel == "trackType") {
                                 qDebug() << xmlReader.readElementText();
+                            } else if (rel == "primaryGenre") {
+                                qDebug() << xmlReader.readElementText();
                             }
                         }
-
                     } else {
                         xmlReader.skipCurrentElement();
                     }
