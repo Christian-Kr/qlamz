@@ -22,6 +22,8 @@ Track::Track(QObject *pParent)
     m_pstrAlbum(new QString()),
     m_pstrTitle(new QString()),
     m_pstrDuration(new QString()),
+    m_pstrTrackType(new QString()),
+    m_pstrPrimaryGenre(new QString()),
     m_pstrImageLink(new QString()),
     m_pstrLocation(new QString()),
     m_pbDownload(new bool),
@@ -102,6 +104,26 @@ QString Track::title() const
 void Track::setTitle(const QString &strTitle)
 {
     *m_pstrTitle = strTitle;
+}
+
+QString Track::trackType() const
+{
+    return *m_pstrTrackType;
+}
+
+void Track::setTrackType(const QString &strTrackType)
+{
+    *m_pstrTrackType = strTrackType;
+}
+
+QString Track::primaryGenre() const
+{
+    return *m_pstrPrimaryGenre;
+}
+
+void Track::setPrimaryGenre(const QString &strPrimaryGenre)
+{
+    *m_pstrPrimaryGenre = strPrimaryGenre;
 }
 
 int Track::number() const

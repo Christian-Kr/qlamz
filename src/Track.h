@@ -118,12 +118,38 @@ public:
      * @param iNumber The number to set up. */
     void setNumber(const int iNumber);
 
+    /**
+     * Get the track type.
+     *
+     * @return The track type actually set up. */
+    QString trackType() const;
+
+    /**
+     * Set the track type.
+     *
+     * @param strTrackType The track type to set up. */
+    void setTrackType(const QString &strTrackType);
+
+    /**
+     * Get the primary genre.
+     *
+     * @return The primary genre actually set up. */
+    QString primaryGenre() const;
+
+    /**
+     * Set the primary genre.
+     *
+     * @param strPrimaryGenre The primary genre to set up. */
+    void setPrimaryGenre(const QString &strPrimaryGenre);
+
 
 private:
     QString *m_pstrCreator;
     QString *m_pstrAlbum;
     QString *m_pstrTitle;
     QString *m_pstrDuration;
+    QString *m_pstrTrackType;
+    QString *m_pstrPrimaryGenre;
 
     QString *m_pstrImageLink;
     QString *m_pstrLocation;
