@@ -303,29 +303,39 @@
 <context>
     <name>TrackModel</name>
     <message>
-        <location filename="../src/TrackModel.cpp" line="136"/>
+        <location filename="../src/TrackModel.cpp" line="140"/>
         <source>Download</source>
         <translation type="unfinished">Download</translation>
     </message>
     <message>
-        <location filename="../src/TrackModel.cpp" line="138"/>
+        <location filename="../src/TrackModel.cpp" line="142"/>
         <source>Number</source>
         <translation type="unfinished">Nummer</translation>
     </message>
     <message>
-        <location filename="../src/TrackModel.cpp" line="140"/>
+        <location filename="../src/TrackModel.cpp" line="144"/>
         <source>Title</source>
         <translation type="unfinished">Titel</translation>
     </message>
     <message>
-        <location filename="../src/TrackModel.cpp" line="142"/>
+        <location filename="../src/TrackModel.cpp" line="146"/>
         <source>Creator</source>
         <translation type="unfinished">Ersteller</translation>
     </message>
     <message>
-        <location filename="../src/TrackModel.cpp" line="144"/>
+        <location filename="../src/TrackModel.cpp" line="148"/>
         <source>Album</source>
         <translation type="unfinished">Album</translation>
+    </message>
+    <message>
+        <location filename="../src/TrackModel.cpp" line="150"/>
+        <source>Genre</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/TrackModel.cpp" line="152"/>
+        <source>Media Type</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
