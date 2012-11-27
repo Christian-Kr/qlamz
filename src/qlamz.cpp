@@ -519,9 +519,9 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
 
                             // Interpret rel
                             if (rel == "trackType") {
-                                qDebug() << xmlReader.readElementText();
+                                pTrack->setTrackType(xmlReader.readElementText());
                             } else if (rel == "primaryGenre") {
-                                qDebug() << xmlReader.readElementText();
+                                pTrack->setPrimaryGenre(xmlReader.readElementText());
                             }
                         }
                     } else {
