@@ -544,12 +544,22 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
 
 void qlamz::showErrorLog()
 {
-    m_pError->exec(*m_pErrors);
+    if (m_pErrors->size() > 0) {
+        m_pError->exec(*m_pErrors);
+    } else {
+        QMessageBox::information(this, tr("Information"), tr("No error messages to display"),
+            QMessageBox::Ok);
+    }
 }
 
 void qlamz::showXMLContent()
 {
-    m_pError->exec(*m_pstrXmlData);
+    if (m_pstrXmlData->size() > 0) {
+        m_pError->exec(*m_pstrXmlData);
+    } else {
+        QMessageBox::information(this, tr("Information"), tr("No xml content to display"),
+            QMessageBox::Ok);
+    }
 }
 
 void qlamz::openAmazonStore()
