@@ -44,6 +44,11 @@ int main(int argc, char *argv[])
     qlamz * pqlamz = new qlamz();
     pqlamz->setVisible(true);
 
+    // If we got a argument with the fiel name, we will try to open it.
+    if (argc > 1) {
+        pqlamz->openAmazonFile(argv[1]);
+    }
+
     // Go!
     return application.exec();
 }
