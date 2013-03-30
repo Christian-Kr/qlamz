@@ -148,6 +148,13 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Number of simultaneous downloads.</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QSpinBox" name="spinBoxMaxDownloads">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -163,13 +170,6 @@
                </property>
                <property name="minimum">
                 <number>1</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>Number of simultaneous downloads.</string>
                </property>
               </widget>
              </item>
