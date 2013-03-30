@@ -94,11 +94,14 @@ void TrackDownloader::networkReplyFinish()
         m_pNetworkReply = createNetworkReply(byLocation);
 
         // Build some connections.
-        connect(m_pNetworkReply, SIGNAL(error(QNetworkReply::NetworkError)), this,
-            SLOT(networkReplyError(QNetworkReply::NetworkError)));
-        connect(m_pNetworkReply, SIGNAL(finished()), this, SLOT(networkReplyFinish()));
-        connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)), this,
-            SLOT(networkReplyUpdate(qint64, qint64)));
+        connect(m_pNetworkReply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(networkReplyError(QNetworkReply::NetworkError)));
+
+        connect(m_pNetworkReply, SIGNAL(finished()),
+            this, SLOT(networkReplyFinish()));
+
+        connect(m_pNetworkReply, SIGNAL(downloadProgress(qint64, qint64)),
+            this, SLOT(networkReplyUpdate(qint64, qint64)));
     } else {
         emit finish(m_pTrack, m_pNetworkReply, this);
     }

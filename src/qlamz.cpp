@@ -418,32 +418,18 @@ void qlamz::updateUiState()
 
 QString qlamz::destinationPath(const Track * const pTrack) const
 {
-    // Load the information about the destination and build the destination path.
-    QString strDestination = m_pSettingsData->value("destination.dir", QDir::homePath()).toString();
-    QString strFormat;
+    // Load the information about the destination and build the destination
+    // path.
+    QString strDestination = m_pSettingsData->value("destination.dir",
+        QDir::homePath()).toString();
+    QString strDestinationFormat = m_pSettingsData->value("destination.format",
+        QString()).toString();
 
-    QString strCreator = pTrack->creator();
-    QString strAlbum = pTrack->album();
+    // Replace the creator and the album.
+    strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
+    strDestinationFormat.replace(QString("${album}"), pTrack->album());
 
-    if (strCreator.startsWith('.')) {
-        strCreator.insert(0, ' ');
-    }
-
-    if (strAlbum.startsWith('.')) {
-        strAlbum.insert(0, ' ');
-    }
-
-    switch (m_pSettingsData->value("destination.format", 0).toInt()) {
-    case 0:
-        break;
-    case 1:
-        strFormat = strCreator + "/" + strAlbum + "/";
-        break;
-    default:
-        break;
-    }
-
-    return strDestination + "/" + strFormat;
+    return strDestination + "/" + strDestinationFormat;
 }
 
 void qlamz::startDownload()

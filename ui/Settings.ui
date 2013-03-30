@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>450</width>
-    <height>294</height>
+    <height>315</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -45,6 +45,9 @@
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
              <item>
               <widget class="QLabel" name="label">
                <property name="minimumSize">
@@ -123,30 +126,17 @@
                </property>
               </widget>
              </item>
-             <item>
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBoxFormat">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>30</height>
-                </size>
-               </property>
-              </widget>
-             </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEditDestinationFormat">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QCheckBox" name="checkBoxNumberPrefix">
@@ -404,22 +394,6 @@
     <hint type="sourcelabel">
      <x>284</x>
      <y>277</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>224</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBoxFormat</sender>
-   <signal>activated(QString)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>updateButtons()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>398</x>
-     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>224</x>

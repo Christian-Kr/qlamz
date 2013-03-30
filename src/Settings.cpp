@@ -28,10 +28,6 @@ Settings::Settings(QWidget *pParent)
 {
     m_pUi->setupUi(this);
 
-    // Initial the combo box.
-    m_pUi->comboBoxFormat->addItem("No");
-    m_pUi->comboBoxFormat->addItem("interpret/album");
-
     // Initial amazon ending combo box.
     m_pUi->comboBoxAmazonUrl->addItem("de");
     m_pUi->comboBoxAmazonUrl->addItem("com");
@@ -79,9 +75,12 @@ void Settings::loadSettings()
         return;
     }
 
-    m_pUi->lineEditDestination->setText(m_pSettingsData->value("destination.dir",
-        QDir::homePath()).toString());
-    m_pUi->comboBoxFormat->setCurrentIndex(m_pSettingsData->value("destination.format", 0).toInt());
+    m_pUi->lineEditDestination->setText(m_pSettingsData
+        ->value("destination.dir", QDir::homePath()).toString());
+
+    m_pUi->lineEditDestinationFormat->setText(m_pSettingsData
+        ->value("destination.format", QString()).toString());
+
     int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
         QString()).toString());
     m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
@@ -101,9 +100,14 @@ void Settings::setSettingsData(QSettings *pSettingsData)
 
 void Settings::saveSettings()
 {
-    m_pSettingsData->setValue("destination.dir", m_pUi->lineEditDestination->text());
-    m_pSettingsData->setValue("destination.format", m_pUi->comboBoxFormat->currentIndex());
-    m_pSettingsData->setValue("amazon.tld", m_pUi->comboBoxAmazonUrl->currentText());
-    m_pSettingsData->setValue("destination.numberPrefix", m_pUi->checkBoxNumberPrefix->isChecked());
-    m_pSettingsData->setValue("maxDownloads", m_pUi->spinBoxMaxDownloads->value());
+    m_pSettingsData->setValue("destination.dir",
+        m_pUi->lineEditDestination->text());
+    m_pSettingsData->setValue("destination.format",
+        m_pUi->lineEditDestinationFormat->text());
+    m_pSettingsData->setValue("amazon.tld",
+        m_pUi->comboBoxAmazonUrl->currentText());
+    m_pSettingsData->setValue("destination.numberPrefix",
+        m_pUi->checkBoxNumberPrefix->isChecked());
+    m_pSettingsData->setValue("maxDownloads",
+        m_pUi->spinBoxMaxDownloads->value());
 }
