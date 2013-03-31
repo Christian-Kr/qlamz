@@ -1,11 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=qlamz
-Comment[de]=Multimedia Utility
-Comment=Chat with other people using Internet Relay Chat
-Exec=qlamz
-Icon=amazon
+Comment[de]=Herunterladen von Musik mit amz Dateien.
+Comment=Download music with amz files.
+Exec=/usr/bin/qlamz
+Icon=29119-amazon
 Terminal=false
 Type=Application
-Categories=Multimedia;
+Categories=AudioVideo;
 StartupNotify=true
