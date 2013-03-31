@@ -89,3 +89,6 @@ install(TARGETS qlamz RUNTIME DESTINATION bin)
 
 # install the default config file
 install(FILES config/qlamz.conf DESTINATION ${CONFIG_FILE_PATH})
+
+# install the amazon informations file
+install(FILES config/amazon DESTINATION share/qlamz)
