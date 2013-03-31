@@ -95,3 +95,9 @@ install(TARGETS qlamz RUNTIME DESTINATION bin)
 
 # install the amazon informations file
 install(FILES config/amazon DESTINATION share/qlamz)
+
+# install icons
+install(FILES icons/29119-amazon.png DESTINATION share/pixmaps)
+
+# install desktop file
+install(FILES qlamz.desktop DESTINATION share/applications)
