@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 set(CONFIG_FILE_PATH "$ENV{HOME}/.config/qlamz/")
 
+# project name
 project(qlamz)
 
 # all sources
@@ -76,6 +77,11 @@ qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
 
 # some other includes
 include_directories(${CMAKE_BINARY_DIR} ${LIBAMZ_INCLUDE_DIR})
+
+# set some config options
+set(INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+set(SHARE_PATH ${CMAKE_INSTALL_PREFIX}/share)
+configure_file(cmake/config.h.in config.h)
 
 # create the executables
 add_executable(qlamz ${SOURCES} ${MOC_SOURCES} ${RESSOURCE_SOURCES} ${UI_HEADERS}

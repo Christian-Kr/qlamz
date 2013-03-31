@@ -204,6 +204,7 @@ private:
 
     Settings *m_pSettings;
     QSettings *m_pSettingsData;
+    QSettings *m_pAmazonInfos;
 
     About *m_pAbout;
     Error *m_pError;

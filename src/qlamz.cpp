@@ -16,6 +16,7 @@
 #include "qlamz.h"
 #include "ui_qlamz.h"
 
+#include "config.h"
 #include "Settings.h"
 #include "About.h"
 #include "Error.h"
@@ -40,10 +41,15 @@
 #include <QNetworkRequest>
 #include <QNetworkCookieJar>
 #include <QDesktopServices>
-
 #include <QDebug>
 
 #include <amz.h>
+
+// Make a string from a value in preprocessor
+#define STR(x) _STR(x)
+#define _STR(x) #x
+
+#define AMAZON_FILE_PATH SHARE_PATH/qlamz/amazon
 
 
 qlamz::qlamz(QWidget *pParent)
@@ -59,6 +65,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pstrAmazonFilePath(new QString()),
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings()),
+    m_pAmazonInfos(new QSettings(STR(AMAZON_FILE_PATH), QSettings::IniFormat)),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
     m_pErrors(new QStringList()),
@@ -103,6 +110,7 @@ qlamz::~qlamz()
     delete m_pUi;
     delete m_pSettings;
     delete m_pSettingsData;
+    delete m_pAmazonInfos;
     delete m_pstrDestination;
     delete m_pError;
     delete m_pRecentFiles;
@@ -552,7 +560,7 @@ void qlamz::openAmazonStore()
 {
     QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
         QString()).toString();
-    QString strUrl = m_pSettingsData->value("amazon.store.url." + strAmazonTld,
+    QString strUrl = m_pAmazonInfos->value("amazon.store.url." + strAmazonTld,
         QString()).toString();
 
     if (strUrl.size() < 1) {

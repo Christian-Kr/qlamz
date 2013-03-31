@@ -1,0 +1,2 @@
+#cmakedefine INSTALL_PREFIX "@INSTALL_PREFIX@"
+#cmakedefine SHARE_PATH @SHARE_PATH@
