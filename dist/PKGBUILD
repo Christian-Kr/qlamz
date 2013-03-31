@@ -1,0 +1,49 @@
+# Contributor: Christian-Krippendorf <Coding@Christian-Krippendorf.de>
+pkgname=qlamz-git
+pkgver=20130331
+pkgrel=1
+pkgdesc="qlamz - Downloading music from Amazon with a .amz file."
+arch=("i686" "x86_64")
+url="http://cerebrosus.github.com/qlamz"
+license=('GPLv3')
+depends=('qt4' 'libamz-git')
+makedepends=('libamz-git' 'pkgconfig' 'git' 'automoc4' 'cmake')
+conflicts=()
+
+_gitroot="git://github.com/CerebrosuS/qlamz.git"
+_gitname="qlamz"
+
+source=()
+md5sums=()
+
+build() {
+    cd ${srcdir}
+    msg "Connecting to GIT server...."
+
+    if [ -d ${_gitname}/.git ] ; then
+        cd ${_gitname}
+
+        git pull origin
+        msg "The local files are updated."
+    else
+        git clone ${_gitroot} ${_gitname}
+    fi
+
+    msg "GIT checkout done or server timeout"
+    msg "Starting make..."
+
+    mkdir -p "$srcdir/build"
+    cd "$srcdir/build"
+
+    msg "Starting make..."
+
+    cmake ${srcdir}/${_gitname} -DCMAKE_INSTALL_PREFIX=/usr
+
+    make
+}
+
+package(){
+    cd "$srcdir/build"
+
+    make DESTDIR=${pkgdir} install
+}
