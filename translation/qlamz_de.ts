@@ -230,67 +230,67 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="../build/ui_Settings.h" line="288"/>
+        <location filename="../build/ui_Settings.h" line="289"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="289"/>
+        <location filename="../build/ui_Settings.h" line="290"/>
         <source>Destination</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="290"/>
+        <location filename="../build/ui_Settings.h" line="291"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="291"/>
+        <location filename="../build/ui_Settings.h" line="292"/>
         <source>Ending Format:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="292"/>
+        <location filename="../build/ui_Settings.h" line="293"/>
         <source>Add number at the beginning of a file name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="293"/>
+        <location filename="../build/ui_Settings.h" line="294"/>
         <source>Number of simultaneous downloads.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="294"/>
+        <location filename="../build/ui_Settings.h" line="295"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="295"/>
+        <location filename="../build/ui_Settings.h" line="296"/>
         <source>The amazon web page the actions should relate to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="296"/>
+        <location filename="../build/ui_Settings.h" line="297"/>
         <source>http://www.Amazon.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="297"/>
+        <location filename="../build/ui_Settings.h" line="298"/>
         <source>Amazon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="298"/>
+        <location filename="../build/ui_Settings.h" line="299"/>
         <source>&amp;Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="299"/>
+        <location filename="../build/ui_Settings.h" line="300"/>
         <source>&amp;Apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_Settings.h" line="300"/>
+        <location filename="../build/ui_Settings.h" line="301"/>
         <source>C&amp;ancel</source>
         <translation type="unfinished"></translation>
     </message>
