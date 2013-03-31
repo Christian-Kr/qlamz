@@ -4,47 +4,42 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../build/ui_About.h" line="178"/>
+        <location filename="../build/ui_About.h" line="179"/>
         <source>About qlamz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="179"/>
-        <source>Icon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../build/ui_About.h" line="180"/>
+        <location filename="../build/ui_About.h" line="181"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;qlamz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version 0.2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="181"/>
+        <location filename="../build/ui_About.h" line="182"/>
         <source>2012 (c) Christian Krippendorf</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="182"/>
+        <location filename="../build/ui_About.h" line="183"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;E-Mail:&lt;/span&gt; Coding@Christian-Krippendorf.de&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="183"/>
+        <location filename="../build/ui_About.h" line="184"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="184"/>
+        <location filename="../build/ui_About.h" line="185"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;qlamz is published under the terms of the GNU Public Licence Version 3.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;0&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;GNU Lesser General Public License Version 3&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="185"/>
+        <location filename="../build/ui_About.h" line="186"/>
         <source>Licence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_About.h" line="186"/>
+        <location filename="../build/ui_About.h" line="187"/>
         <source>&amp;Close</source>
         <translation type="unfinished"></translation>
     </message>
