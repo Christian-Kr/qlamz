@@ -392,26 +392,7 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
         return;
     }
 
-    // Create a temporary file from the xml output of the amazon file.
-    QString strXmlData = getXmlFromFile(*m_pstrAmazonFilePath);
-
-    *m_pstrXmlData = strXmlData;
-
-    QList<Track *> tracks = readTracksFromXml(strXmlData);
-
-    qDebug() << __func__ << ": Number of Tracks: " << tracks.size();
-
-    m_pTrackModel->removeTracks();
-    m_pTrackModel->appendTracks(tracks);
-    m_pUi->tableViewTracks->resizeColumnsToContents();
-
-    updateUiState();
-
-    m_pUi->tableViewTracks->hideColumn(1);
-    m_pUi->actionDeselectAll->setEnabled(true);
-    m_pUi->actionSelectAll->setEnabled(true);
-
-    // Add the opened file to the recent files menu.
+    // Set the recent files menu.
     while (m_pRecentFiles->indexOf(strAmazonFile) > -1) {
         m_pRecentFiles->takeAt(m_pRecentFiles->indexOf(strAmazonFile));
     }
@@ -424,6 +405,11 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
     }
 
     updateRecentFiles();
+
+    // Create a temporary file from the xml output of the amazon file.
+    QString strXmlData = getXmlFromFile(*m_pstrAmazonFilePath);
+
+    openAmazonFileFromString(strXmlData);
 }
 
 void qlamz::updateDownloadButton()
