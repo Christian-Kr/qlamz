@@ -64,6 +64,12 @@ public:
 
 public slots:
     /**
+     * A new amz file was downloaded.
+     *
+     * @param strContent The content of the amz file. */
+    void amzDownloaded(const QString &strContent);
+
+    /**
      * Show the error log window. */
     void showErrorLog();
 
@@ -111,6 +117,12 @@ public slots:
      * @param iCode The error code.
      * @param strMessage An error message. */
     void downloadError(int iCode, const QString &strMessage, Track *pTrack);
+
+    /**
+     * Open the amazon file from content.
+     *
+     * @param strContent The xml content. */
+    void openAmazonFileFromString(const QString &strContent);
 
     /**
      * Open the amazon file.

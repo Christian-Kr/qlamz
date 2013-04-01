@@ -100,6 +100,8 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->tableViewTracks->hideColumn(1);
 
     connect(m_pSettings, SIGNAL(settingsSaved()), this, SLOT(loadSettings()));
+    connect(m_pStore, SIGNAL(amzDownloaded(const QString&)), this,
+        SLOT(amzDownloaded(const QString&)));
 
     loadSettings();
 }
@@ -119,6 +121,12 @@ qlamz::~qlamz()
     delete m_pAbout;
     delete m_pAmz;
     delete m_pNetAccessManager;
+}
+
+void qlamz::amzDownloaded(const QString &strContent)
+{
+    openAmazonFileFromString(strContent);
+    m_pStore->setVisible(false);
 }
 
 void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
@@ -299,6 +307,25 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 {
     return QString::fromUtf8(reinterpret_cast<const char *>(m_pAmz->decryptAmzData(
         const_cast<char *>(amazonEncryptedContent.data()), amazonEncryptedContent.size())));
+}
+
+void qlamz::openAmazonFileFromString(const QString &strContent)
+{
+    *m_pstrXmlData = strContent;
+
+    QList<Track *> tracks = readTracksFromXml(strContent);
+
+    qDebug() << __func__ << ": Number of Tracks: " << tracks.size();
+
+    m_pTrackModel->removeTracks();
+    m_pTrackModel->appendTracks(tracks);
+    m_pUi->tableViewTracks->resizeColumnsToContents();
+
+    updateUiState();
+
+    m_pUi->tableViewTracks->hideColumn(1);
+    m_pUi->actionDeselectAll->setEnabled(true);
+    m_pUi->actionSelectAll->setEnabled(true);
 }
 
 void qlamz::openAmazonFile(const QString &strAmazonFileArg)
