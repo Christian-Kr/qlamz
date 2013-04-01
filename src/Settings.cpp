@@ -79,7 +79,7 @@ void Settings::loadSettings()
         ->value("destination.dir", QDir::homePath()).toString());
 
     m_pUi->lineEditDestinationFormat->setText(m_pSettingsData
-        ->value("destination.format", QString()).toString());
+        ->value("destination.format", "${creator}/${album}").toString());
 
     int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
         QString()).toString());
@@ -92,6 +92,9 @@ void Settings::loadSettings()
     m_pUi->checkBoxExternalBrowser->setChecked(
         m_pSettingsData->value("amazon.externalBrowser", false).toBool());
 
+    m_pUi->checkBoxEndingFormat->setChecked(
+        m_pSettingsData->value("destination.endingFormat", true).toBool());
+
     m_pUi->buttonApply->setEnabled(false);
 }
 
@@ -103,6 +106,8 @@ void Settings::setSettingsData(QSettings *pSettingsData)
 
 void Settings::saveSettings()
 {
+    m_pSettingsData->setValue("destination.endingFormat",
+        m_pUi->checkBoxEndingFormat->isChecked());
     m_pSettingsData->setValue("amazon.externalBrowser",
         m_pUi->checkBoxExternalBrowser->isChecked());
     m_pSettingsData->setValue("destination.dir",
