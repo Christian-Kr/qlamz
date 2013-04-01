@@ -365,6 +365,8 @@ void qlamz::openAmazonFileFromString(const QString &strContent)
     m_pTrackModel->appendTracks(tracks);
     m_pUi->tableViewTracks->resizeColumnsToContents();
 
+    // Set state to default.
+    m_state = qlamz::Default;
     updateUiState();
 
     m_pUi->tableViewTracks->hideColumn(1);

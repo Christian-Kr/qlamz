@@ -359,12 +359,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="383"/>
+        <location filename="../src/qlamz.cpp" line="385"/>
         <source>Open Amazon File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="383"/>
+        <location filename="../src/qlamz.cpp" line="385"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -395,12 +395,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="461"/>
+        <location filename="../src/qlamz.cpp" line="463"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="462"/>
+        <location filename="../src/qlamz.cpp" line="464"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>
