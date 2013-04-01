@@ -599,9 +599,12 @@ void qlamz::openAmazonStore()
         return;
     }
 
-    // QDesktopServices::openUrl(strUrl);
-    m_pStore->setVisible(true);
-    m_pStore->load(QUrl("https://www.amazon.de/ap/signin?_encoding=UTF8&accountStatusPolicy=P1&openid.assoc_handle=deflex&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.ns.pape=http://specs.openid.net/extensions/pape/1.0&openid.pape.max_auth_age=0&openid.return_to=https://www.amazon.de/gp/dmusic/mp3/player?ie=UTF8&*Version*=1&*entries*=0"));
+    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
+        QDesktopServices::openUrl(strUrl);
+    } else {
+        m_pStore->setVisible(true);
+        m_pStore->load(QUrl(strUrl));
+    }
 }
 
 void qlamz::cancelDownload()

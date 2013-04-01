@@ -86,8 +86,11 @@ void Settings::loadSettings()
     m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
     m_pUi->spinBoxMaxDownloads->setValue(m_pSettingsData->value("maxDownloads", 1).toInt());
 
-    m_pUi->checkBoxNumberPrefix->setChecked(m_pSettingsData->value("destination.numberPrefix", true)
-        .toBool());
+    m_pUi->checkBoxNumberPrefix->setChecked(
+        m_pSettingsData->value("destination.numberPrefix", true).toBool());
+
+    m_pUi->checkBoxExternalBrowser->setChecked(
+        m_pSettingsData->value("amazon.externalBrowser", false).toBool());
 
     m_pUi->buttonApply->setEnabled(false);
 }
@@ -100,6 +103,8 @@ void Settings::setSettingsData(QSettings *pSettingsData)
 
 void Settings::saveSettings()
 {
+    m_pSettingsData->setValue("amazon.externalBrowser",
+        m_pUi->checkBoxExternalBrowser->isChecked());
     m_pSettingsData->setValue("destination.dir",
         m_pUi->lineEditDestination->text());
     m_pSettingsData->setValue("destination.format",
