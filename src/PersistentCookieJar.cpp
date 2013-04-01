@@ -46,7 +46,7 @@ void PersistentCookieJar::save()
             data.append("\n");
         }
     }
-    QSettings settings("/home/christian/qlamz_cookies", QSettings::IniFormat);
+    QSettings settings("qlamz", "amazon_cookie");
     settings.setValue("Cookies", data);
     settings.sync();
 }
@@ -55,7 +55,7 @@ void PersistentCookieJar::load()
 {
     qDebug() << "Laden";
 
-    QSettings settings("/home/christian/qlamz_cookies", QSettings::IniFormat);
+    QSettings settings("qlamz", "amazon_cookie");
     QByteArray data = settings.value("Cookies").toByteArray();
     setAllCookies(QNetworkCookie::parseCookies(data));
 }
