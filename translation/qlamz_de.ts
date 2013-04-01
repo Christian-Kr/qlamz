@@ -349,12 +349,12 @@
 <context>
     <name>qlamz</name>
     <message>
-        <location filename="../src/qlamz.cpp" line="92"/>
+        <location filename="../src/qlamz.cpp" line="93"/>
         <source>qlamz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="227"/>
+        <location filename="../src/qlamz.cpp" line="228"/>
         <source>qlamz - Total: %1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -371,6 +371,7 @@
     <message>
         <location filename="../src/qlamz.cpp" line="319"/>
         <location filename="../src/qlamz.cpp" line="329"/>
+        <location filename="../src/qlamz.cpp" line="535"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -402,6 +403,11 @@
     <message>
         <location filename="../src/qlamz.cpp" line="464"/>
         <source>Are you sure canceling the download progress?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="536"/>
+        <source>Still downloading content. Please wait until it has finished or abort the process.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

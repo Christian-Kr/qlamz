@@ -28,6 +28,7 @@
 #include "CheckboxDelegate.h"
 #include "ProgressDelegate.h"
 
+#include <QCloseEvent>
 #include <QList>
 #include <QStringList>
 #include <QMessageBox>
@@ -302,7 +303,6 @@ void qlamz::saveSettings()
 void qlamz::recentFileTriggered()
 {
     QAction *action = (QAction *) sender();
-    qDebug() << action->text();
     openAmazonFile(action->text());
 }
 
@@ -530,8 +530,20 @@ void qlamz::cookieAmazonDe()
 
 void qlamz::closeEvent(QCloseEvent *pEvent)
 {
+    // Don't quit until we are downloading.
+    if (m_state == qlamz::Download) {
+        QMessageBox::information(this, tr("Information"),
+            tr("Still downloading content. Please wait until it has "
+            "finished or abort the process."), QMessageBox::Ok);
+
+        pEvent->ignore();
+        return;
+    }
+
+    // Save settings for closing.
     saveSettings();
 
+    // Close the window.
     QMainWindow::closeEvent(pEvent);
 }
 
