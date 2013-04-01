@@ -20,6 +20,7 @@ set(SOURCES
     src/TrackDownloader.cpp
     src/Store.cpp
     src/CustomWebPage.cpp
+    src/PersistentCookieJar.cpp
 )
 
 # moc header files
@@ -35,6 +36,7 @@ set(MOC_HEADERS
     src/TrackDownloader.h
     src/Store.h
     src/CustomWebPage.h
+    src/PersistentCookieJar.h
 )
 
 # ui files

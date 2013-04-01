@@ -21,6 +21,7 @@
 
 
 class CustomWebPage;
+class PersistentCookieJar;
 class QUrl;
 class QNetworkAccessManager;
 namespace Ui {
@@ -88,6 +89,7 @@ private:
 
     QNetworkReply *m_pNetReply;
     CustomWebPage *m_pWebPage;
+    PersistentCookieJar *m_pCookieJar;
 
     /**
      * Build connections to the given netReply.

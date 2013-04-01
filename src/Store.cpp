@@ -17,6 +17,7 @@
 #include "ui_Store.h"
 
 #include "CustomWebPage.h"
+#include "PersistentCookieJar.h"
 
 #include <QUrl>
 #include <QNetworkRequest>
@@ -31,7 +32,8 @@ Store::Store(QWidget *pParent)
     m_bDownloadMode(false),
     m_pUi(new Ui::StoreWidget()),
     m_pNetReply(NULL),
-    m_pWebPage(new CustomWebPage())
+    m_pWebPage(new CustomWebPage()),
+    m_pCookieJar(new PersistentCookieJar())
 {
     m_pUi->setupUi(this);
 
@@ -39,6 +41,9 @@ Store::Store(QWidget *pParent)
 
     m_pWebPage->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
     m_pWebPage->setForwardUnsupportedContent(true);
+
+    m_pCookieJar->load();
+    m_pWebPage->networkAccessManager()->setCookieJar(m_pCookieJar);
 
     // Build some connections.
     connect(m_pWebPage, SIGNAL(formSubmitted(const QNetworkRequest&)),
@@ -54,6 +59,7 @@ Store::~Store()
 {
     delete m_pUi;
     delete m_pWebPage;
+    delete m_pCookieJar;
 }
 
 void Store::load(const QUrl &url)
@@ -91,6 +97,7 @@ void Store::buildNetReplyConnections(const QNetworkReply *netReply)
 void Store::loadFinished(bool bOk)
 {
     qDebug() << "Load finished";
+    m_pCookieJar->save();
 }
 
 void Store::netReplyError(QNetworkReply::NetworkError netError)
