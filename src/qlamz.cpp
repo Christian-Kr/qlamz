@@ -2,16 +2,17 @@
  *
  * This file is part of qlamz.
  *
- * qlamz is free software: you can redistribute it and/or modify it under the terms of the GNU
- * General Public License as published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * qlamz is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  *
- * qlamz is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
- * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- * Public License for more details.
+ * qlamz is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along with qlamz.  If not, see
- * <http://www.gnu.org/licenses/>. */
+ * You should have received a copy of the GNU General Public License along with
+ * qlamz.  If not, see <http://www.gnu.org/licenses/>. */
 
 #include "qlamz.h"
 #include "ui_qlamz.h"
@@ -81,28 +82,36 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->setupUi(this);
 
     // Init network access manager
-    m_pNetAccessManager->setCookieJar(new QNetworkCookieJar(m_pNetAccessManager));
+    m_pNetAccessManager->
+        setCookieJar(new QNetworkCookieJar(m_pNetAccessManager));
 
-    // Set some window configs.
+    // Set some window configs
     setWindowTitle(tr("qlamz"));
 
-    // Set the settings data object.
+    // Set the settings data object
     m_pSettings->setSettingsData(m_pSettingsData);
 
-    // Set the model.
-    m_pUi->tableViewTracks->verticalHeader()->setResizeMode(QHeaderView::Fixed);
-    m_pUi->tableViewTracks->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-    m_pUi->tableViewTracks->verticalHeader()->setDefaultSectionSize(25);
+    // Set the model
+    m_pUi->tableViewTracks->verticalHeader()
+        ->setResizeMode(QHeaderView::Fixed);
+    m_pUi->tableViewTracks->horizontalHeader()
+        ->setResizeMode(QHeaderView::Fixed);
+    m_pUi->tableViewTracks->verticalHeader()
+        ->setDefaultSectionSize(25);
+
     m_pUi->tableViewTracks->setItemDelegateForColumn(0, new CheckboxDelegate());
     m_pUi->tableViewTracks->setItemDelegateForColumn(1, new ProgressDelegate());
     m_pUi->tableViewTracks->setModel(m_pTrackModel);
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
-    connect(m_pSettings, SIGNAL(settingsSaved()), this, SLOT(loadSettings()));
+    // Build some connections
+    connect(m_pSettings, SIGNAL(settingsSaved()), this,
+        SLOT(loadSettings()));
     connect(m_pStore, SIGNAL(amzDownloaded(const QString&)), this,
         SLOT(amzDownloaded(const QString&)));
 
+    // Load all settings
     loadSettings();
 }
 
@@ -193,7 +202,9 @@ void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
 void qlamz::downloadUpdate(Track *pTrack, qint64 iRecieved, qint64 iTotal,
     QNetworkReply *pNetworkReply)
 {
-    pTrack->setDownloadPercentage((short) ((double) iRecieved / (double) iTotal * 100));
+    pTrack->setDownloadPercentage((short) ((double) iRecieved /
+        (double) iTotal * 100));
+
     m_pUi->tableViewTracks->reset();
 
     short sTotalPercentage = (short) ((double) m_iActualDownloadCount /
@@ -204,8 +215,11 @@ void qlamz::downloadUpdate(Track *pTrack, qint64 iRecieved, qint64 iTotal,
 
 void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
 {
-    m_pErrors->append("Error downloading pTrack: " + pTrack->title() + "\n" + strMessage + "\n");
-    qDebug() << "Error downloading pTrack: " + pTrack->title() + "\n" + strMessage + "\n";
+    m_pErrors->append("Error downloading pTrack: " + pTrack->title() +
+        "\n" + strMessage + "\n");
+
+    qDebug() << "Error downloading pTrack: " + pTrack->title() + "\n" +
+        strMessage + "\n";
 }
 
 void qlamz::about()
@@ -216,7 +230,8 @@ void qlamz::about()
 void qlamz::cookieAmazonDe()
 {
     // Load the cookie link from the settings.
-    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de", QString()).toString());
+    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de",
+        QString()).toString());
 }
 
 void qlamz::closeEvent(QCloseEvent *pEvent)
@@ -228,31 +243,47 @@ void qlamz::closeEvent(QCloseEvent *pEvent)
 
 void qlamz::loadSettings()
 {
-    *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList()).toStringList();
+    // Load the recent files from the settings.
+    *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList())
+        .toStringList();
+
+    // Load the maximum simulatanouse downloads.
     m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
+
+    // Load and set the window size and position.
     resize(m_pSettingsData->value("windowSize", QSize(400, 500)).toSize());
-    *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath()).toString();
+
+    // Load the standard path for open filedialogs.
+    *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath())
+        .toString();
 
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
 
     if (iMaxDownloadDiff != 0) {
         if (iMaxDownloadDiff > 0) {
-            // Create new TrackDownlader object, until we got the maximum number.
+            // Create new TrackDownlader object, until we got the maximum
+            // number.
             while (iMaxDownloadDiff-- > 0) {
-                TrackDownloader *pTrackDownloader = new TrackDownloader(m_pNetAccessManager, this);
+                TrackDownloader *pTrackDownloader = new TrackDownloader(
+                    m_pNetAccessManager, this);
+
                 m_trackDownloaderList.append(pTrackDownloader);
 
                 qDebug() << "Create TrackDownloader";
 
                 // Build some connections.
-                connect(pTrackDownloader,
-                    SIGNAL(finish(Track *, QNetworkReply *, TrackDownloader *)), this,
-                    SLOT(downloadFinish(Track *, QNetworkReply *, TrackDownloader *)));
-                connect(pTrackDownloader, SIGNAL(update(Track *, qint64, qint64, QNetworkReply *)), this,
-                    SLOT(downloadUpdate(Track *, qint64, qint64, QNetworkReply *)));
-                connect(pTrackDownloader, SIGNAL(error(int, const QString &, Track *)), this,
-                    SLOT(downloadError(int, const QString &, Track *)));
+                connect(pTrackDownloader, SIGNAL(finish(Track*, QNetworkReply*,
+                    TrackDownloader*)), this, SLOT(downloadFinish(Track*,
+                    QNetworkReply*, TrackDownloader*)));
+
+                connect(pTrackDownloader, SIGNAL(update(Track*, qint64, qint64,
+                    QNetworkReply*)), this, SLOT(downloadUpdate(Track*, qint64,
+                    qint64, QNetworkReply *)));
+
+                connect(pTrackDownloader, SIGNAL(error(int, const QString&,
+                    Track*)), this, SLOT(downloadError(int, const QString&,
+                    Track*)));
             }
         } else {
             // Delete TrackDownloader objects, until we got the maximum number.
@@ -279,7 +310,9 @@ void qlamz::updateRecentFiles()
     m_pUi->menuRecentFiles->clear();
 
     for (int i = 0; i < m_pRecentFiles->size(); i++) {
-        QAction *action = new QAction(m_pRecentFiles->at(i), m_pUi->menuRecentFiles);
+        QAction *action = new QAction(m_pRecentFiles->at(i),
+            m_pUi->menuRecentFiles);
+
         m_pUi->menuRecentFiles->addAction(action);
 
         connect(action, SIGNAL(triggered()), this, SLOT(recentFileTriggered()));
@@ -305,8 +338,9 @@ void qlamz::aboutQt()
 
 QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 {
-    return QString::fromUtf8(reinterpret_cast<const char *>(m_pAmz->decryptAmzData(
-        const_cast<char *>(amazonEncryptedContent.data()), amazonEncryptedContent.size())));
+    return QString::fromUtf8(reinterpret_cast<const char *>(
+        m_pAmz->decryptAmzData(const_cast<char *>(
+        amazonEncryptedContent.data()), amazonEncryptedContent.size())));
 }
 
 void qlamz::openAmazonFileFromString(const QString &strContent)
@@ -335,8 +369,8 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
     if (strAmazonFileArg.size() > 0) {
         strAmazonFile = strAmazonFileArg;
     } else {
-        strAmazonFile = QFileDialog::getOpenFileName(this, tr("Open Amazon File"), *m_pstrOpenPath,
-            tr("Amazon (*.amz)"));
+        strAmazonFile = QFileDialog::getOpenFileName(this,
+            tr("Open Amazon File"), *m_pstrOpenPath, tr("Amazon (*.amz)"));
     }
 
     if (strAmazonFile.size() > 0) {
@@ -385,7 +419,8 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
 void qlamz::selectAll()
 {
     // Close any opened editor.
-    m_pUi->tableViewTracks->closePersistentEditor(m_pUi->tableViewTracks->currentIndex());
+    m_pUi->tableViewTracks->closePersistentEditor(
+        m_pUi->tableViewTracks->currentIndex());
 
     QList<Track *> tracks = m_pTrackModel->tracks();
 
@@ -399,7 +434,8 @@ void qlamz::selectAll()
 void qlamz::deselectAll()
 {
     // Close any opened editor.
-    m_pUi->tableViewTracks->closePersistentEditor(m_pUi->tableViewTracks->currentIndex());
+    m_pUi->tableViewTracks->closePersistentEditor(
+        m_pUi->tableViewTracks->currentIndex());
 
     QList<Track *> tracks = m_pTrackModel->tracks();
 
@@ -536,15 +572,20 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                         pTrack->setNumber(xmlReader.readElementText().toInt());
                     } else if (xmlReader.name() == "meta") {
                         // Read in all meta infos identified by the rel var.
-                        QXmlStreamAttributes attributes = xmlReader.attributes();
+                        QXmlStreamAttributes attributes =
+                            xmlReader.attributes();
+
                         if (attributes.hasAttribute("rel")) {
-                            QString rel = attributes.value("rel").toString().split("/").last();
+                            QString rel = attributes.value("rel").toString()
+                                .split("/").last();
 
                             // Interpret rel
                             if (rel == "trackType") {
-                                pTrack->setTrackType(xmlReader.readElementText());
+                                pTrack->setTrackType(xmlReader
+                                    .readElementText());
                             } else if (rel == "primaryGenre") {
-                                pTrack->setPrimaryGenre(xmlReader.readElementText());
+                                pTrack->setPrimaryGenre(xmlReader
+                                    .readElementText());
                             }
                         }
                     } else {
@@ -570,8 +611,8 @@ void qlamz::showErrorLog()
     if (m_pErrors->size() > 0) {
         m_pError->exec(*m_pErrors);
     } else {
-        QMessageBox::information(this, tr("Information"), tr("No error messages to display"),
-            QMessageBox::Ok);
+        QMessageBox::information(this, tr("Information"),
+            tr("No error messages to display"), QMessageBox::Ok);
     }
 }
 
@@ -580,8 +621,8 @@ void qlamz::showXMLContent()
     if (m_pstrXmlData->size() > 0) {
         m_pError->exec(*m_pstrXmlData);
     } else {
-        QMessageBox::information(this, tr("Information"), tr("No xml content to display"),
-            QMessageBox::Ok);
+        QMessageBox::information(this, tr("Information"),
+            tr("No xml content to display"), QMessageBox::Ok);
     }
 }
 
@@ -593,8 +634,8 @@ void qlamz::openAmazonStore()
         QString()).toString();
 
     if (strUrl.size() < 1) {
-        QMessageBox::warning(this, tr("Warning"), tr("Cannot find a url matching the tld. Sorry!"),
-            QMessageBox::Ok);
+        QMessageBox::warning(this, tr("Warning"),
+            tr("Cannot find a url matching the tld. Sorry!"), QMessageBox::Ok);
 
         return;
     }
@@ -609,8 +650,9 @@ void qlamz::openAmazonStore()
 
 void qlamz::cancelDownload()
 {
-    int iReturn = QMessageBox::question(this, tr("Cancel download"), tr("Are you sure canceling the"
-        " download progress?"), QMessageBox::Yes | QMessageBox::No);
+    int iReturn = QMessageBox::question(this, tr("Cancel download"),
+        tr("Are you sure canceling the download progress?"),
+        QMessageBox::Yes | QMessageBox::No);
 
     if (iReturn != QMessageBox::Yes) {
         return;
