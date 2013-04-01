@@ -17,6 +17,7 @@
 #include "ui_qlamz.h"
 
 #include "config.h"
+#include "Store.h"
 #include "Settings.h"
 #include "About.h"
 #include "Error.h"
@@ -66,6 +67,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings()),
     m_pAmazonInfos(new QSettings(STR(AMAZON_FILE_PATH), QSettings::IniFormat)),
+    m_pStore(new Store()),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
     m_pErrors(new QStringList()),
@@ -570,7 +572,9 @@ void qlamz::openAmazonStore()
         return;
     }
 
-    QDesktopServices::openUrl(strUrl);
+    // QDesktopServices::openUrl(strUrl);
+    m_pStore->setVisible(true);
+    m_pStore->load(QUrl("https://www.amazon.de/ap/signin?_encoding=UTF8&accountStatusPolicy=P1&openid.assoc_handle=deflex&openid.claimed_id=http://specs.openid.net/auth/2.0/identifier_select&openid.identity=http://specs.openid.net/auth/2.0/identifier_select&openid.mode=checkid_setup&openid.ns=http://specs.openid.net/auth/2.0&openid.ns.pape=http://specs.openid.net/extensions/pape/1.0&openid.pape.max_auth_age=0&openid.return_to=https://www.amazon.de/gp/dmusic/mp3/player?ie=UTF8&*Version*=1&*entries*=0"));
 }
 
 void qlamz::cancelDownload()

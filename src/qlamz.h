@@ -28,6 +28,7 @@ namespace amz {
     class amz;
 }
 
+class Store;
 class QStringList;
 class Settings;
 class About;
@@ -205,6 +206,8 @@ private:
     Settings *m_pSettings;
     QSettings *m_pSettingsData;
     QSettings *m_pAmazonInfos;
+
+    Store *m_pStore;
 
     About *m_pAbout;
     Error *m_pError;

@@ -18,6 +18,8 @@ set(SOURCES
     src/CheckboxDelegate.cpp
     src/ProgressDelegate.cpp
     src/TrackDownloader.cpp
+    src/Store.cpp
+    src/CustomWebPage.cpp
 )
 
 # moc header files
@@ -31,6 +33,8 @@ set(MOC_HEADERS
     src/CheckboxDelegate.h
     src/ProgressDelegate.h
     src/TrackDownloader.h
+    src/Store.h
+    src/CustomWebPage.h
 )
 
 # ui files
@@ -39,6 +43,7 @@ set(UIS
     ui/Settings.ui
     ui/About.ui
     ui/Error.ui
+    ui/Store.ui
 )
 
 # ressource files
@@ -58,6 +63,7 @@ add_definitions(-Wall)
 # apply some qt moduls as only QtCore and QtGui are enabled by default
 set(QT_USE_QTXML TRUE)
 set(QT_USE_QTNETWORK TRUE)
+set(QT_USE_QTWEBKIT TRUE)
 
 # find the qt package
 find_package(Qt4 REQUIRED)
