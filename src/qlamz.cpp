@@ -54,6 +54,9 @@
 #define AMAZON_FILE_PATH SHARE_PATH/qlamz/amazon
 
 
+////////////////////////////////////////////////////////////////////////////////
+// public
+
 qlamz::qlamz(QWidget *pParent)
     : QMainWindow(pParent),
     m_state(qlamz::Default),
@@ -82,8 +85,8 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->setupUi(this);
 
     // Init network access manager
-    m_pNetAccessManager->
-        setCookieJar(new QNetworkCookieJar(m_pNetAccessManager));
+    m_pNetAccessManager->setCookieJar(new QNetworkCookieJar(
+        m_pNetAccessManager));
 
     // Set some window configs
     setWindowTitle(tr("qlamz"));
@@ -108,6 +111,7 @@ qlamz::qlamz(QWidget *pParent)
     // Build some connections
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
+
     connect(m_pStore, SIGNAL(amzDownloaded(const QString&)), this,
         SLOT(amzDownloaded(const QString&)));
 
@@ -131,6 +135,16 @@ qlamz::~qlamz()
     delete m_pAmz;
     delete m_pNetAccessManager;
 }
+
+QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
+{
+    return QString::fromUtf8(reinterpret_cast<const char *>(
+        m_pAmz->decryptAmzData(const_cast<char *>(
+        amazonEncryptedContent.data()), amazonEncryptedContent.size())));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
 
 void qlamz::amzDownloaded(const QString &strContent)
 {
@@ -222,25 +236,6 @@ void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
         strMessage + "\n";
 }
 
-void qlamz::about()
-{
-    m_pAbout->exec();
-}
-
-void qlamz::cookieAmazonDe()
-{
-    // Load the cookie link from the settings.
-    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de",
-        QString()).toString());
-}
-
-void qlamz::closeEvent(QCloseEvent *pEvent)
-{
-    saveSettings();
-
-    QMainWindow::closeEvent(pEvent);
-}
-
 void qlamz::loadSettings()
 {
     // Load the recent files from the settings.
@@ -304,21 +299,6 @@ void qlamz::saveSettings()
     m_pSettingsData->setValue("openPath", *m_pstrOpenPath);
 }
 
-void qlamz::updateRecentFiles()
-{
-    // Delete all old actions.
-    m_pUi->menuRecentFiles->clear();
-
-    for (int i = 0; i < m_pRecentFiles->size(); i++) {
-        QAction *action = new QAction(m_pRecentFiles->at(i),
-            m_pUi->menuRecentFiles);
-
-        m_pUi->menuRecentFiles->addAction(action);
-
-        connect(action, SIGNAL(triggered()), this, SLOT(recentFileTriggered()));
-    }
-}
-
 void qlamz::recentFileTriggered()
 {
     QAction *action = (QAction *) sender();
@@ -326,21 +306,51 @@ void qlamz::recentFileTriggered()
     openAmazonFile(action->text());
 }
 
-void qlamz::settings()
-{
-    m_pSettings->exec();
-}
-
 void qlamz::aboutQt()
 {
     QApplication::aboutQt();
 }
 
-QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
+void qlamz::showErrorLog()
 {
-    return QString::fromUtf8(reinterpret_cast<const char *>(
-        m_pAmz->decryptAmzData(const_cast<char *>(
-        amazonEncryptedContent.data()), amazonEncryptedContent.size())));
+    if (m_pErrors->size() > 0) {
+        m_pError->exec(*m_pErrors);
+    } else {
+        QMessageBox::information(this, tr("Information"),
+            tr("No error messages to display"), QMessageBox::Ok);
+    }
+}
+
+void qlamz::showXMLContent()
+{
+    if (m_pstrXmlData->size() > 0) {
+        m_pError->exec(*m_pstrXmlData);
+    } else {
+        QMessageBox::information(this, tr("Information"),
+            tr("No xml content to display"), QMessageBox::Ok);
+    }
+}
+
+void qlamz::openAmazonStore()
+{
+    QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
+        QString()).toString();
+    QString strUrl = m_pAmazonInfos->value("amazon.store.url." + strAmazonTld,
+        QString()).toString();
+
+    if (strUrl.size() < 1) {
+        QMessageBox::warning(this, tr("Warning"),
+            tr("Cannot find a url matching the tld. Sorry!"), QMessageBox::Ok);
+
+        return;
+    }
+
+    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
+        QDesktopServices::openUrl(strUrl);
+    } else {
+        m_pStore->setVisible(true);
+        m_pStore->load(QUrl(strUrl));
+    }
 }
 
 void qlamz::openAmazonFileFromString(const QString &strContent)
@@ -416,36 +426,6 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
     updateRecentFiles();
 }
 
-void qlamz::selectAll()
-{
-    // Close any opened editor.
-    m_pUi->tableViewTracks->closePersistentEditor(
-        m_pUi->tableViewTracks->currentIndex());
-
-    QList<Track *> tracks = m_pTrackModel->tracks();
-
-    for (int i = 0; i < tracks.size(); i++) {
-        tracks.at(i)->setDownload(true);
-    }
-
-    m_pUi->tableViewTracks->reset();
-}
-
-void qlamz::deselectAll()
-{
-    // Close any opened editor.
-    m_pUi->tableViewTracks->closePersistentEditor(
-        m_pUi->tableViewTracks->currentIndex());
-
-    QList<Track *> tracks = m_pTrackModel->tracks();
-
-    for (int i = 0; i < tracks.size(); i++) {
-        tracks.at(i)->setDownload(false);
-    }
-
-    m_pUi->tableViewTracks->reset();
-}
-
 void qlamz::updateDownloadButton()
 {
     if (m_pstrAmazonFilePath->length() > 0) {
@@ -453,56 +433,6 @@ void qlamz::updateDownloadButton()
     } else {
         m_pUi->buttonDownload->setEnabled(false);
     }
-}
-
-void qlamz::updateUiState()
-{
-    switch (m_state) {
-    case qlamz::Default:
-        m_pUi->buttonQuit->setEnabled(true);
-        m_pUi->buttonCancel->setEnabled(false);
-
-        // Sepcial handling for the download button.
-        updateDownloadButton();
-
-        m_pUi->tableViewTracks->setEnabled(true);
-
-        m_pUi->actionDeselectAll->setEnabled(true);
-        m_pUi->actionSelectAll->setEnabled(true);
-        m_pUi->actionSettings->setEnabled(true);
-
-        break;
-    case qlamz::Download:
-        m_pUi->buttonQuit->setEnabled(false);
-        m_pUi->buttonCancel->setEnabled(true);
-        m_pUi->buttonDownload->setEnabled(false);
-
-        m_pUi->tableViewTracks->setEnabled(false);
-
-        m_pUi->actionDeselectAll->setEnabled(false);
-        m_pUi->actionSelectAll->setEnabled(false);
-        m_pUi->actionSettings->setEnabled(false);
-
-        break;
-    default:
-        qDebug() << __func__ << ": Unknown state";
-    }
-}
-
-QString qlamz::destinationPath(const Track * const pTrack) const
-{
-    // Load the information about the destination and build the destination
-    // path.
-    QString strDestination = m_pSettingsData->value("destination.dir",
-        QDir::homePath()).toString();
-    QString strDestinationFormat = m_pSettingsData->value("destination.format",
-        QString()).toString();
-
-    // Replace the creator and the album.
-    strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
-    strDestinationFormat.replace(QString("${album}"), pTrack->album());
-
-    return strDestination + "/" + strDestinationFormat;
 }
 
 void qlamz::startDownload()
@@ -538,6 +468,135 @@ void qlamz::startDownload()
     }
 
     m_pErrors->clear();
+}
+
+void qlamz::cancelDownload()
+{
+    int iReturn = QMessageBox::question(this, tr("Cancel download"),
+        tr("Are you sure canceling the download progress?"),
+        QMessageBox::Yes | QMessageBox::No);
+
+    if (iReturn != QMessageBox::Yes) {
+        return;
+    }
+
+    m_bCancel = true;
+
+    for (int i = 0; i < m_trackDownloaderList.size(); i++) {
+        m_trackDownloaderList.at(i)->abort();
+    }
+
+    m_state = qlamz::Default;
+    updateUiState();
+}
+
+void qlamz::settings()
+{
+    m_pSettings->exec();
+}
+
+void qlamz::about()
+{
+    m_pAbout->exec();
+}
+
+void qlamz::selectAll()
+{
+    // Close any opened editor.
+    m_pUi->tableViewTracks->closePersistentEditor(
+        m_pUi->tableViewTracks->currentIndex());
+
+    QList<Track *> tracks = m_pTrackModel->tracks();
+
+    for (int i = 0; i < tracks.size(); i++) {
+        tracks.at(i)->setDownload(true);
+    }
+
+    m_pUi->tableViewTracks->reset();
+}
+
+void qlamz::deselectAll()
+{
+    // Close any opened editor.
+    m_pUi->tableViewTracks->closePersistentEditor(
+        m_pUi->tableViewTracks->currentIndex());
+
+    QList<Track *> tracks = m_pTrackModel->tracks();
+
+    for (int i = 0; i < tracks.size(); i++) {
+        tracks.at(i)->setDownload(false);
+    }
+
+    m_pUi->tableViewTracks->reset();
+}
+
+void qlamz::cookieAmazonDe()
+{
+    // Load the cookie link from the settings.
+    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de",
+        QString()).toString());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected
+
+void qlamz::closeEvent(QCloseEvent *pEvent)
+{
+    saveSettings();
+
+    QMainWindow::closeEvent(pEvent);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private
+
+void qlamz::updateUiState()
+{
+    switch (m_state) {
+    case qlamz::Default:
+        m_pUi->buttonQuit->setEnabled(true);
+        m_pUi->buttonCancel->setEnabled(false);
+
+        // Sepcial handling for the download button.
+        updateDownloadButton();
+
+        m_pUi->tableViewTracks->setEnabled(true);
+
+        m_pUi->actionDeselectAll->setEnabled(true);
+        m_pUi->actionSelectAll->setEnabled(true);
+        m_pUi->actionSettings->setEnabled(true);
+
+        break;
+    case qlamz::Download:
+        m_pUi->buttonQuit->setEnabled(false);
+        m_pUi->buttonCancel->setEnabled(true);
+        m_pUi->buttonDownload->setEnabled(false);
+
+        m_pUi->tableViewTracks->setEnabled(false);
+
+        m_pUi->actionDeselectAll->setEnabled(false);
+        m_pUi->actionSelectAll->setEnabled(false);
+        m_pUi->actionSettings->setEnabled(false);
+
+        break;
+    default:
+        qDebug() << __func__ << ": Unknown state";
+    }
+}
+
+void qlamz::updateRecentFiles()
+{
+    // Delete all old actions.
+    m_pUi->menuRecentFiles->clear();
+
+    for (int i = 0; i < m_pRecentFiles->size(); i++) {
+        QAction *action = new QAction(m_pRecentFiles->at(i),
+            m_pUi->menuRecentFiles);
+
+        m_pUi->menuRecentFiles->addAction(action);
+
+        connect(action, SIGNAL(triggered()), this, SLOT(recentFileTriggered()));
+    }
 }
 
 QList<Track *> qlamz::readTracksFromXml(const QString &strData)
@@ -606,68 +665,6 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
     return tracks;
 }
 
-void qlamz::showErrorLog()
-{
-    if (m_pErrors->size() > 0) {
-        m_pError->exec(*m_pErrors);
-    } else {
-        QMessageBox::information(this, tr("Information"),
-            tr("No error messages to display"), QMessageBox::Ok);
-    }
-}
-
-void qlamz::showXMLContent()
-{
-    if (m_pstrXmlData->size() > 0) {
-        m_pError->exec(*m_pstrXmlData);
-    } else {
-        QMessageBox::information(this, tr("Information"),
-            tr("No xml content to display"), QMessageBox::Ok);
-    }
-}
-
-void qlamz::openAmazonStore()
-{
-    QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
-        QString()).toString();
-    QString strUrl = m_pAmazonInfos->value("amazon.store.url." + strAmazonTld,
-        QString()).toString();
-
-    if (strUrl.size() < 1) {
-        QMessageBox::warning(this, tr("Warning"),
-            tr("Cannot find a url matching the tld. Sorry!"), QMessageBox::Ok);
-
-        return;
-    }
-
-    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
-        QDesktopServices::openUrl(strUrl);
-    } else {
-        m_pStore->setVisible(true);
-        m_pStore->load(QUrl(strUrl));
-    }
-}
-
-void qlamz::cancelDownload()
-{
-    int iReturn = QMessageBox::question(this, tr("Cancel download"),
-        tr("Are you sure canceling the download progress?"),
-        QMessageBox::Yes | QMessageBox::No);
-
-    if (iReturn != QMessageBox::Yes) {
-        return;
-    }
-
-    m_bCancel = true;
-
-    for (int i = 0; i < m_trackDownloaderList.size(); i++) {
-        m_trackDownloaderList.at(i)->abort();
-    }
-
-    m_state = qlamz::Default;
-    updateUiState();
-}
-
 QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
 {
     QFile file(strAmazonFilePath);
@@ -679,3 +676,18 @@ QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
     return decryptAmazonFile(tmpData);
 }
 
+QString qlamz::destinationPath(const Track * const pTrack) const
+{
+    // Load the information about the destination and build the destination
+    // path.
+    QString strDestination = m_pSettingsData->value("destination.dir",
+        QDir::homePath()).toString();
+    QString strDestinationFormat = m_pSettingsData->value("destination.format",
+        QString()).toString();
+
+    // Replace the creator and the album.
+    strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
+    strDestinationFormat.replace(QString("${album}"), pTrack->album());
+
+    return strDestination + "/" + strDestinationFormat;
+}
