@@ -86,7 +86,7 @@ qt4_create_translation(TRANSLATION ${SOURCES} ${MOC_HEADERS} ${UI_HEADERS} ${TRA
 qt4_add_translation(TRANSLATION_SOURCES ${TRANSLATIONS})
 
 # some other includes
-include_directories(${CMAKE_BINARY_DIR} ${LIBAMZ_INCLUDE_DIR})
+include_directories(${CMAKE_BINARY_DIR} ${LIBAMZ_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # set some config options
 set(INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})

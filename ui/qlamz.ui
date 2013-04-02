@@ -104,7 +104,13 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2"/>
+      <widget class="QWidget" name="page_2">
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="CustomWebView" name="webViewWidget" native="true"/>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item row="1" column="0">
@@ -358,6 +364,9 @@
    </property>
   </action>
   <action name="actionAmazonStore">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../ressource/qlamz.qrc">
      <normaloff>:/icons/icons/29119-amazon.png</normaloff>:/icons/icons/29119-amazon.png</iconset>
@@ -397,6 +406,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomWebView</class>
+   <extends>QWidget</extends>
+   <header>CustomWebView.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../ressource/qlamz.qrc"/>
  </resources>

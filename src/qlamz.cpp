@@ -350,6 +350,14 @@ void qlamz::showXMLContent()
 
 void qlamz::openAmazonStore()
 {
+    // Switch to the xml view, if the internal webbrowser is already open.
+    if (!m_pUi->actionAmazonStore->isChecked()) {
+        m_pUi->stackedWidget->setCurrentIndex(0);
+        return;
+    } else {
+        m_pUi->stackedWidget->setCurrentIndex(1);
+    }
+
     QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
         QString()).toString();
     QString strUrl = m_pAmazonInfos->value("amazon.store.url." + strAmazonTld,
@@ -365,8 +373,8 @@ void qlamz::openAmazonStore()
     if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
         QDesktopServices::openUrl(strUrl);
     } else {
-        m_pStore->setVisible(true);
-        m_pStore->load(QUrl(strUrl));
+        m_pUi->webViewWidget->setVisible(true);
+        m_pUi->webViewWidget->load(QUrl(strUrl));
     }
 }
 
