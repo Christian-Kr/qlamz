@@ -21,6 +21,7 @@ set(SOURCES
     src/Store.cpp
     src/CustomWebPage.cpp
     src/PersistentCookieJar.cpp
+    src/CustomWebView.cpp
 )
 
 # moc header files
@@ -37,6 +38,7 @@ set(MOC_HEADERS
     src/Store.h
     src/CustomWebPage.h
     src/PersistentCookieJar.h
+    src/CustomWebView.h
 )
 
 # ui files
