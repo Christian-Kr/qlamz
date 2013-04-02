@@ -19,6 +19,8 @@
 #include <QNetworkCookieJar>
 
 
+class QByteArray;
+
 class PersistentCookieJar : public QNetworkCookieJar
 {
     Q_OBJECT
@@ -32,7 +34,12 @@ public:
      * Destructor */
     ~PersistentCookieJar();
 
-public:
+    /**
+     * Get the cookies as a data array.
+     *
+     * @return A QByteArray filled with cookie informations. */
+    QByteArray data() const;
+
     /**
      * Save the cookies. */
     void save();

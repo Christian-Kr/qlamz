@@ -24,6 +24,7 @@
 #include <QNetworkReply>
 #include <QWebFrame>
 #include <QWebPage>
+#include <QByteArray>
 #include <QDebug>
 
 
@@ -60,6 +61,11 @@ Store::~Store()
     delete m_pUi;
     delete m_pWebPage;
     delete m_pCookieJar;
+}
+
+QByteArray Store::cookieData() const
+{
+    return m_pCookieJar->data();
 }
 
 void Store::load(const QUrl &url)

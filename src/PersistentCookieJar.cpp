@@ -34,20 +34,27 @@ PersistentCookieJar::~PersistentCookieJar()
     save();
 }
 
-void PersistentCookieJar::save()
+QByteArray PersistentCookieJar::data() const
 {
-    qDebug() << "Speichern";
-
-    QList<QNetworkCookie> list = allCookies();
+    // Create a new data object.
     QByteArray data;
-    foreach (QNetworkCookie cookie, list) {
+
+    foreach (QNetworkCookie cookie, allCookies()) {
         if (!cookie.isSessionCookie()) {
             data.append(cookie.toRawForm());
             data.append("\n");
         }
     }
+
+    return data;
+}
+
+void PersistentCookieJar::save()
+{
+    qDebug() << "Speichern";
+
     QSettings settings("qlamz", "amazon_cookie");
-    settings.setValue("Cookies", data);
+    settings.setValue("Cookies", data());
     settings.sync();
 }
 

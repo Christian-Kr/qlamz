@@ -20,6 +20,7 @@
 #include <QNetworkReply>
 
 
+class QByteArray;
 class CustomWebPage;
 class PersistentCookieJar;
 class QUrl;
@@ -40,6 +41,12 @@ public:
     /**
      * Destructor */
     ~Store();
+
+    /**
+     * Return the actual cookie data.
+     *
+     * @return a QByteArray object with the data. */
+    QByteArray cookieData() const;
 
 public slots:
     /**

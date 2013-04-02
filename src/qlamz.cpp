@@ -147,6 +147,23 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 
+void qlamz::exportCookies()
+{
+    // Open a file with the save dialog.
+    QString strCookieFileName = QFileDialog::getSaveFileName(this,
+        tr("Export Cookies"), *m_pstrOpenPath);
+
+    // Canceled? - Just return the function and do nothing more.
+    if (strCookieFileName.size() < 1) {
+        return;
+    }
+
+    // Create a settings object and fill it with data for saving.
+    QSettings tmpSettings(strCookieFileName, QSettings::IniFormat);
+    tmpSettings.setValue("Cookies", m_pStore->cookieData());
+    tmpSettings.sync();
+}
+
 void qlamz::amzDownloaded(const QString &strContent)
 {
     openAmazonFileFromString(strContent);

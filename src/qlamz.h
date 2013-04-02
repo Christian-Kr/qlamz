@@ -64,6 +64,10 @@ public:
 
 public slots:
     /**
+     * Export the cookies created by the internal browser. */
+    void exportCookies();
+
+    /**
      * A new amz file was downloaded.
      *
      * @param strContent The content of the amz file. */
