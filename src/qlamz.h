@@ -165,6 +165,12 @@ public slots:
      * Open the Amazon.de url for setting a cookie, that AmazonDownloader is already installed. */
     void cookieAmazonDe();
 
+    /**
+     * Sets the value of the webview progressbar.
+     *
+     * @param iProgress The load of the progress from 0 to 100. */
+    void setWebViewLoadProgress(int iProgress);
+
 protected:
     /**
      * Overwriting from QMainWindow. */

@@ -108,12 +108,18 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
+    // Set the progressbar.
+    m_pUi->progressBarWebView->setVisible(false);
+
     // Build some connections
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
 
     connect(m_pUi->webViewWidget, SIGNAL(amzDownloaded(const QString&)), this,
         SLOT(amzDownloaded(const QString&)));
+
+    connect(m_pUi->webViewWidget, SIGNAL(loadProgress(int)), this,
+        SLOT(setWebViewLoadProgress(int)));
 
     // Load all settings
     loadSettings();
@@ -145,6 +151,18 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
+
+void qlamz::setWebViewLoadProgress(int iProgress)
+{
+    m_pUi->progressBarWebView->setValue(iProgress);
+
+    // Hide progress bar, if the value is 100.
+    if (iProgress > 99) {
+        m_pUi->progressBarWebView->setVisible(false);
+    } else {
+        m_pUi->progressBarWebView->setVisible(true);
+    }
+}
 
 void qlamz::exportCookies()
 {
