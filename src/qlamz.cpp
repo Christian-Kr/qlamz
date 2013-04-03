@@ -375,43 +375,52 @@ void qlamz::showXMLContent()
     }
 }
 
-void qlamz::openAmazonStore()
+void qlamz::openAmazonStore(const QString &strUrl)
 {
+    qDebug() << strUrl;
+
+    // Url given to display?
+    bool bUrl = (strUrl.size() > 0) ? true : false;
+
     QString strAmazonUrl = m_pAmazonInfos->value("amazon.store.url." +
         m_pSettingsData->value(QString("amazon.tld"), QString()).toString(),
         QString()).toString();
-
     QString strLoadedUrl = m_pUi->webViewWidget->url().toString();
 
     // If the action is not checkable, you choosed to use the external browser.
     if (!m_pUi->actionAmazonStore->isCheckable()) {
-
-        // If a site was loaded in the internal browser before load it in the
-        // external browser once.
-        if (strLoadedUrl.size() > 0) {
-            QDesktopServices::openUrl(strLoadedUrl);
-            m_pUi->webViewWidget->setUrl(QUrl(""));
+        if (bUrl) {
+            // Show the url in the external web browser.
+            QDesktopServices::openUrl(strUrl);
         } else {
-            QDesktopServices::openUrl(strAmazonUrl);
+            // If a site was loaded in the internal browser before load it in the
+            // external browser once.
+            if (strLoadedUrl.size() > 0) {
+                QDesktopServices::openUrl(strLoadedUrl);
+                m_pUi->webViewWidget->setUrl(QUrl(""));
+            } else {
+                QDesktopServices::openUrl(strAmazonUrl);
+            }
         }
     } else {
         // Switch to the xml view, if the internal webbrowser is already open.
-        if (!m_pUi->actionAmazonStore->isChecked()) {
+        if (!m_pUi->actionAmazonStore->isChecked() && !bUrl) {
             m_pUi->stackedWidget->setCurrentIndex(0);
             return;
         } else {
             m_pUi->stackedWidget->setCurrentIndex(1);
         }
 
-        // Only go on, if no webpage is already loaded.
-        if (m_pUi->webViewWidget->url().toString().size() == 0) {
-            m_pUi->webViewWidget->load(QUrl(strAmazonUrl));
+        if (bUrl) {
+            // Show the url in the external web browser.
+            m_pUi->webViewWidget->load(QUrl(strUrl));
+            m_pUi->actionAmazonStore->setChecked(true);
+        } else {
+            // Only go on, if no webpage is already loaded.
+            if (m_pUi->webViewWidget->url().toString().size() == 0) {
+                m_pUi->webViewWidget->load(QUrl(strAmazonUrl));
+            }
         }
-    }
-
-    // If a webpage was already open do nothing.
-    if (m_pUi->webViewWidget->url().toString().size() > 1) {
-        return;
     }
 }
 
@@ -582,9 +591,10 @@ void qlamz::deselectAll()
 
 void qlamz::cookieAmazonDe()
 {
-    // Load the cookie link from the settings.
-    QDesktopServices::openUrl(m_pSettingsData->value("amazon.cookie.url.de",
-        QString()).toString());
+    QString strCookieUrl = m_pAmazonInfos->value("amazon.cookie.url.de",
+            QString()).toString();
+
+    openAmazonStore(strCookieUrl);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

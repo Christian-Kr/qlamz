@@ -1,5 +1,5 @@
 [General]
-amazon.cookie.url.de=https://www.amazon.de/gp/dmusic/after_download_manager_install.html
+amazon.cookie.url.de=http://www.amazon.de/gp/dmusic/after_download_manager_install.html?ie=UTF8&AMDVersion=1.0.17
 
 amazon.store.url.de="http://www.amazon.de/MP3-Musik-Downloads/b/ref=sa_menu_mp33?ie=UTF8&node=77195031"
 amazon.store.url.com="http://www.amazon.com/MP3-Music-Download/b/ref=sa_menu_mp3_str1?ie=UTF8&node=163856011"

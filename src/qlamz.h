@@ -81,8 +81,10 @@ public slots:
     void showXMLContent();
 
     /**
-     * Show the amazon store in a web browser. */
-    void openAmazonStore();
+     * Show the amazon store in a web browser.
+     *
+     * @param strUrl The url to open. */
+    void openAmazonStore(const QString &strUrl = QString());
 
     /**
      * Show the about qt dialog. */
