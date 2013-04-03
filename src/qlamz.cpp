@@ -44,6 +44,7 @@
 #include <QNetworkRequest>
 #include <QNetworkCookieJar>
 #include <QDesktopServices>
+#include <QUrl>
 #include <QDebug>
 
 #include <amz.h>
@@ -356,6 +357,11 @@ void qlamz::openAmazonStore()
         return;
     } else {
         m_pUi->stackedWidget->setCurrentIndex(1);
+    }
+
+    // If a webpage was already open do nothing.
+    if (m_pUi->webViewWidget->url().toString().size() > 1) {
+        return;
     }
 
     QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
