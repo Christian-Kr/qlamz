@@ -369,19 +369,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="416"/>
+        <location filename="../src/qlamz.cpp" line="430"/>
         <source>Open Amazon File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="416"/>
+        <location filename="../src/qlamz.cpp" line="430"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="337"/>
-        <location filename="../src/qlamz.cpp" line="347"/>
-        <location filename="../src/qlamz.cpp" line="566"/>
+        <location filename="../src/qlamz.cpp" line="346"/>
+        <location filename="../src/qlamz.cpp" line="356"/>
+        <location filename="../src/qlamz.cpp" line="580"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -391,37 +391,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="338"/>
+        <location filename="../src/qlamz.cpp" line="347"/>
         <source>No error messages to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="348"/>
+        <location filename="../src/qlamz.cpp" line="357"/>
         <source>No xml content to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="373"/>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qlamz.cpp" line="374"/>
-        <source>Cannot find a url matching the tld. Sorry!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/qlamz.cpp" line="494"/>
+        <location filename="../src/qlamz.cpp" line="508"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="495"/>
+        <location filename="../src/qlamz.cpp" line="509"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="567"/>
+        <location filename="../src/qlamz.cpp" line="581"/>
         <source>Still downloading content. Please wait until it has finished or abort the process.</source>
         <translation type="unfinished"></translation>
     </message>

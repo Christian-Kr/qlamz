@@ -271,6 +271,15 @@ void qlamz::loadSettings()
     *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath())
         .toString();
 
+    // Load settings for the browser.
+    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
+        // The user want to use a external browser.
+        m_pUi->actionAmazonStore->setCheckable(false);
+    } else {
+        // The user want to use the internal browser.
+        m_pUi->actionAmazonStore->setCheckable(true);
+    }
+
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
 
@@ -351,36 +360,41 @@ void qlamz::showXMLContent()
 
 void qlamz::openAmazonStore()
 {
-    // Switch to the xml view, if the internal webbrowser is already open.
-    if (!m_pUi->actionAmazonStore->isChecked()) {
-        m_pUi->stackedWidget->setCurrentIndex(0);
-        return;
+    QString strAmazonUrl = m_pAmazonInfos->value("amazon.store.url." +
+        m_pSettingsData->value(QString("amazon.tld"), QString()).toString(),
+        QString()).toString();
+
+    QString strLoadedUrl = m_pUi->webViewWidget->url().toString();
+
+    // If the action is not checkable, you choosed to use the external browser.
+    if (!m_pUi->actionAmazonStore->isCheckable()) {
+
+        // If a site was loaded in the internal browser before load it in the
+        // external browser once.
+        if (strLoadedUrl.size() > 0) {
+            QDesktopServices::openUrl(strLoadedUrl);
+            m_pUi->webViewWidget->setUrl(QUrl(""));
+        } else {
+            QDesktopServices::openUrl(strAmazonUrl);
+        }
     } else {
-        m_pUi->stackedWidget->setCurrentIndex(1);
+        // Switch to the xml view, if the internal webbrowser is already open.
+        if (!m_pUi->actionAmazonStore->isChecked()) {
+            m_pUi->stackedWidget->setCurrentIndex(0);
+            return;
+        } else {
+            m_pUi->stackedWidget->setCurrentIndex(1);
+        }
+
+        // Only go on, if no webpage is already loaded.
+        if (m_pUi->webViewWidget->url().toString().size() == 0) {
+            m_pUi->webViewWidget->load(QUrl(strAmazonUrl));
+        }
     }
 
     // If a webpage was already open do nothing.
     if (m_pUi->webViewWidget->url().toString().size() > 1) {
         return;
-    }
-
-    QString strAmazonTld = m_pSettingsData->value(QString("amazon.tld"),
-        QString()).toString();
-    QString strUrl = m_pAmazonInfos->value("amazon.store.url." + strAmazonTld,
-        QString()).toString();
-
-    if (strUrl.size() < 1) {
-        QMessageBox::warning(this, tr("Warning"),
-            tr("Cannot find a url matching the tld. Sorry!"), QMessageBox::Ok);
-
-        return;
-    }
-
-    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
-        QDesktopServices::openUrl(strUrl);
-    } else {
-        m_pUi->webViewWidget->setVisible(true);
-        m_pUi->webViewWidget->load(QUrl(strUrl));
     }
 }
 
