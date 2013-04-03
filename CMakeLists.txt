@@ -18,7 +18,6 @@ set(SOURCES
     src/CheckboxDelegate.cpp
     src/ProgressDelegate.cpp
     src/TrackDownloader.cpp
-    src/Store.cpp
     src/CustomWebPage.cpp
     src/PersistentCookieJar.cpp
     src/CustomWebView.cpp
@@ -35,7 +34,6 @@ set(MOC_HEADERS
     src/CheckboxDelegate.h
     src/ProgressDelegate.h
     src/TrackDownloader.h
-    src/Store.h
     src/CustomWebPage.h
     src/PersistentCookieJar.h
     src/CustomWebView.h
@@ -47,7 +45,6 @@ set(UIS
     ui/Settings.ui
     ui/About.ui
     ui/Error.ui
-    ui/Store.ui
 )
 
 # ressource files

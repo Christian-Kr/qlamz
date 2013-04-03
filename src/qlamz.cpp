@@ -18,7 +18,6 @@
 #include "ui_qlamz.h"
 
 #include "config.h"
-#include "Store.h"
 #include "Settings.h"
 #include "About.h"
 #include "Error.h"
@@ -73,7 +72,6 @@ qlamz::qlamz(QWidget *pParent)
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings()),
     m_pAmazonInfos(new QSettings(STR(AMAZON_FILE_PATH), QSettings::IniFormat)),
-    m_pStore(new Store()),
     m_pAbout(new About(this)),
     m_pError(new Error(this)),
     m_pErrors(new QStringList()),
@@ -114,7 +112,7 @@ qlamz::qlamz(QWidget *pParent)
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
 
-    connect(m_pStore, SIGNAL(amzDownloaded(const QString&)), this,
+    connect(m_pUi->webViewWidget, SIGNAL(amzDownloaded(const QString&)), this,
         SLOT(amzDownloaded(const QString&)));
 
     // Load all settings
@@ -161,14 +159,14 @@ void qlamz::exportCookies()
 
     // Create a settings object and fill it with data for saving.
     QSettings tmpSettings(strCookieFileName, QSettings::IniFormat);
-    tmpSettings.setValue("Cookies", m_pStore->cookieData());
+    tmpSettings.setValue("Cookies", m_pUi->webViewWidget->cookieData());
     tmpSettings.sync();
 }
 
 void qlamz::amzDownloaded(const QString &strContent)
 {
     openAmazonFileFromString(strContent);
-    m_pStore->setVisible(false);
+    m_pUi->stackedWidget->setCurrentIndex(0);
 }
 
 void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
