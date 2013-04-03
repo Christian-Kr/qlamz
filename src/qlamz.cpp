@@ -275,6 +275,7 @@ void qlamz::loadSettings()
     if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
         // The user want to use a external browser.
         m_pUi->actionAmazonStore->setCheckable(false);
+        m_pUi->stackedWidget->setCurrentIndex(0);
     } else {
         // The user want to use the internal browser.
         m_pUi->actionAmazonStore->setCheckable(true);
