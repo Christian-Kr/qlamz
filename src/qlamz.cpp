@@ -217,6 +217,11 @@ void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
     // Increment the actual download progress.
     m_iActualDownloadCount++;
 
+    // Update the window title.
+    short sTotalPercentage = (short) ((double) m_iActualDownloadCount /
+        (double) m_iTotalDownloadCount * 100);
+    setWindowTitle(tr("qlamz - Total: %1%").arg(sTotalPercentage));
+
     // If there are files waiting for download, do so.
     if (m_trackList.size() > 0) {
         Track *pNextTrack = m_trackList.takeFirst();
