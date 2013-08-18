@@ -73,7 +73,7 @@ QNetworkReply * TrackDownloader::createNetworkReply(const QString &strUrl)
 
     QNetworkRequest request;
     request.setUrl(location);
-    request.setRawHeader("User-Agent", "Amazon MP3 Downloader (qlamz 0.1)");
+    request.setRawHeader("User-Agent", "Amazon MP3 Downloader (Win32 1.0.17 en_US)");
 
     return m_pNetAccessManager->get(request);
 }

@@ -61,6 +61,13 @@ public:
      * @param amazonEncryptedContent The content as a byte array. */
     QString decryptAmazonFile(const QByteArray &amazonEncryptedContent);
 
+    /**
+     * Test wether the content is xml or not.
+     *
+     * @param strContent The content as a string.
+     * @return True if xml else false. */
+    bool isXml(const QString &strContent);
+
 public slots:
     /**
      * Export the cookies created by the internal browser. */

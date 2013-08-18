@@ -45,6 +45,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QDebug>
+#include <QDomDocument>
 
 #include <amz.h>
 
@@ -429,6 +430,16 @@ void qlamz::openAmazonStore(const QString &strUrl)
     }
 }
 
+bool qlamz::isXml(const QString &strContent)
+{
+    QDomDocument doc;
+    if (!doc.setContent(strContent)) {
+        return false;
+    }
+
+    return true;
+}
+
 void qlamz::openAmazonFileFromString(const QString &strContent)
 {
     *m_pstrXmlData = strContent;
@@ -698,8 +709,6 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                 if (xmlReader.tokenType() == QXmlStreamReader::StartElement) {
                     if (xmlReader.name() == "location") {
                         pTrack->setLocation(xmlReader.readElementText());
-                    } else if (xmlReader.name() == "creator") {
-                        pTrack->setCreator(xmlReader.readElementText());
                     } else if (xmlReader.name() == "album") {
                         pTrack->setAlbum(xmlReader.readElementText());
                     } else if (xmlReader.name() == "title") {
@@ -722,6 +731,8 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                             } else if (rel == "primaryGenre") {
                                 pTrack->setPrimaryGenre(xmlReader
                                     .readElementText());
+                            } else if (rel == "albumPrimaryArtist") {
+                                pTrack->setCreator(xmlReader.readElementText());
                             }
                         }
                     } else {
@@ -750,7 +761,11 @@ QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
     QByteArray tmpData = file.readAll().replace('\n', "");
     file.close();
 
-    return decryptAmazonFile(tmpData);
+    if (isXml(tmpData)) {
+        return QString::fromUtf8(tmpData);
+    } else {
+        return decryptAmazonFile(tmpData);
+    }
 }
 
 QString qlamz::destinationPath(const Track * const pTrack) const
@@ -766,5 +781,5 @@ QString qlamz::destinationPath(const Track * const pTrack) const
     strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
     strDestinationFormat.replace(QString("${album}"), pTrack->album());
 
-    return strDestination + "/" + strDestinationFormat;
+    return strDestination + "/" + strDestinationFormat + "/";
 }
