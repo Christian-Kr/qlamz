@@ -20,6 +20,7 @@ Track::Track(QObject *pParent)
     : QObject(pParent),
     m_pstrCreator(new QString()),
     m_pstrAlbum(new QString()),
+    m_pstrAlbumPrimaryArtist(new QString()),
     m_pstrTitle(new QString()),
     m_pstrDuration(new QString()),
     m_pstrTrackType(new QString()),
@@ -39,6 +40,7 @@ Track::~Track()
 {
     delete m_pstrCreator;
     delete m_pstrAlbum;
+    delete m_pstrAlbumPrimaryArtist;
     delete m_pstrTitle;
     delete m_pstrDuration;
     delete m_pstrImageLink;
@@ -84,6 +86,16 @@ QString Track::album() const
 void Track::setAlbum(const QString &strAlbum)
 {
     *m_pstrAlbum = strAlbum;
+}
+
+QString Track::albumPrimaryArtist() const
+{
+    return *m_pstrAlbumPrimaryArtist;
+}
+
+void Track::setAlbumPrimaryArtist(const QString &strAlbumPrimaryArtist)
+{
+    *m_pstrAlbumPrimaryArtist = strAlbumPrimaryArtist;
 }
 
 QString Track::location() const

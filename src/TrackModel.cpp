@@ -56,7 +56,7 @@ void TrackModel::removeTracks()
 
 int TrackModel::columnCount(const QModelIndex &) const
 {
-    return 8;
+    return 9;
 }
 
 int TrackModel::rowCount(const QModelIndex &) const
@@ -85,8 +85,10 @@ QVariant TrackModel::data(const QModelIndex &modelIndex, int iRole) const
         case 5:
             return m_pTracks->at(modelIndex.row())->album();
         case 6:
-            return m_pTracks->at(modelIndex.row())->primaryGenre();
+            return m_pTracks->at(modelIndex.row())->albumPrimaryArtist();
         case 7:
+            return m_pTracks->at(modelIndex.row())->primaryGenre();
+        case 8:
             return m_pTracks->at(modelIndex.row())->trackType();
         default:
             qDebug() << __func__ << ": Data not available on row: " << modelIndex.row();
@@ -147,8 +149,10 @@ QVariant TrackModel::headerData(int iSection, Qt::Orientation orientation, int i
             case 5:
                 return tr("Album");
             case 6:
-                return tr("Genre");
+                return tr("Album Artist");
             case 7:
+                return tr("Genre");
+            case 8:
                 return tr("Media Type");
             default:
                 return QVariant();

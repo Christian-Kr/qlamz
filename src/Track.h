@@ -71,6 +71,18 @@ public:
     void setCreator(const QString &strCreator);
 
     /**
+     * Get the album primary artist.
+     *
+     * @return The album primary artist actually set up. */
+    QString albumPrimaryArtist() const;
+
+    /**
+     * Set the album primary artist.
+     *
+     * @param strAlbumPrimaryArtist The album primary artist to set up. */
+    void setAlbumPrimaryArtist(const QString &strAlbumPrimaryArtist);
+
+    /**
      * Get the album.
      *
      * @return The album actually set up. */
@@ -146,6 +158,7 @@ public:
 private:
     QString *m_pstrCreator;
     QString *m_pstrAlbum;
+    QString *m_pstrAlbumPrimaryArtist;
     QString *m_pstrTitle;
     QString *m_pstrDuration;
     QString *m_pstrTrackType;

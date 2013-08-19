@@ -69,11 +69,14 @@ QNetworkReply * TrackDownloader::createNetworkReply(const QString &strUrl)
 {
     QUrl location = QUrl::fromEncoded(strUrl.toAscii(), QUrl::StrictMode);
 
-    qDebug() << "Url is valid: " << location.isValid();
+    if (!location.isValid()) {
+        qDebug() << "Url is not valid! " << location.toString();
+    }
 
     QNetworkRequest request;
     request.setUrl(location);
-    request.setRawHeader("User-Agent", "Amazon MP3 Downloader (Win32 1.0.17 en_US)");
+    request.setRawHeader("User-Agent", "Amazon MP3 Downloader "
+        "(Win32 1.0.17 en_US)");
 
     return m_pNetAccessManager->get(request);
 }

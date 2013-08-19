@@ -711,6 +711,8 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                         pTrack->setLocation(xmlReader.readElementText());
                     } else if (xmlReader.name() == "album") {
                         pTrack->setAlbum(xmlReader.readElementText());
+                    } else if (xmlReader.name() == "creator") {
+                        pTrack->setCreator(xmlReader.readElementText());
                     } else if (xmlReader.name() == "title") {
                         pTrack->setTitle(xmlReader.readElementText());
                     } else if (xmlReader.name() == "trackNum") {
@@ -732,7 +734,8 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                                 pTrack->setPrimaryGenre(xmlReader
                                     .readElementText());
                             } else if (rel == "albumPrimaryArtist") {
-                                pTrack->setCreator(xmlReader.readElementText());
+                                pTrack->setAlbumPrimaryArtist(
+                                    xmlReader.readElementText());
                             }
                         }
                     } else {
@@ -747,7 +750,7 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
     }
 
     if (xmlReader.hasError()) {
-        qDebug() << __func__ << ": " << xmlReader.errorString();
+        qDebug() << __func__ << ": XmlReaderError: " << xmlReader.errorString();
     }
 
     return tracks;
@@ -780,6 +783,8 @@ QString qlamz::destinationPath(const Track * const pTrack) const
     // Replace the creator and the album.
     strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
     strDestinationFormat.replace(QString("${album}"), pTrack->album());
+    strDestinationFormat.replace(QString("${albumPrimaryArtist}"),
+        pTrack->albumPrimaryArtist());
 
     return strDestination + "/" + strDestinationFormat + "/";
 }
