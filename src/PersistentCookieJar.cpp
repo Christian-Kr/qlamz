@@ -51,7 +51,7 @@ QByteArray PersistentCookieJar::data() const
 
 void PersistentCookieJar::save()
 {
-    qDebug() << "Speichern";
+    qDebug() << "PersistentCookieJar::save";
 
     QSettings settings("qlamz", "amazon_cookie");
     settings.setValue("Cookies", data());
@@ -60,7 +60,7 @@ void PersistentCookieJar::save()
 
 void PersistentCookieJar::load()
 {
-    qDebug() << "Laden";
+    qDebug() << "PersistentCookieJar::load";
 
     QSettings settings("qlamz", "amazon_cookie");
     QByteArray data = settings.value("Cookies").toByteArray();

@@ -41,8 +41,8 @@ CustomWebView::CustomWebView(QWidget *pParent)
     m_pWebPage->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
     m_pWebPage->setForwardUnsupportedContent(true);
 
-    m_pCookieJar->load();
     m_pWebPage->networkAccessManager()->setCookieJar(m_pCookieJar);
+    m_pWebPage->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
     // Build some connections.
     connect(m_pWebPage, SIGNAL(formSubmitted(const QNetworkRequest&)),
@@ -50,8 +50,12 @@ CustomWebView::CustomWebView(QWidget *pParent)
 
     connect(m_pWebPage, SIGNAL(unsupportedContent(QNetworkReply*)), this,
         SLOT(unsupportedContent(QNetworkReply*)));
+    connect(m_pWebPage, SIGNAL(linkHovered(const QString&, const QString&, const QString&)),
+        this, SLOT(linkHovered(const QString&, const QString&, const QString&)));
 
     connect(this, SIGNAL(loadFinished(bool)), this, SLOT(loadFinished(bool)));
+    connect(this, SIGNAL(linkClicked(const QUrl&)), this,
+        SLOT(linkClicked(const QUrl&)));
 }
 
 CustomWebView::~CustomWebView()
@@ -74,8 +78,8 @@ QNetworkReply* CustomWebView::createNetworkReplyFromUrl(const QUrl &url)
 {
     QNetworkRequest netRequest;
     netRequest.setUrl(QUrl(url));
-    netRequest.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; "
-        "Windows NT 6.1)");
+    netRequest.setRawHeader("User-Agent", "Amazon MP3 Downloader "
+        "(Win32 1.0.17 en_US)");
 
     // Delete the last reply.
     if (m_pNetReply != NULL) {
@@ -99,7 +103,7 @@ void CustomWebView::buildNetReplyConnections(const QNetworkReply *netReply)
 
 void CustomWebView::loadFinished(bool bOk)
 {
-    qDebug() << "Load finished";
+    qDebug() << "CustomWebView::loadFinished";
     m_pCookieJar->save();
 }
 
@@ -111,9 +115,11 @@ void CustomWebView::netReplyError(QNetworkReply::NetworkError netError)
 
 void CustomWebView::netReplyFinished()
 {
-    qDebug() << "Finished";
+    qDebug() << "CustomWebView::netReplyFinished";
 
     if (m_pNetReply->rawHeader("Location").size() > 0) {
+        qDebug() << ":: Location";
+
         createNetworkReplyFromUrl(QUrl::fromEncoded(
             m_pNetReply->rawHeader("Location"), QUrl::StrictMode));
     } else {
@@ -121,8 +127,11 @@ void CustomWebView::netReplyFinished()
         if (m_bDownloadMode) {
             m_bDownloadMode = false;
 
+            qDebug() << "Read all: " << m_pNetReply->readAll();
             emit amzDownloaded(QString(m_pNetReply->readAll()));
         } else {
+            qDebug() << ":: JavaScript";
+
             QString strTest("<script type='text/javascript'>"
                 "var fake_navigator={};"
                 "for(var i in navigator)"
@@ -135,7 +144,7 @@ void CustomWebView::netReplyFinished()
                 "navigator=fake_navigator;"
                 "</script>");
 
-            QString content = strTest + QString::fromUtf8(m_pNetReply->readAll()).toAscii();
+            QString content = strTest + QString::fromUtf8(m_pNetReply->readAll());
 
             //m_pWebPage->noEmitFormSubmittedOnce();
             setHtml(content, m_pNetReply->url());
@@ -143,9 +152,22 @@ void CustomWebView::netReplyFinished()
     }
 }
 
+void CustomWebView::linkClicked(const QUrl &url)
+{
+    qDebug() << "CustomWebView::linkClicked: " << url.toString();
+
+    m_pNetReply = createNetworkReplyFromUrl(url);
+    buildNetReplyConnections(m_pNetReply);
+}
+
+void CustomWebView::linkHovered(const QString &link, const QString &title,
+    const QString &textContent)
+{
+}
+
 void CustomWebView::formSubmitted(const QNetworkRequest &netRequest)
 {
-    qDebug() << "Submitted";
+    qDebug() << "CustomWebView::formSubmitted: " << netRequest.header(QNetworkRequest::ContentTypeHeader).toString();
 
     if (m_pNetReply != NULL) {
         m_pNetReply->deleteLater();
@@ -171,6 +193,3 @@ void CustomWebView::unsupportedContent(QNetworkReply *netReply)
 
     buildNetReplyConnections(m_pNetReply);
 }
-
-
-

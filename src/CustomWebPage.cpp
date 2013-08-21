@@ -33,15 +33,21 @@ CustomWebPage::~CustomWebPage()
 bool CustomWebPage::acceptNavigationRequest(QWebFrame *frame,
     const QNetworkRequest &request, QWebPage::NavigationType type)
 {
-    qDebug() << "acceptNavigationRequest";
+    qDebug() << "CustomWebPage::acceptNavigationRequest";
 
-    if (!bNoEmit && request.url().toString().startsWith("https://www.amazon.de/gp/dmusic/mp3/player")) {
-        qDebug() << "acceptNavigationRequest -> into";
-        emit formSubmitted(request);
-        return false;
+    if (QWebPage::NavigationTypeFormSubmitted) {
+        qDebug() << ":: NavigationTypeFormSubmitted";
+
+        if (!bNoEmit && type == request.url().toString().startsWith("https://www.amazon.de/gp/dmusic/mp3/player")) {
+            qDebug() << ":: Pattern True";
+            emit formSubmitted(request);
+            return false;
+        }
+
+        bNoEmit = false;
+
+        return true;
     }
 
-    bNoEmit = false;
-
-    return true;
+    return QWebPage::acceptNavigationRequest(frame, request, type);
 }

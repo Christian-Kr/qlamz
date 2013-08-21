@@ -111,6 +111,7 @@ qlamz::qlamz(QWidget *pParent)
 
     // Set the progressbar.
     m_pUi->progressBarWebView->setVisible(false);
+    m_pUi->labelLink->setVisible(false);
 
     // Build some connections
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
@@ -121,6 +122,9 @@ qlamz::qlamz(QWidget *pParent)
 
     connect(m_pUi->webViewWidget, SIGNAL(loadProgress(int)), this,
         SLOT(setWebViewLoadProgress(int)));
+
+    connect(m_pUi->webViewWidget, SIGNAL(urlChanged(const QUrl&)), this,
+        SLOT(urlChanged(const QUrl&)));
 
     // Load all settings
     loadSettings();
@@ -153,6 +157,11 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 
+void qlamz::urlChanged(const QUrl &url)
+{
+    m_pUi->labelLink->setText(url.toString());
+}
+
 void qlamz::setWebViewLoadProgress(int iProgress)
 {
     m_pUi->progressBarWebView->setValue(iProgress);
@@ -184,7 +193,15 @@ void qlamz::exportCookies()
 
 void qlamz::amzDownloaded(const QString &strContent)
 {
-    openAmazonFileFromString(strContent);
+    QString strTmp;
+
+    if (!isXml(strContent)) {
+        strTmp = decryptAmazonFile(strContent.toUtf8());
+        openAmazonFileFromString(strTmp);
+    } else {
+        openAmazonFileFromString(strContent);
+    }
+
     m_pUi->stackedWidget->setCurrentIndex(0);
 }
 
@@ -412,8 +429,10 @@ void qlamz::openAmazonStore(const QString &strUrl)
         // Switch to the xml view, if the internal webbrowser is already open.
         if (!m_pUi->actionAmazonStore->isChecked() && !bUrl) {
             m_pUi->stackedWidget->setCurrentIndex(0);
+            m_pUi->labelLink->setVisible(false);
             return;
         } else {
+            m_pUi->labelLink->setVisible(true);
             m_pUi->stackedWidget->setCurrentIndex(1);
         }
 
@@ -424,7 +443,7 @@ void qlamz::openAmazonStore(const QString &strUrl)
         } else {
             // Only go on, if no webpage is already loaded.
             if (m_pUi->webViewWidget->url().toString().size() == 0) {
-                m_pUi->webViewWidget->load(QUrl(strAmazonUrl));
+                m_pUi->webViewWidget->load(QUrl("http://www.amazon.de/gp/dmusic/after_download_manager_install.html?AMDVersion=1.0.18"));
             }
         }
     }

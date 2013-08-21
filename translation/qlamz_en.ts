@@ -73,158 +73,158 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../build/ui_qlamz.h" line="314"/>
+        <location filename="../build/ui_qlamz.h" line="335"/>
         <source>MainWindow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="315"/>
+        <location filename="../build/ui_qlamz.h" line="336"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="316"/>
+        <location filename="../build/ui_qlamz.h" line="337"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="317"/>
-        <location filename="../build/ui_qlamz.h" line="342"/>
+        <location filename="../build/ui_qlamz.h" line="338"/>
+        <location filename="../build/ui_qlamz.h" line="363"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="318"/>
+        <location filename="../build/ui_qlamz.h" line="339"/>
         <source>Ctrl+Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="319"/>
+        <location filename="../build/ui_qlamz.h" line="340"/>
         <source>&amp;About qlamz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="320"/>
+        <location filename="../build/ui_qlamz.h" line="341"/>
         <source>Ctrl+?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="321"/>
+        <location filename="../build/ui_qlamz.h" line="342"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="322"/>
+        <location filename="../build/ui_qlamz.h" line="343"/>
         <source>Ctrl+O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="323"/>
+        <location filename="../build/ui_qlamz.h" line="344"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="324"/>
+        <location filename="../build/ui_qlamz.h" line="345"/>
         <source>Deselect All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="325"/>
+        <location filename="../build/ui_qlamz.h" line="346"/>
         <source>Amazon.de</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="326"/>
+        <location filename="../build/ui_qlamz.h" line="347"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="327"/>
+        <location filename="../build/ui_qlamz.h" line="348"/>
         <source>Amazon Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="329"/>
+        <location filename="../build/ui_qlamz.h" line="350"/>
         <source>Open the amazon store webpage in your default Browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="331"/>
+        <location filename="../build/ui_qlamz.h" line="352"/>
         <source>Ctrl+A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="332"/>
+        <location filename="../build/ui_qlamz.h" line="353"/>
         <source>Show Errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="334"/>
+        <location filename="../build/ui_qlamz.h" line="355"/>
         <source>Show the last error log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="336"/>
+        <location filename="../build/ui_qlamz.h" line="357"/>
         <source>Ctrl+E</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="337"/>
+        <location filename="../build/ui_qlamz.h" line="358"/>
         <source>Show XML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="338"/>
+        <location filename="../build/ui_qlamz.h" line="359"/>
         <source>&amp;Export Cookies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="339"/>
+        <location filename="../build/ui_qlamz.h" line="360"/>
         <source>Ctrl+X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="340"/>
+        <location filename="../build/ui_qlamz.h" line="361"/>
         <source>C&amp;ancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="341"/>
+        <location filename="../build/ui_qlamz.h" line="362"/>
         <source>&amp;Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="343"/>
+        <location filename="../build/ui_qlamz.h" line="364"/>
         <source>&amp;Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="344"/>
+        <location filename="../build/ui_qlamz.h" line="365"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="345"/>
+        <location filename="../build/ui_qlamz.h" line="366"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="346"/>
+        <location filename="../build/ui_qlamz.h" line="367"/>
         <source>Recent Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="347"/>
+        <location filename="../build/ui_qlamz.h" line="368"/>
         <source>&amp;Extras</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="348"/>
+        <location filename="../build/ui_qlamz.h" line="369"/>
         <source>Amazon Cookie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../build/ui_qlamz.h" line="349"/>
+        <location filename="../build/ui_qlamz.h" line="370"/>
         <source>toolBar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -361,55 +361,55 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="172"/>
+        <location filename="../src/qlamz.cpp" line="181"/>
         <source>Export Cookies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="224"/>
-        <location filename="../src/qlamz.cpp" line="268"/>
+        <location filename="../src/qlamz.cpp" line="241"/>
+        <location filename="../src/qlamz.cpp" line="285"/>
         <source>qlamz - Total: %1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="369"/>
-        <location filename="../src/qlamz.cpp" line="379"/>
-        <location filename="../src/qlamz.cpp" line="623"/>
+        <location filename="../src/qlamz.cpp" line="386"/>
+        <location filename="../src/qlamz.cpp" line="396"/>
+        <location filename="../src/qlamz.cpp" line="642"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="370"/>
+        <location filename="../src/qlamz.cpp" line="387"/>
         <source>No error messages to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="380"/>
+        <location filename="../src/qlamz.cpp" line="397"/>
         <source>No xml content to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="472"/>
+        <location filename="../src/qlamz.cpp" line="491"/>
         <source>Open Amazon File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="472"/>
+        <location filename="../src/qlamz.cpp" line="491"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="550"/>
+        <location filename="../src/qlamz.cpp" line="569"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="551"/>
+        <location filename="../src/qlamz.cpp" line="570"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="624"/>
+        <location filename="../src/qlamz.cpp" line="643"/>
         <source>Still downloading content. Please wait until it has finished or abort the process.</source>
         <translation type="unfinished"></translation>
     </message>

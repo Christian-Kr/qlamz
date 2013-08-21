@@ -81,6 +81,10 @@ public slots:
      * @param netRequest The network request. */
     void formSubmitted(const QNetworkRequest &netRequest);
 
+    void linkClicked(const QUrl &url);
+
+    void linkHovered(const QString &link, const QString &title, const QString &textContent);
+
 signals:
     /**
      * Emits when an amz file will be downloaded. */

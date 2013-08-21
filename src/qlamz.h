@@ -41,6 +41,7 @@ class QFile;
 class QTemporaryFile;
 class QNetworkAccessManager;
 class QNetworkReply;
+class QUrl;
 
 class qlamz : public QMainWindow
 {
@@ -179,6 +180,8 @@ public slots:
      *
      * @param iProgress The load of the progress from 0 to 100. */
     void setWebViewLoadProgress(int iProgress);
+
+    void urlChanged(const QUrl &url);
 
 protected:
     /**
