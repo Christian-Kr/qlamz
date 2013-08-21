@@ -183,6 +183,8 @@ public slots:
 
     void urlChanged(const QUrl &url);
 
+    void linkHovered(const QString&, const QString&, const QString&);
+
 protected:
     /**
      * Overwriting from QMainWindow. */
@@ -235,6 +237,7 @@ private:
     Ui::MainWindow *m_pUi;
 
     QString *m_pstrAmazonFilePath;
+    QString *m_pstrSiteLink;
 
     Settings *m_pSettings;
     QSettings *m_pSettingsData;

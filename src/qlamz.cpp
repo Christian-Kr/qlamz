@@ -70,6 +70,7 @@ qlamz::qlamz(QWidget *pParent)
     m_pTrackModel(new TrackModel()),
     m_pUi(new Ui::MainWindow()),
     m_pstrAmazonFilePath(new QString()),
+    m_pstrSiteLink(new QString()),
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings()),
     m_pAmazonInfos(new QSettings(STR(AMAZON_FILE_PATH), QSettings::IniFormat)),
@@ -126,6 +127,10 @@ qlamz::qlamz(QWidget *pParent)
     connect(m_pUi->webViewWidget, SIGNAL(urlChanged(const QUrl&)), this,
         SLOT(urlChanged(const QUrl&)));
 
+    connect(m_pUi->webViewWidget->page(),
+        SIGNAL(linkHovered(const QString&, const QString&, const QString&)),
+        this, SLOT(linkHovered(const QString&, const QString&, const QString&)));
+
     // Load all settings
     loadSettings();
 }
@@ -134,6 +139,7 @@ qlamz::~qlamz()
 {
     delete m_pstrOpenPath;
     delete m_pstrXmlData;
+    delete m_pstrSiteLink;
     delete m_pTrackModel;
     delete m_pUi;
     delete m_pSettings;
@@ -154,12 +160,22 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
         amazonEncryptedContent.data()), amazonEncryptedContent.size())));
 }
 
+void qlamz::linkHovered(const QString &strLink, const QString&, const QString&)
+{
+    if (strLink.size() <= 0) {
+        m_pUi->labelLink->setText(*m_pstrSiteLink);
+    } else {
+        m_pUi->labelLink->setText(strLink);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 
 void qlamz::urlChanged(const QUrl &url)
 {
-    m_pUi->labelLink->setText(url.toString());
+    *m_pstrSiteLink = url.toString();
+    m_pUi->labelLink->setText(*m_pstrSiteLink);
 }
 
 void qlamz::setWebViewLoadProgress(int iProgress)

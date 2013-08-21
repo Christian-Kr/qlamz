@@ -38,9 +38,7 @@ CustomWebView::CustomWebView(QWidget *pParent)
     // Set CustomWebPage object.
     setPage(m_pWebPage);
 
-    m_pWebPage->setLinkDelegationPolicy(QWebPage::DontDelegateLinks);
     m_pWebPage->setForwardUnsupportedContent(true);
-
     m_pWebPage->networkAccessManager()->setCookieJar(m_pCookieJar);
     m_pWebPage->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
@@ -50,8 +48,6 @@ CustomWebView::CustomWebView(QWidget *pParent)
 
     connect(m_pWebPage, SIGNAL(unsupportedContent(QNetworkReply*)), this,
         SLOT(unsupportedContent(QNetworkReply*)));
-    connect(m_pWebPage, SIGNAL(linkHovered(const QString&, const QString&, const QString&)),
-        this, SLOT(linkHovered(const QString&, const QString&, const QString&)));
 
     connect(this, SIGNAL(loadFinished(bool)), this, SLOT(loadFinished(bool)));
     connect(this, SIGNAL(linkClicked(const QUrl&)), this,
@@ -158,11 +154,6 @@ void CustomWebView::linkClicked(const QUrl &url)
 
     m_pNetReply = createNetworkReplyFromUrl(url);
     buildNetReplyConnections(m_pNetReply);
-}
-
-void CustomWebView::linkHovered(const QString &link, const QString &title,
-    const QString &textContent)
-{
 }
 
 void CustomWebView::formSubmitted(const QNetworkRequest &netRequest)

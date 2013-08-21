@@ -83,8 +83,6 @@ public slots:
 
     void linkClicked(const QUrl &url);
 
-    void linkHovered(const QString &link, const QString &title, const QString &textContent);
-
 signals:
     /**
      * Emits when an amz file will be downloaded. */
