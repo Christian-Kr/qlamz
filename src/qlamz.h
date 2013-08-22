@@ -171,6 +171,12 @@ public slots:
      * Open the Amazon.de url for setting a cookie, that AmazonDownloader is already installed. */
     void cookieAmazonDe();
 
+    /**
+     * An editor of a row was clicked.
+     *
+     * @param iRow The row that was clicked. */
+    void checkBoxClicked(int iRow);
+
 protected:
     /**
      * Overwriting from QMainWindow. */

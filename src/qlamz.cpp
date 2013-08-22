@@ -96,20 +96,22 @@ qlamz::qlamz(QWidget *pParent)
     m_pSettings->setSettingsData(m_pSettingsData);
 
     // Set the model
-    m_pUi->tableViewTracks->verticalHeader()
-        ->setResizeMode(QHeaderView::Fixed);
-    m_pUi->tableViewTracks->horizontalHeader()
-        ->setResizeMode(QHeaderView::Fixed);
-    m_pUi->tableViewTracks->verticalHeader()
-        ->setDefaultSectionSize(25);
+    m_pUi->tableViewTracks->verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    m_pUi->tableViewTracks->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+    m_pUi->tableViewTracks->verticalHeader()->setDefaultSectionSize(25);
 
-    m_pUi->tableViewTracks->setItemDelegateForColumn(0, new CheckboxDelegate());
+    CheckboxDelegate *pCheckBoxDelegate = new CheckboxDelegate();
+
+    m_pUi->tableViewTracks->setItemDelegateForColumn(0, pCheckBoxDelegate);
     m_pUi->tableViewTracks->setItemDelegateForColumn(1, new ProgressDelegate());
     m_pUi->tableViewTracks->setModel(m_pTrackModel);
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
     // Build some connections
+    connect(pCheckBoxDelegate, SIGNAL(editorClicked(int)), this,
+        SLOT(checkBoxClicked(int)));
+
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
 
@@ -143,6 +145,12 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
 
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
+
+void qlamz::checkBoxClicked(int iRow)
+{
+    Track *pTrack = m_pTrackModel->tracks().at(iRow);
+    pTrack->setDownload(!pTrack->download());
+}
 
 void qlamz::amzDownloaded(const QString &strContent)
 {

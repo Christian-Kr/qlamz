@@ -95,7 +95,17 @@
                 </size>
                </property>
                <property name="text">
-                <string>Open</string>
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../ressource/qlamz.qrc">
+                 <normaloff>:/icons/icons/actions/document-open-folder.png</normaloff>:/icons/icons/actions/document-open-folder.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>22</width>
+                 <height>22</height>
+                </size>
                </property>
               </widget>
              </item>
@@ -358,7 +368,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../ressource/qlamz.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonApply</sender>

@@ -62,6 +62,16 @@ QWidget * CheckboxDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     }
 }
 
+bool CheckboxDelegate::editorEvent(QEvent *pEvent, QAbstractItemModel *pModel,
+    const QStyleOptionViewItem &option, const QModelIndex &index)
+{
+    if (pEvent->type() == QEvent::MouseButtonPress) {
+        emit editorClicked(index.row());
+    }
+
+    return QStyledItemDelegate::editorEvent(pEvent, pModel, option, index);
+}
+
 void CheckboxDelegate::setEditorData(QWidget *pEditor, const QModelIndex &modelIndex) const
 {
     if (modelIndex.data().type() == QVariant::Bool) {

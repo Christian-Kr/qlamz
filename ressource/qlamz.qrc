@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons">
+    <file>../icons/actions/document-open-folder.png</file>
     <file>../icons/actions/download.png</file>
     <file>../icons/actions/application-exit.png</file>
     <file>../icons/29119-amazon.png</file>

@@ -38,16 +38,28 @@ public:
         const QModelIndex &modelIndex) const;
 
     /**
-     * Override from QAbstractItemModel. */
+     * Override from QStyledItemDelegate. */
     virtual QWidget * createEditor(QWidget *pParent, const QStyleOptionViewItem &option,
         const QModelIndex &modelIndex) const;
     /**
-     * Override from QAbstractItemModel. */
+     * Override from QStyledItemDelegate. */
     virtual void setEditorData(QWidget *pEditor, const QModelIndex &modelIndex) const;
 
     /**
-     * Override from QAbstractItemModel. */
+     * Override from QStyledItemDelegate. */
     virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &modelIndex) const;
+
+    /**
+     * Override from QStyledItemDelegate. */
+    virtual bool editorEvent(QEvent *pEvent, QAbstractItemModel *pModel,
+        const QStyleOptionViewItem &option, const QModelIndex &index);
+
+signals:
+    /**
+     * Emited when the editor was clicked.
+     *
+     * @param iRow The row clicked. */
+    void editorClicked(int iRow);
 };
 
 
