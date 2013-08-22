@@ -57,7 +57,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../../../../Develop/qlamz/ressource/qlamz.qrc">:/icons/icons/29119-amazon.png</pixmap>
+          <pixmap resource="../../../Develop/qlamz/ressource/qlamz.qrc">:/icons/icons/29119-amazon.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -67,7 +67,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;qlamz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version 0.2&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;qlamz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Version 0.3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -82,7 +82,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>true</bool>
@@ -100,7 +100,7 @@
            <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>2012 (c) Christian Krippendorf</string>
+              <string>2012 - 2013 (c) Christian Krippendorf</string>
              </property>
             </widget>
            </item>
@@ -199,6 +199,7 @@
   </layout>
  </widget>
  <resources>
+  <include location="../../../Develop/qlamz/ressource/qlamz.qrc"/>
   <include location="../../../../Develop/qlamz/ressource/qlamz.qrc"/>
  </resources>
  <connections>
