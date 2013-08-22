@@ -296,6 +296,7 @@ void qlamz::loadSettings()
 
     // Load the maximum simulatanouse downloads.
     m_iMaxDownloads = m_pSettingsData->value("maxDownloads").toInt();
+    updateTrackDownloader();
 
     // Load and set the window size and position.
     resize(m_pSettingsData->value("windowSize").toSize());
@@ -340,6 +341,46 @@ void qlamz::loadSettings()
     }
 
     updateRecentFiles();
+}
+
+void qlamz::updateTrackDownloader()
+{
+    // Init the TrackDownloader list.
+    int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
+
+    if (iMaxDownloadDiff != 0) {
+        if (iMaxDownloadDiff > 0) {
+            // Create new TrackDownlader object, until we got the maximum
+            // number.
+            while (iMaxDownloadDiff-- > 0) {
+                TrackDownloader *pTrackDownloader = new TrackDownloader(
+                    m_pNetAccessManager, this);
+
+                m_trackDownloaderList.append(pTrackDownloader);
+
+                qDebug() << "Create Track Downloader";
+
+                // Build some connections.
+                connect(pTrackDownloader, SIGNAL(finish(Track*, QNetworkReply*,
+                    TrackDownloader*)), this, SLOT(downloadFinish(Track*,
+                    QNetworkReply*, TrackDownloader*)));
+
+                connect(pTrackDownloader, SIGNAL(update(Track*, qint64, qint64,
+                    QNetworkReply*)), this, SLOT(downloadUpdate(Track*, qint64,
+                    qint64, QNetworkReply *)));
+
+                connect(pTrackDownloader, SIGNAL(error(int, const QString&,
+                    Track*)), this, SLOT(downloadError(int, const QString&,
+                    Track*)));
+            }
+        } else {
+            // Delete TrackDownloader objects, until we got the maximum number.
+            while (m_trackDownloaderList.size() > m_iMaxDownloads) {
+                qDebug() << "Delete Track Downloader";
+                delete m_trackDownloaderList.takeFirst();
+            }
+        }
+    }
 }
 
 void qlamz::recentFileTriggered()

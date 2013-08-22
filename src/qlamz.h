@@ -184,6 +184,10 @@ protected:
 
 private:
     /**
+     * Update the number of track downloader. */
+    void updateTrackDownloader();
+
+    /**
      * Test for first run and set default settings. */
     void firstRun();
 
