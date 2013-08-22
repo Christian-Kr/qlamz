@@ -81,16 +81,15 @@ void Settings::loadSettings()
     m_pUi->lineEditDestinationFormat->setText(m_pSettingsData
         ->value("destination.format", "${creator}/${album}").toString());
 
-    int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value("amazon.tld",
-        QString()).toString());
+    int iIndex = m_pUi->comboBoxAmazonUrl->findText(m_pSettingsData->value(
+        "amazon.tld", QString()).toString());
+
     m_pUi->comboBoxAmazonUrl->setCurrentIndex(iIndex);
-    m_pUi->spinBoxMaxDownloads->setValue(m_pSettingsData->value("maxDownloads", 1).toInt());
+    m_pUi->spinBoxMaxDownloads->setValue(
+        m_pSettingsData->value("maxDownloads", 1).toInt());
 
     m_pUi->checkBoxNumberPrefix->setChecked(
         m_pSettingsData->value("destination.numberPrefix", true).toBool());
-
-    m_pUi->checkBoxExternalBrowser->setChecked(
-        m_pSettingsData->value("amazon.externalBrowser", false).toBool());
 
     m_pUi->checkBoxEndingFormat->setChecked(
         m_pSettingsData->value("destination.endingFormat", true).toBool());
@@ -108,16 +107,19 @@ void Settings::saveSettings()
 {
     m_pSettingsData->setValue("destination.endingFormat",
         m_pUi->checkBoxEndingFormat->isChecked());
-    m_pSettingsData->setValue("amazon.externalBrowser",
-        m_pUi->checkBoxExternalBrowser->isChecked());
+
     m_pSettingsData->setValue("destination.dir",
         m_pUi->lineEditDestination->text());
+
     m_pSettingsData->setValue("destination.format",
         m_pUi->lineEditDestinationFormat->text());
+
     m_pSettingsData->setValue("amazon.tld",
         m_pUi->comboBoxAmazonUrl->currentText());
+
     m_pSettingsData->setValue("destination.numberPrefix",
         m_pUi->checkBoxNumberPrefix->isChecked());
+
     m_pSettingsData->setValue("maxDownloads",
         m_pUi->spinBoxMaxDownloads->value());
 }

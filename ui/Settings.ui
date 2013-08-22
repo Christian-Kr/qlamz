@@ -204,7 +204,7 @@
          <string>Amazon</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="2" column="0">
+         <item row="1" column="0">
           <spacer name="verticalSpacer_2">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -273,13 +273,6 @@
             </layout>
            </item>
           </layout>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBoxExternalBrowser">
-           <property name="text">
-            <string>Use external browser</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
@@ -488,22 +481,6 @@
     <hint type="sourcelabel">
      <x>224</x>
      <y>155</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>224</x>
-     <y>157</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBoxExternalBrowser</sender>
-   <signal>stateChanged(int)</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>updateButtons()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>224</x>
-     <y>106</y>
     </hint>
     <hint type="destinationlabel">
      <x>224</x>

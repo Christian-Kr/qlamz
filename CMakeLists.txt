@@ -18,9 +18,6 @@ set(SOURCES
     src/CheckboxDelegate.cpp
     src/ProgressDelegate.cpp
     src/TrackDownloader.cpp
-    src/CustomWebPage.cpp
-    src/PersistentCookieJar.cpp
-    src/CustomWebView.cpp
 )
 
 # moc header files
@@ -34,9 +31,6 @@ set(MOC_HEADERS
     src/CheckboxDelegate.h
     src/ProgressDelegate.h
     src/TrackDownloader.h
-    src/CustomWebPage.h
-    src/PersistentCookieJar.h
-    src/CustomWebView.h
 )
 
 # ui files

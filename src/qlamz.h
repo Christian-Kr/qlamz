@@ -71,10 +71,6 @@ public:
 
 public slots:
     /**
-     * Export the cookies created by the internal browser. */
-    void exportCookies();
-
-    /**
      * A new amz file was downloaded.
      *
      * @param strContent The content of the amz file. */
@@ -174,16 +170,6 @@ public slots:
     /**
      * Open the Amazon.de url for setting a cookie, that AmazonDownloader is already installed. */
     void cookieAmazonDe();
-
-    /**
-     * Sets the value of the webview progressbar.
-     *
-     * @param iProgress The load of the progress from 0 to 100. */
-    void setWebViewLoadProgress(int iProgress);
-
-    void urlChanged(const QUrl &url);
-
-    void linkHovered(const QString&, const QString&, const QString&);
 
 protected:
     /**

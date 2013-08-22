@@ -70,7 +70,6 @@ qlamz::qlamz(QWidget *pParent)
     m_pTrackModel(new TrackModel()),
     m_pUi(new Ui::MainWindow()),
     m_pstrAmazonFilePath(new QString()),
-    m_pstrSiteLink(new QString()),
     m_pSettings(new Settings(this)),
     m_pSettingsData(new QSettings()),
     m_pAmazonInfos(new QSettings(STR(AMAZON_FILE_PATH), QSettings::IniFormat)),
@@ -110,26 +109,9 @@ qlamz::qlamz(QWidget *pParent)
     m_pUi->tableViewTracks->resizeColumnsToContents();
     m_pUi->tableViewTracks->hideColumn(1);
 
-    // Set the progressbar.
-    m_pUi->progressBarWebView->setVisible(false);
-    m_pUi->labelLink->setVisible(false);
-
     // Build some connections
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
-
-    connect(m_pUi->webViewWidget, SIGNAL(amzDownloaded(const QString&)), this,
-        SLOT(amzDownloaded(const QString&)));
-
-    connect(m_pUi->webViewWidget, SIGNAL(loadProgress(int)), this,
-        SLOT(setWebViewLoadProgress(int)));
-
-    connect(m_pUi->webViewWidget, SIGNAL(urlChanged(const QUrl&)), this,
-        SLOT(urlChanged(const QUrl&)));
-
-    connect(m_pUi->webViewWidget->page(),
-        SIGNAL(linkHovered(const QString&, const QString&, const QString&)),
-        this, SLOT(linkHovered(const QString&, const QString&, const QString&)));
 
     // Load all settings
     loadSettings();
@@ -139,7 +121,6 @@ qlamz::~qlamz()
 {
     delete m_pstrOpenPath;
     delete m_pstrXmlData;
-    delete m_pstrSiteLink;
     delete m_pTrackModel;
     delete m_pUi;
     delete m_pSettings;
@@ -160,52 +141,8 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
         amazonEncryptedContent.data()), amazonEncryptedContent.size())));
 }
 
-void qlamz::linkHovered(const QString &strLink, const QString&, const QString&)
-{
-    if (strLink.size() <= 0) {
-        m_pUi->labelLink->setText(*m_pstrSiteLink);
-    } else {
-        m_pUi->labelLink->setText(strLink);
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
-
-void qlamz::urlChanged(const QUrl &url)
-{
-    *m_pstrSiteLink = url.toString();
-    m_pUi->labelLink->setText(*m_pstrSiteLink);
-}
-
-void qlamz::setWebViewLoadProgress(int iProgress)
-{
-    m_pUi->progressBarWebView->setValue(iProgress);
-
-    // Hide progress bar, if the value is 100.
-    if (iProgress > 99) {
-        m_pUi->progressBarWebView->setVisible(false);
-    } else {
-        m_pUi->progressBarWebView->setVisible(true);
-    }
-}
-
-void qlamz::exportCookies()
-{
-    // Open a file with the save dialog.
-    QString strCookieFileName = QFileDialog::getSaveFileName(this,
-        tr("Export Cookies"), *m_pstrOpenPath);
-
-    // Canceled? - Just return the function and do nothing more.
-    if (strCookieFileName.size() < 1) {
-        return;
-    }
-
-    // Create a settings object and fill it with data for saving.
-    QSettings tmpSettings(strCookieFileName, QSettings::IniFormat);
-    tmpSettings.setValue("Cookies", m_pUi->webViewWidget->cookieData());
-    tmpSettings.sync();
-}
 
 void qlamz::amzDownloaded(const QString &strContent)
 {
@@ -217,8 +154,6 @@ void qlamz::amzDownloaded(const QString &strContent)
     } else {
         openAmazonFileFromString(strContent);
     }
-
-    m_pUi->stackedWidget->setCurrentIndex(0);
 }
 
 void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
@@ -326,16 +261,6 @@ void qlamz::loadSettings()
     *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath())
         .toString();
 
-    // Load settings for the browser.
-    if (m_pSettingsData->value("amazon.externalBrowser", false).toBool()) {
-        // The user want to use a external browser.
-        m_pUi->actionAmazonStore->setCheckable(false);
-        m_pUi->stackedWidget->setCurrentIndex(0);
-    } else {
-        // The user want to use the internal browser.
-        m_pUi->actionAmazonStore->setCheckable(true);
-    }
-
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
 
@@ -416,52 +341,19 @@ void qlamz::showXMLContent()
 
 void qlamz::openAmazonStore(const QString &strUrl)
 {
-    qDebug() << strUrl;
-
     // Url given to display?
     bool bUrl = (strUrl.size() > 0) ? true : false;
 
-    QString strAmazonUrl = m_pAmazonInfos->value("amazon.store.url." +
-        m_pSettingsData->value(QString("amazon.tld"), QString()).toString(),
-        QString()).toString();
-    QString strLoadedUrl = m_pUi->webViewWidget->url().toString();
-
-    // If the action is not checkable, you choosed to use the external browser.
-    if (!m_pUi->actionAmazonStore->isCheckable()) {
-        if (bUrl) {
-            // Show the url in the external web browser.
-            QDesktopServices::openUrl(strUrl);
-        } else {
-            // If a site was loaded in the internal browser before load it in the
-            // external browser once.
-            if (strLoadedUrl.size() > 0) {
-                QDesktopServices::openUrl(strLoadedUrl);
-                m_pUi->webViewWidget->setUrl(QUrl(""));
-            } else {
-                QDesktopServices::openUrl(strAmazonUrl);
-            }
-        }
+    if (bUrl) {
+        // Show the url in the external web browser.
+        QDesktopServices::openUrl(strUrl);
     } else {
-        // Switch to the xml view, if the internal webbrowser is already open.
-        if (!m_pUi->actionAmazonStore->isChecked() && !bUrl) {
-            m_pUi->stackedWidget->setCurrentIndex(0);
-            m_pUi->labelLink->setVisible(false);
-            return;
-        } else {
-            m_pUi->labelLink->setVisible(true);
-            m_pUi->stackedWidget->setCurrentIndex(1);
-        }
+        // Get the amazon url from the data file.
+        QString strAmazonUrl = m_pAmazonInfos->value("amazon.store.url." +
+            m_pSettingsData->value(QString("amazon.tld"), QString()).toString(),
+            QString()).toString();
 
-        if (bUrl) {
-            // Show the url in the external web browser.
-            m_pUi->webViewWidget->load(QUrl(strUrl));
-            m_pUi->actionAmazonStore->setChecked(true);
-        } else {
-            // Only go on, if no webpage is already loaded.
-            if (m_pUi->webViewWidget->url().toString().size() == 0) {
-                m_pUi->webViewWidget->load(QUrl("http://www.amazon.de/gp/dmusic/after_download_manager_install.html?AMDVersion=1.0.18"));
-            }
-        }
+        QDesktopServices::openUrl(strAmazonUrl);
     }
 }
 
