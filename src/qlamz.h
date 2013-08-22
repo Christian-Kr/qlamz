@@ -184,6 +184,14 @@ protected:
 
 private:
     /**
+     * Test for first run and set default settings. */
+    void firstRun();
+
+    /**
+     * Set default settings. */
+    void setDefaultSettings();
+
+    /**
      * Updates the ui state */
     void updateUiState();
 

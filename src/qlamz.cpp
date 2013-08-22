@@ -92,9 +92,6 @@ qlamz::qlamz(QWidget *pParent)
     // Set some window configs
     setWindowTitle(tr("qlamz"));
 
-    // Set the settings data object
-    m_pSettings->setSettingsData(m_pSettingsData);
-
     // Set the model
     m_pUi->tableViewTracks->verticalHeader()->setResizeMode(QHeaderView::Fixed);
     m_pUi->tableViewTracks->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
@@ -115,8 +112,14 @@ qlamz::qlamz(QWidget *pParent)
     connect(m_pSettings, SIGNAL(settingsSaved()), this,
         SLOT(loadSettings()));
 
-    // Load all settings
+    // Test for first run and set default settings.
+    firstRun();
+
+    // Load settings.
     loadSettings();
+
+    // Set the settings data object
+    m_pSettings->setSettingsData(m_pSettingsData);
 }
 
 qlamz::~qlamz()
@@ -253,21 +256,52 @@ void qlamz::downloadError(int iCode, const QString &strMessage, Track *pTrack)
         strMessage + "\n";
 }
 
+void qlamz::firstRun()
+{
+    // Test if we run the first time.
+    if (m_pSettingsData->value("firstRun", true).toBool()) {
+        qDebug() << "First run of application -> set default settings";
+        // Set first time run to false.
+        m_pSettingsData->setValue("firstRun", false);
+        // Set default settings.
+        setDefaultSettings();
+    }
+}
+
+void qlamz::setDefaultSettings()
+{
+    m_pSettingsData->setValue("recentFiles", QStringList());
+    m_pSettingsData->setValue("maxDownloads", 1);
+    m_pSettingsData->setValue("windowSize", QSize(400, 500));
+    m_pSettingsData->setValue("openPath", QDir::homePath());
+    m_pSettingsData->setValue("destination.dir", QDir::homePath());
+    m_pSettingsData->setValue("amazon.tld", "com");
+    m_pSettingsData->setValue("destination.format", QString("${albumPrimaryArtist}/${album}"));
+
+    m_pSettingsData->sync();
+}
+
+void qlamz::saveSettings()
+{
+    m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
+    m_pSettingsData->setValue("maxDownloads", m_iMaxDownloads);
+    m_pSettingsData->setValue("windowSize", size());
+    m_pSettingsData->setValue("openPath", *m_pstrOpenPath);
+}
+
 void qlamz::loadSettings()
 {
     // Load the recent files from the settings.
-    *m_pRecentFiles = m_pSettingsData->value("recentfiles", QStringList())
-        .toStringList();
+    *m_pRecentFiles = m_pSettingsData->value("recentFiles").toStringList();
 
     // Load the maximum simulatanouse downloads.
-    m_iMaxDownloads = m_pSettingsData->value("maxDownloads", 1).toInt();
+    m_iMaxDownloads = m_pSettingsData->value("maxDownloads").toInt();
 
     // Load and set the window size and position.
-    resize(m_pSettingsData->value("windowSize", QSize(400, 500)).toSize());
+    resize(m_pSettingsData->value("windowSize").toSize());
 
     // Load the standard path for open filedialogs.
-    *m_pstrOpenPath = m_pSettingsData->value("openPath", QDir::homePath())
-        .toString();
+    *m_pstrOpenPath = m_pSettingsData->value("openPath").toString();
 
     // Init the TrackDownloader list.
     int iMaxDownloadDiff = m_iMaxDownloads - m_trackDownloaderList.size();
@@ -306,14 +340,6 @@ void qlamz::loadSettings()
     }
 
     updateRecentFiles();
-}
-
-void qlamz::saveSettings()
-{
-    m_pSettingsData->setValue("recentFiles", *m_pRecentFiles);
-    m_pSettingsData->setValue("maxDownloads", m_iMaxDownloads);
-    m_pSettingsData->setValue("windowSize", size());
-    m_pSettingsData->setValue("openPath", *m_pstrOpenPath);
 }
 
 void qlamz::recentFileTriggered()
@@ -708,18 +734,14 @@ QString qlamz::getXmlFromFile(const QString &strAmazonFilePath)
 
 QString qlamz::destinationPath(const Track * const pTrack) const
 {
-    // Load the information about the destination and build the destination
-    // path.
-    QString strDestination = m_pSettingsData->value("destination.dir",
-        QDir::homePath()).toString();
-    QString strDestinationFormat = m_pSettingsData->value("destination.format",
-        QString()).toString();
+    // Load the information about the destination and build the destination path.
+    QString strDestination = m_pSettingsData->value("destination.dir").toString();
+    QString strDestinationFormat = m_pSettingsData->value("destination.format").toString();
 
     // Replace the creator and the album.
     strDestinationFormat.replace(QString("${creator}"), pTrack->creator());
     strDestinationFormat.replace(QString("${album}"), pTrack->album());
-    strDestinationFormat.replace(QString("${albumPrimaryArtist}"),
-        pTrack->albumPrimaryArtist());
+    strDestinationFormat.replace(QString("${albumPrimaryArtist}"), pTrack->albumPrimaryArtist());
 
     return strDestination + "/" + strDestinationFormat + "/";
 }
