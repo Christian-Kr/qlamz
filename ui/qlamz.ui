@@ -126,6 +126,9 @@
     </item>
     <item row="0" column="0">
      <widget class="QTableView" name="tableViewTracks">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>

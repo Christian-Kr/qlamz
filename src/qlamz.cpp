@@ -650,6 +650,9 @@ void qlamz::updateUiState()
     case qlamz::Empty:
         m_pUi->buttonCancel->setEnabled(false);
 
+        // Sepcial handling for the download button.
+        updateDownloadButton();
+
         m_pUi->tableViewTracks->setEnabled(false);
 
         m_pUi->actionDeselectAll->setEnabled(false);
@@ -689,12 +692,9 @@ void qlamz::updateUiState()
 
 void qlamz::reset()
 {
-    // CHange the ui state.
-    m_state = qlamz::Empty;
-    updateUiState();
-
     // Empty all strings.
     *m_pstrXmlData = "";
+    *m_pstrAmazonFilePath = "";
 
     // Remove all tracks.
     m_pTrackModel->removeTracks();
@@ -704,6 +704,10 @@ void qlamz::reset()
 
     // Set window title.
     setWindowTitle(tr("qlamz"));
+
+    // Change the ui state.
+    m_state = qlamz::Empty;
+    updateUiState();
 }
 
 void qlamz::updateRecentFiles()
