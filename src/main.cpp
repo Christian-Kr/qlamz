@@ -21,7 +21,7 @@
 
 #include "qlamz.h"
 
-#define VERSION 0.1
+#define VERSION 0.3
 
 
 int main(int argc, char *argv[])
