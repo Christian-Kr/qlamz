@@ -69,6 +69,10 @@ public:
      * @return True if xml else false. */
     bool isXml(const QString &strContent);
 
+    /**
+     * Reset the ui. */
+    void reset();
+
 public slots:
     /**
      * A new amz file was downloaded.
@@ -225,7 +229,7 @@ private:
      * @return The destination path as a string. */
     QString destinationPath(const Track * const pTrack) const;
 
-    enum State {Default, Download};
+    enum State {Empty, Default, Download};
 
     qlamz::State m_state;
 

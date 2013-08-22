@@ -346,55 +346,68 @@
 <context>
     <name>qlamz</name>
     <message>
-        <location filename="../src/qlamz.cpp" line="93"/>
+        <location filename="../src/qlamz.cpp" line="90"/>
+        <location filename="../src/qlamz.cpp" line="706"/>
         <source>qlamz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="203"/>
-        <location filename="../src/qlamz.cpp" line="247"/>
+        <location filename="../src/qlamz.cpp" line="197"/>
+        <location filename="../src/qlamz.cpp" line="241"/>
         <source>qlamz - Total: %1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="402"/>
-        <location filename="../src/qlamz.cpp" line="412"/>
-        <location filename="../src/qlamz.cpp" line="625"/>
+        <location filename="../src/qlamz.cpp" line="396"/>
+        <location filename="../src/qlamz.cpp" line="406"/>
+        <location filename="../src/qlamz.cpp" line="448"/>
+        <location filename="../src/qlamz.cpp" line="483"/>
+        <location filename="../src/qlamz.cpp" line="632"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="403"/>
+        <location filename="../src/qlamz.cpp" line="397"/>
         <source>No error messages to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="413"/>
+        <location filename="../src/qlamz.cpp" line="407"/>
         <source>No xml content to display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="474"/>
+        <location filename="../src/qlamz.cpp" line="449"/>
+        <source>The file you try to open has no tracks. The file will be unloaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="476"/>
         <source>Open Amazon File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="474"/>
+        <location filename="../src/qlamz.cpp" line="476"/>
         <source>Amazon (*.amz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="552"/>
+        <location filename="../src/qlamz.cpp" line="484"/>
+        <source>The file you try to open does not exist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qlamz.cpp" line="562"/>
         <source>Cancel download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="553"/>
+        <location filename="../src/qlamz.cpp" line="563"/>
         <source>Are you sure canceling the download progress?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qlamz.cpp" line="626"/>
+        <location filename="../src/qlamz.cpp" line="633"/>
         <source>Still downloading content. Please wait until it has finished or abort the process.</source>
         <translation type="unfinished"></translation>
     </message>

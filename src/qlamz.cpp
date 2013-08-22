@@ -56,9 +56,6 @@
 #define AMAZON_FILE_PATH SHARE_PATH/qlamz/amazon
 
 
-////////////////////////////////////////////////////////////////////////////////
-// public
-
 qlamz::qlamz(QWidget *pParent)
     : QMainWindow(pParent),
     m_state(qlamz::Default),
@@ -145,9 +142,6 @@ QString qlamz::decryptAmazonFile(const QByteArray &amazonEncryptedContent)
         m_pAmz->decryptAmzData(const_cast<char *>(
         amazonEncryptedContent.data()), amazonEncryptedContent.size())));
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// public slots
 
 void qlamz::checkBoxClicked(int iRow)
 {
@@ -450,6 +444,14 @@ void qlamz::openAmazonFileFromString(const QString &strContent)
 
     qDebug() << __func__ << ": Number of Tracks: " << tracks.size();
 
+    if (tracks.size() < 1) {
+        QMessageBox::information(this, tr("Information"),
+            tr("The file you try to open has no tracks. The file will be "
+            "unloaded."));
+        reset();
+        return;
+    }
+
     m_pTrackModel->removeTracks();
     m_pTrackModel->appendTracks(tracks);
     m_pUi->tableViewTracks->resizeColumnsToContents();
@@ -476,6 +478,14 @@ void qlamz::openAmazonFile(const QString &strAmazonFileArg)
 
     if (strAmazonFile.size() > 0) {
         QFileInfo pathInfo(strAmazonFile);
+
+        if (!pathInfo.exists()) {
+            QMessageBox::information(this, tr("Information"),
+                tr("The file you try to open does not exist."));
+            reset();
+            return;
+        }
+
         *m_pstrOpenPath = pathInfo.path();
         *m_pstrAmazonFilePath = strAmazonFile;
         setWindowTitle("qlamz - " + strAmazonFile);
@@ -615,9 +625,6 @@ void qlamz::cookieAmazonDe()
     openAmazonStore(strCookieUrl);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// protected
-
 void qlamz::closeEvent(QCloseEvent *pEvent)
 {
     // Don't quit until we are downloading.
@@ -637,12 +644,18 @@ void qlamz::closeEvent(QCloseEvent *pEvent)
     QMainWindow::closeEvent(pEvent);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private
-
 void qlamz::updateUiState()
 {
     switch (m_state) {
+    case qlamz::Empty:
+        m_pUi->buttonCancel->setEnabled(false);
+
+        m_pUi->tableViewTracks->setEnabled(false);
+
+        m_pUi->actionDeselectAll->setEnabled(false);
+        m_pUi->actionSelectAll->setEnabled(false);
+        m_pUi->actionSettings->setEnabled(true);
+        break;
     case qlamz::Default:
         m_pUi->buttonQuit->setEnabled(true);
         m_pUi->buttonCancel->setEnabled(false);
@@ -672,6 +685,25 @@ void qlamz::updateUiState()
     default:
         qDebug() << __func__ << ": Unknown state";
     }
+}
+
+void qlamz::reset()
+{
+    // CHange the ui state.
+    m_state = qlamz::Empty;
+    updateUiState();
+
+    // Empty all strings.
+    *m_pstrXmlData = "";
+
+    // Remove all tracks.
+    m_pTrackModel->removeTracks();
+
+    // Update table.
+    m_pUi->tableViewTracks->reset();
+
+    // Set window title.
+    setWindowTitle(tr("qlamz"));
 }
 
 void qlamz::updateRecentFiles()
