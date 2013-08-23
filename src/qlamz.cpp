@@ -183,7 +183,7 @@ void qlamz::downloadFinish(Track *pTrack, QNetworkReply *pNetworkReply,
     }
 
     // Create the file and write all data.
-    QFile file(strDestinationPath + pTrack->title() + ".mp3");
+    QFile file(strDestinationPath + pTrack->title().replace('/', QChar(0x2044)) + ".mp3");
     file.open(QIODevice::WriteOnly);
     file.write(pNetworkReply->readAll());
     file.close();
@@ -752,7 +752,8 @@ QList<Track *> qlamz::readTracksFromXml(const QString &strData)
                     } else if (xmlReader.name() == "creator") {
                         pTrack->setCreator(xmlReader.readElementText());
                     } else if (xmlReader.name() == "title") {
-                        pTrack->setTitle(xmlReader.readElementText());
+                        QString strTitle = xmlReader.readElementText();
+                        pTrack->setTitle(strTitle);
                     } else if (xmlReader.name() == "trackNum") {
                         pTrack->setNumber(xmlReader.readElementText().toInt());
                     } else if (xmlReader.name() == "meta") {
